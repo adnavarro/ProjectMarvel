@@ -1,0 +1,182 @@
+create table Personaje(
+	id numeric,
+	nombre1 varchar(50) not null,
+	nombre2 varchar(50),
+	apellido varchar(50) not null,
+	tipo varchar(2) not null,
+	edo_civil varchar(1) not null,
+	ojos varchar(30),
+	constraint PK_Personaje_id primary key (id),
+	constraint check_tipo check (tipo ='H' or tipo='V' or tipo='AH' or tipo='N'),
+	constraint check_edo_civil check (edo_civil ='S' or edo_civil='C' or edo_civil='D')
+);
+
+create table Altura(
+	id numeric,
+	centimetros numeric not null,
+	id_Personaje numeric,
+	constraint PK_Altura_id primary key (id),
+	constraint FK_Altura_Personaje foreign key (id_Personaje) references Personaje (id)
+);
+
+create table Peso(
+	id numeric,
+	gramos numeric not null,
+	id_Personaje numeric,
+	constraint PK_Peso_id primary key (id),
+	constraint FK_Peso_Personaje foreign key (id_Personaje) references Personaje (id)
+);
+
+create table Per_Al(
+	id_Personaje1 numeric,
+	id_Personaje2 numeric,
+	constraint FK_PerAl_Personaje1 foreign key (id_Personaje1) references Personaje (id),
+	constraint FK_PerAl_Personaje2 foreign key (id_Personaje2) references Personaje (id),
+	constraint PK_PerAl_id primary key (id_Personaje1, id_Personaje2)
+);
+
+create table Per_Fam(
+	id_Personaje1 numeric,
+	id_Personaje2 numeric,
+	constraint FK_PerFam_Personaje1 foreign key (id_Personaje1) references Personaje (id),
+	constraint FK_PerFam_Personaje2 foreign key (id_Personaje2) references Personaje (id),
+	constraint PK_PerFam_id primary key (id_Personaje1, id_Personaje2)
+);
+
+create table Per_En(
+	id_Personaje1 numeric,
+	id_Personaje2 numeric,
+	constraint FK_PerEn_Personaje1 foreign key (id_Personaje1) references Personaje (id),
+	constraint FK_PerEn_Personaje2 foreign key (id_Personaje2) references Personaje (id),
+	constraint PK_PerEn_id primary key (id_Personaje1, id_Personaje2)
+);
+
+create table Ficha_Habilidades(
+	id numeric,
+	inteli numeric not null,
+	fuerza numeric not null,
+	veloc numeric not null,
+	resiste numeric not null,
+	proy_ener numeric not null,
+	hab_combat numeric not null,
+	id_Personaje numeric not null,
+	constraint PK_Ficha_id primary key (id),
+	constraint FK_Ficha_Personaje foreign key (id_Personaje) references Personaje (id)
+);
+
+create table Universo(
+	id numeric,
+	nombre varchar(30) not null,
+	descripcion varchar(100),
+	constraint PK_Universo_id primary key (id)
+);
+
+create table Profesion(
+	id numeric,
+	nombre varchar(30) not null,
+	constraint PK_Profesion_id primary key (id)
+);
+
+create table Alias(
+	id numeric,
+	nombre varchar(30) not null,
+	id_Personaje numeric,
+	constraint FK_Alias_Personaje foreign key (id_Personaje) references Personaje (id),
+	constraint PK_Alias_id primary key (id, id_Personaje)
+);
+
+create table P_P(
+	id_Personaje numeric,
+	id_Profesion numeric,
+	constraint FK_PP_Personaje foreign key (id_Personaje) references Personaje (id),
+	constraint FK_PP_Profesion foreign key (id_Profesion) references Profesion (id),
+	constraint PK_PP_id primary key (id_Personaje, id_Profesion)
+);
+
+create table U_P(
+	id_Personaje numeric,
+	id_Universo numeric,
+	constraint FK_UP_Personaje foreign key (id_Personaje) references Personaje (id),
+	constraint FK_UP_Universo foreign key (id_Universo) references Universo (id),
+	constraint PK_UP_id primary key (id_Personaje, id_Universo)
+);
+
+create table Lugar(
+	id numeric,
+	nombre varchar(30) not null,
+	tipo varchar(1) not null,
+	id_Lugar numeric,
+	constraint check_tipo check (tipo ='M' or tipo='E' or tipo='P' or tipo='C'),
+	constraint FK_Lugar_Lugar foreign key (id_Lugar) references Lugar (id),
+	constraint PK_Lugar_id primary key (id)
+);
+
+create table Afiliacion(
+	id numeric,
+	nombre varchar(30) not null,
+	id_Lugar numeric not null,
+	constraint PK_Afiliacion_id primary key (id),
+	constraint FK_Afiliacion_Lugar foreign key (id_Lugar) references Lugar (id)
+);
+
+create table P_A(
+	id_Personaje numeric,
+	id_Afiliacion numeric,
+	constraint FK_PA_Personaje foreign key (id_Personaje) references Personaje (id),
+	constraint FK_PA_Afiliacion foreign key (id_Afiliacion) references Afiliacion (id),
+	constraint PK_PA_id primary key (id_Personaje, id_Afiliacion)
+);
+
+create table Evento(
+	id numeric,
+	fecha_in date not null,
+	fecha_fin date not null,
+	id_Lugar numeric not null,
+	constraint PK_Evento_id primary key (id),
+	constraint FK_Evento_Lugar foreign key (id_Lugar) references Lugar (id)
+);
+
+create table Grupo_Combate(
+	id numeric,
+	descripcion varchar(100),
+	id_Evento numeric not null,
+	constraint PK_GrupoCombate_id primary key (id),
+	constraint FK_GrupoCombate_Evento foreign key (id_Evento) references Evento (id)
+);
+
+create table Combate(
+	id numeric,
+	duracion numeric not null,
+	etapa numeric not null,
+	id_Personaje numeric,
+	id_GrupoCombate numeric,
+	constraint check_etapa check (etapa > 0 and etapa < 4),
+	constraint FK_Combate_Personaje foreign key (id_Personaje) references Personaje (id),
+	constraint FK_Combate_GrupoCombate foreign key (id_GrupoCombate) references Grupo_Combate (id),
+	constraint PK_Combate_id primary key (id, id_Personaje, id_GrupoCombate)
+);
+
+/*create table Punto(
+	id numeric,
+	id_Personaje numeric,
+	id_GrupoCombate numeric,
+	id_Combate numeric,
+	cantidad numeric not null,
+	constraint FK_Punto_Combate foreign key (id_Combate) references Combate (id),
+	constraint FK_Punto_Personaje foreign key (id_Personaje) references Personaje (id),
+	constraint FK_Punto_GrupoCombate foreign key (id_GrupoCombate) references Grupo_Combate (id),
+	constraint PK_Punto_id primary key (id, id_Personaje, id_GrupoCombate, id_Combate)
+);
+
+create table Resultado(
+	id numeric,
+	id_Personaje numeric,
+	id_GrupoCombate numeric,
+	id_Combate numeric,
+	estatus varchar(1) not null,
+	constraint check_estatus check (estatus ='G' or estatus='P' or estatus='E'),
+	constraint FK_Resultado_Combate foreign key (id_Combate) references Combate (id),
+	constraint FK_Resultado_Personaje foreign key (id_Personaje) references Personaje (id),
+	constraint FK_Resultado_GrupoCombate foreign key (id_GrupoCombate) references Grupo_Combate (id),
+	constraint PK_Resultado_id primary key (id, id_Personaje, id_GrupoCombate, id_Combate)
+);*/
