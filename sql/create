@@ -158,4 +158,3 @@ create table Combat(
 	fk_Inscri1 numeric(2) references Inscri (id),
 	fk_Inscri2 numeric(2) references Inscri (id)
 );
-

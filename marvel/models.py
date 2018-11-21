@@ -77,8 +77,8 @@ class Parafer(models.Model):
 
 
 class AA(models.Model):
-    fk_parafer1 = models.ForeignKey('Parafer', models.DO_NOTHING, db_column='fk_parafer1', primary_key=True)
-    fk_parafer2 = models.ForeignKey('Parafer', models.DO_NOTHING, db_column='fk_parafer2')
+    fk_parafer1 = models.ForeignKey('Parafer', models.DO_NOTHING, db_column='fk_parafer1', related_name='Rel1_Parafer', primary_key=True)
+    fk_parafer2 = models.ForeignKey('Parafer', models.DO_NOTHING, db_column='fk_parafer2', related_name='Rel2_Parafer')
 
     class Meta:
         db_table = 'a_a'
@@ -120,8 +120,8 @@ class PerNoper(models.Model):
     id = models.DecimalField(primary_key=True, max_digits=2, decimal_places=0)
     tipo_rel = models.CharField(max_length=30)
     tipo_paren = models.CharField(max_length=30, blank=True, null=True)
-    fk_person = models.ForeignKey('Person', models.DO_NOTHING, db_column='fk_person')
-    fk_person_rel = models.ForeignKey('Person', models.DO_NOTHING, db_column='fk_person_rel', blank=True, null=True)
+    fk_person = models.ForeignKey('Person', models.DO_NOTHING, db_column='fk_person', related_name='Rel1_PersonajeOigen')
+    fk_person_rel = models.ForeignKey('Person', models.DO_NOTHING, db_column='fk_person_rel', related_name='Rel2_PersonajeRel' ,blank=True, null=True)
     fk_noperson = models.ForeignKey('PersonNoCombat', models.DO_NOTHING, db_column='fk_noperson', blank=True, null=True)
 
     class Meta:
@@ -218,9 +218,8 @@ class Combat(models.Model):
     etp = models.DecimalField(max_digits=1, decimal_places=0)
     ganador = models.DecimalField(max_digits=1, decimal_places=0, blank=True, null=True)
     dura_min = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
-    fk_inscri1 = models.ForeignKey('Inscri', models.DO_NOTHING, db_column='fk_inscri1', blank=True, null=True)
-    fk_inscri2 = models.ForeignKey('Inscri', models.DO_NOTHING, db_column='fk_inscri2', blank=True, null=True)
+    fk_inscri1 = models.ForeignKey('Inscri', models.DO_NOTHING, db_column='fk_inscri1', related_name='Rel1_Inscrito1', blank=True, null=True)
+    fk_inscri2 = models.ForeignKey('Inscri', models.DO_NOTHING, db_column='fk_inscri2', related_name='Rel2_Inscrito2', blank=True, null=True)
 
     class Meta:
         db_table = 'combat'
-        
