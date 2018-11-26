@@ -228,7 +228,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
 	        (12, 8),
 	        (12, 9),
 	        (12, 10);
-	
+
 	INSERT INTO public.p_par(fk_person, fk_parafer, altur_armor, peso_armor) --Relacion entre personajes y parafernalias
 	VALUES (0,0,198,290),
 	       (5,1,194,160),
@@ -253,11 +253,27 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
                 (9, 'Rayo Magico', 'Un rayo imparable que destruye todo lo que toca'),
                 (10, 'Golpes cosmicos','Golpes cargados con la fuerza de una super nova'),
                 (11, 'Ira del Fenix','Emite una Onda de calor con la energia de un sol'),
-                
+
                 (12, 'Truenos de Asgard','Asgard envia truenos a midgar'),
                 (13, 'Balas incendiarias','Balas que pueden carbonizar'),
                 (14, 'Ataque de extremidades','Permite utilizar extremidades amputadas como armas'),
                 (15, 'Bellotas perforadoras','Un ataque de bellotas destructoras');
+                (16, 'Manipulación de la materia','Permite controlar la composición de la materia'),
+                (17, 'Fuerza Sobrehumana','Pemite al usuario demostrar fuerza superior a la de un humano promedio'),
+                (18, 'Invulnerabilidad','Otorga al usuario gran resistencia ante ataques o condiciones adversas'),
+                (19, 'Estamina Extrema','Permite aguantar actividades de alto esfuerzo físico por mucho tiempo'),
+                (20, 'Regeneración','Otorga una rapidez de curación sobrehumana'),
+                (21, 'Memoria Genética','Permite a un simbiote adquirir información de otros seres con solo tocarlos'),
+                (22, 'Telepatía','Otorga la capacidad de comunicarse con la mente'),
+                (23, 'Sentido Arácnido','Permite detectar el peligro de ataques enemigos'),
+                (24, 'Cambio de Forma','Permite modificar la apariencia del usuario'),
+                (25, 'Generación de redes','Otorga la capacidad de disparar redes arácnidas'),
+                (26, 'Inmersión Digital','Capacidad de viajar por el internet a nivel molecular'),
+                (27, 'Volar','Permite al usuario la capacidad de desplazarse con libertad por el aire'),
+                (28, 'Visión Nocturna','Otorga la habilidad de poder ver sin ningún problema en ambientes oscuros'),
+                (29, 'Salto superhumano','Permite saltar distancias de gran longitud'),
+                (30, 'Incapacidad de perder','Mientras se crea que se puede ganar, la derrota es imposible'),
+
 
     INSERT INTO public.p_pod(fk_person, fk_poder) --Relacion entre personaje y poderes
 	VALUES  (0, 0),
@@ -308,12 +324,12 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
                (2, 12),
                (2, 3),
                (2, 9),
-               
+
                (3, 9), --ChicaArdilla
                (3, 7),
                (3, 4),
                (3, 1),
-               
+
                (4, 2), --Doctor Doom
                (4, 9),
                (4, 10),
@@ -322,7 +338,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
                (5, 11), --Venom
                (5, 9),
                (5, 8),
-               
+
                (6, 0), --Thanos
                (6, 2),
                (6, 6),
@@ -348,7 +364,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
                (10, 1), --Capitana marvel
                (10, 5),
                (10, 9),
-              
+
 
                (11, 1), --Phoenix
                (11, 9),
@@ -382,7 +398,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
 
                 (16, 'Ciclope', 'M', TRUE, 'Scott', 'Summers'),
                 (17, 'Jhon', 'M', TRUE, 'Jhon', 'Grey');
-        
+
         INSERT INTO public.per_noper(id, tipo_rel, tipo_paren, fk_person, fk_person_rel, fk_noperson) --Relaciones de personajes
 	VALUES  (0, 'Aliado', 'Familia', 0,null, 0), --Thor
                 (1, 'Aliado', 'Familia', 0,null, 1),
@@ -393,12 +409,12 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
 
                 (6, 'Aliado', 'Familia', 1, null, 2),
                 (7, 'Aliado', 'Familia', 1, null, 3),
-                
+
                 (8, 'Aliado', 'Familia', 2, null, 4),
-                
+
                 (9, 'Aliado', 'Familia', 3, null, 5),
                 (10, 'Enemigo', null, 3, 6,null),
-                
+
                 (11, 'Aliado', 'Familia', 4, null, 6),
                 (12, 'Aliado', 'Familia', 4, null, 7),
 
@@ -430,11 +446,10 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
                 (32, 'Aliado', 'Familia', 11, null, 17),
                 (33, 'Aliado', null, 10, 0, null),
                 (34, 'Aliado', null, 11, 0, null);
-                
-                
-                
-
-        
 
 
-               
+
+
+
+
+
