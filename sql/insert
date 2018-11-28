@@ -446,7 +446,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
                 (33, 'Aliado', null, 10, 0, null),
                 (34, 'Aliado', null, 11, 0, null);
 
-
+commit;
 
 
 
