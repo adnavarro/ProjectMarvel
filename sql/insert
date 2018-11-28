@@ -1,0 +1,454 @@
+INSERT INTO public.lugar(id, nombre, tipo_uni, tipo_geo, fk_lugar)
+         VALUES (0,'Tierra','T','P',null),           --shuma-gorat , Los ancianos(Afiliacion de shuma)
+                (1,'California','T','C',0),
+                (2,'Los Angeles','T','E',1),         --ChicaArdilla
+                (3,'New York','T','E',0),
+                (4,'New York City','T','C',3),
+                (5,'Queens','T','E',4),              --punhiser
+                (6,'Asgard','P','E',null),           --thor asgardianos (afiliacion)
+                (7,'Canada','T','E',0),              --deadpool
+                (8,'Haasenstadt','T','E',0),         --doctor doom
+                (9,'San Francisco','T','E',0),       --Venom
+                (10,'Titan','P','E',null),           --thanos , black order(afiliacion de thanos)
+                (11,'Zenn-la','P','E',null),         -- silverSurfer
+                (12,'Massachusetts','T','E',0),
+                (13,'Boston','T','E',12),            --capitana marvel
+                (14,'Annandale-on-Hudson','T','P',3), --jean grey
+                (15,'Westchester','T','P',3),        -- Mansion-x (Afiliacion)
+                (16,'Manhattan','T','P',4),          -- Torre de los vengadores (Afiliacion) [Capitana marvel,Thor]
+                (17,'Océano Atlántico','T','E',0),
+                (18,'Isla Shard','T','C',17),        --adam warlock
+                (19,'Stark Industries','T','C',16),
+                (20,'Helicarrier','T','C',19),       -- shield (Afiliacion)
+                (21,'Schaefer Theater','T','M',16),
+                (22,'Europa','T','E',0),
+                (23,'France','T','E',22),             --One world church (Afiliacion deadpool)
+                (24,'Latveria','T','P',22),
+                (25,'Doomstadt','T','C',24),         --Zefiro Clan (Afiliacion doctor doom) Avengers's Dooms (Afiliacion doctor doom)
+                (26,'Colorado','T','E',0),
+                (27,'Thunderbolts Mountain','T','P',26), --Thunderbolts (Punisher)
+                (28, 'Torre de los Vengadores','T','P',16); --Avengers
+
+INSERT INTO public.univer(id, nombre, descrip)                       --universos
+    VALUES (0,'Tierra-616','universo principal de marvel'),
+           (1,'Multiverse','Todos los universos');
+
+INSERT INTO public.afili(id,nombre,ind_poder_aum,fk_lugar)                       --Afiliacion
+    VALUES  (0,'Los Ancianos',null,0),
+            (1,'Asgardianos',null,6),
+            (2,'Black Order',null,10),
+            (3,'X-Men',null,15),
+            (4,'Avengers',null,28),
+            (5,'S.H.I.E.L.D',null,20),
+            (6,'One wolrd Church',null,23),
+            (7,'Zefiro Clan',null,25),
+            (8,'Thunderbolts',null,27);
+
+INSERT INTO public.destr(id,nombre,descrip)                                     --Destreza
+    VALUES  (0,'Vigilante','Cuida y patrulla la ciudad contra el crimen'),
+            (1,'Mercenario','Es contratado para asesinar'),
+            (2,'Aventurero','Emprende viajes hacia lo desconosido'),
+            (3,'Cientifico','Se dedica al estudio e investigacion de alguna ciencia'),
+            (4,'Estudiante','Cursa estudios en un centro de docentes'),
+            (5,'Asesino Demente','Capas de asesinar sin piedad si lo desea'),
+            (6,'Conquistador','Descubre y proclama nuevos mundos'),
+            (7,'Rey','Tiene al mando todo un reino'),
+            (8,'Dios','Entidad divina que es adorada por muchos'),
+            (9,'Explorador','Se encarga de descubrir nuevos mundos'),
+            (10,'Sirviente','Dispuesto a servirle a una entidad con mas poder'),
+            (11,'Hechicero','Domina y estudia el poder de la magia'),
+            (12,'Politico','Realiza tomas de deciciones para que un grupo alcance sus objetivos'),
+            (13,'Profesor','Enseña a otros sobre alguna catedra'),
+            (14,'Modelo de moda','Viste prendas que tratan de marcar tendencia al ser exibidas'),
+            (15,'Piloto','Posee los conocimientos para conducir aeronaves'),
+            (16,'Escritor','Escribe ideas en libros o articulos en revistas');
+
+INSERT INTO public.person --Personajes Heroes o villanos
+(id, nombre, tipo, tipo_iden, genero, altura, color_ojo, biografia, nombre_real,apellido_real, edo_civil, color_pelo, fk_lugar, fk_univer)
+	VALUES  (0, 'Thor', 'H', 'C', 'M', 198, 'Azul', 'Historia de thor', 'Thor', 'Odinson', 'S', 'Amarillo', 6, 0),
+	        (1, 'Punisher', 'AH', 'C', 'M', 191, 'Azul', 'Historia de punisher', 'Frank', 'Castle', 'S', 'Negro', 5,0),
+	        (2, 'Deadpool', 'AH', 'D', 'M', 188, 'Marron', 'Historia de deadpool', 'Wade', 'Wilson', 'S', 'No aplica', 7, 0),
+	        (3, 'Squirrel girl', 'H', 'D', 'F', 160, 'Marron', 'Historia de una ardilla', 'Doreen', 'Green', 'S', 'Marron', 2,0),
+	        (4, 'Doctor Doom', 'V', 'D', 'M', 188, 'Marron', 'Historia simulada', 'Victor', 'Von Doom', 'C', 'Marron',8,0),
+	        (5, 'Venom', 'AH', 'D', 'M', 191, 'Azul','Historia simulada', 'Edward', 'Brock','S', 'Amarillo', 9, 0),
+	        (6, 'Thanos', 'V', 'C', 'M', 201, 'Rojo', 'Historia simulada', 'Thanos', ' ', 'S', 'No aplica',10, 0),
+	        (7, 'Shuma Gorath', 'V', 'D', 'M', 999, 'Rojo', 'Historia simulada', 'Shuma', 'Gorath', 'S', 'No aplica', 0,1),
+	        (8, 'Silver Surfer', 'N', 'D', 'M', 193, 'Plateado', 'Historia simulada', 'Norrin', 'Radd', 'S', 'No aplica', 11,0),
+	        (9, 'Golden Gladiator', 'H', 'D', 'M', 188,'Blanco', 'Historia simulada', 'Adam', 'Warlock', 'S','Amarillo',18,0),
+	        (10,'Captain Marvel', 'H', 'D', 'F', 180, 'Azul','Historia simulada','Carol','Danver','S', 'Amarillo', 13,0),
+	        (11,'The Phoenix', 'H', 'C', 'F', 152, 'Verde','Historia completa simulada', 'Jean','Grey', 'S', 'Rojo',14,0);
+
+INSERT INTO public.p_a(id, status, fk_afili, fk_person, fk_personnocombat) --Relacion entre Personaje y Afiliacion
+	VALUES  (0, 'Inactivo',0,7,null),
+            (1, 'Activo',1,0,null),
+            (2, 'Activo',2,6,null),
+            (3, 'Activo',3,11,null),
+            (4, 'Inactivo',3,10,null),
+            (5, 'Inactivo',3,2,null),
+            (6, 'Inactivo',4,2,null),
+            (7, 'Inactivo',4,3,null),
+            (8, 'Activo',4,10,null),
+            (9, 'Activo',4,0,null),
+            (10,'Activo',5,3,null),
+            (11,'Activo',6,2,null),
+            (12,'Activo',7,4,null),
+            (13,'Activo',8,1,null);
+
+INSERT INTO public.p_d(fk_person, fk_destr) --Relacion entre Personaje y Destreza
+	VALUES  (0,8),
+	        (1,0),
+	        (2,1),
+	        (3,2),
+	        (3,4),
+	        (4,7),
+	        (4,11),
+	        (4,3),
+	        (5,0),
+	        (5,5),
+	        (6,8),
+	        (6,6),
+	        (6,7),
+	        (7,8),
+	        (7,6),
+	        (8,9),
+	        (8,10),
+	        (9,2),
+	        (9,8),
+	        (9,11),
+	        (10,15),
+	        (10,16),
+	        (11,12),
+	        (11,13),
+	        (11,14);
+
+INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas estan en 0 por ahora como default)
+	VALUES  (0, 'Int',2,0), --Thor
+                (1, 'Fuer',7,0),
+                (2, 'Vel',7,0),
+                (3, 'Res',6,0),
+                (4, 'Proy',6,0),
+                (6, 'Hab',4,0),
+
+                (7, 'Int',3,1), --punisher
+                (8, 'Fuer',3,1),
+                (9, 'Vel',2,1),
+                (10, 'Res',2,1),
+                (11, 'Proy',1,1),
+                (12, 'Hab',6,1),
+
+                (13, 'Int',2,2), --Deadpool
+                (14, 'Fuer',4,2),
+                (15, 'Vel',7,2),
+                (16, 'Res',4,2),
+                (17, 'Proy',1,2),
+                (18, 'Hab',6,2),
+
+                (19, 'Int',3,3), --Squirre G
+                (20, 'Fuer',4,3),
+                (21, 'Vel',3,3),
+                (22, 'Res',3,3),
+                (23, 'Proy',1,3),
+                (24, 'Hab',4,3),
+
+                (25, 'Int',6,4), --Doom
+                (26, 'Fuer',4,4),
+                (27, 'Vel',5,4),
+                (28, 'Res',6,4),
+                (29, 'Proy',6,4),
+                (30, 'Hab',4,4),
+
+                (31, 'Int',3,5), --venom
+                (32, 'Fuer',4,5),
+                (33, 'Vel',2,5),
+                (34, 'Res',6,5),
+                (35, 'Proy',1,5),
+                (36, 'Hab',4,5),
+
+                (37, 'Int',6,6), --Than
+                (38, 'Fuer',7,6),
+                (39, 'Vel',7,6),
+                (40, 'Res',6,6),
+                (41, 'Proy',6,6),
+                (42, 'Hab',4,6),
+
+                (43, 'Int',3,7), --shum
+                (44, 'Fuer',7,7),
+                (45, 'Vel',7,7),
+                (46, 'Res',7,7),
+                (47, 'Proy',6,7),
+                (48, 'Hab',2,7),
+
+                (49, 'Int',3,8), --silver sur
+                (50, 'Fuer',7,8),
+                (51, 'Vel',7,8),
+                (52, 'Res',6,8),
+                (53, 'Proy',7,8),
+                (54, 'Hab',2,8),
+
+                (55, 'Int',3,9), --Adam W
+                (56, 'Fuer',5,9),
+                (57, 'Vel',7,9),
+                (58, 'Res',6,9),
+                (59, 'Proy',6,9),
+                (60, 'Hab',2,9),
+
+                (61, 'Int',3,10), --Cap Marv
+                (62, 'Fuer',5,10),
+                (63, 'Vel',5,10),
+                (64, 'Res',6,10),
+                (65, 'Proy',5,10),
+                (66, 'Hab',4,10),
+
+                (67, 'Int',3,11), --Jean G
+                (68, 'Fuer',2,11),
+                (69, 'Vel',7,11),
+                (70, 'Res',7,11),
+                (71, 'Proy',7,11),
+                (72, 'Hab',4,11);
+
+    INSERT INTO public.parafer(id, nombre, descrip, tipo) -- Parafernalias (Equipo y armas)
+	VALUES (0,'Mjolnir','El Martillo de thor','Arma'),
+	       (1,'Simbionte','Extraterrestre que necesita un portador','Armadura'),
+	       (2,'Pistola','Portatil arma de fuego','Arma'),
+	       (3,'Katana','Espada utilizada por samuaris','Arma'),
+	       (4,'Armadura de Titanio','Resistente traje con propulsion nuclear','Armadura'),
+	       (5,'Gema del Alma','Una Gema Anaranjada poderosa','Arma'),
+	       (6,'Gema del Espacio','Una Gema azul poderosa','Arma'),
+	       (7,'Gema de la Mente','Una Gema Amarilla poderosa','Arma'),
+	       (8,'Gema de la Realidad','Una Gema Roja poderosa','Arma'),
+	       (9,'Gema del Poder','Una Gema Purpura poderosa','Arma'),
+	       (10,'Gema del tiempo','Una Gema Verde poderosa','Arma'),
+	       (11,'Vara Karmica','Una vara irrompible y magica','Arma'),
+	       (12,'Guantelete del infinito','Un poderoso guante','Arma');
+
+	INSERT INTO public.a_a(fk_parafer1, fk_parafer2) --Relacion entre parafernalias
+	VALUES  (12, 5),
+	        (12, 6),
+	        (12, 7),
+	        (12, 8),
+	        (12, 9),
+	        (12, 10);
+
+	INSERT INTO public.p_par(fk_person, fk_parafer, altur_armor, peso_armor) --Relacion entre personajes y parafernalias
+	VALUES (0,0,198,290),
+	       (5,1,194,160),
+	       (1,2,191,102),
+	       (2,3,188,95),
+	       (2,2,188,95),
+	       (4,4,188,188),
+	       (9,5,188,102),
+	       (9,11,188,102),
+	       (6,12,201,447);
+
+	INSERT INTO public.poder(id, nombre, descrip) -- Poderes o ataques
+	VALUES  (0, 'Golpe de Trueno', 'Golpe potente y aturdidor'),
+	        (1, 'Furia de venganza', 'Desata un Frenesi de balas'),
+                (2, 'Cortes despiadados', 'Ataque agil con katana'),
+                (3, 'Manada de ardillas salvajes', 'Envia un ejercito de ardillas luchadoras'),
+                (4, 'Rayo antimateria', 'Rayo con el poder de desintegrar lo que sea'),
+                (5, 'Golpe de ira simbiotica', 'Ataques cargados de toxinas'),
+                (6, 'Golpe del infinito', 'Un golpe desintegrador'),
+                (7, 'Devorar', 'Consume todo a su paso'),
+                (8, 'Rayos Gamma', 'Proyeccion de energia gamma muy potente'),
+                (9, 'Rayo Magico', 'Un rayo imparable que destruye todo lo que toca'),
+                (10, 'Golpes cosmicos','Golpes cargados con la fuerza de una super nova'),
+                (11, 'Ira del Fenix','Emite una Onda de calor con la energia de un sol'),
+                (12, 'Truenos de Asgard','Asgard envia truenos a midgar'),
+                (13, 'Balas incendiarias','Balas que pueden carbonizar'),
+                (14, 'Ataque de extremidades','Permite utilizar extremidades amputadas como armas'),
+                (15, 'Bellotas perforadoras','Un ataque de bellotas destructoras'),
+                (16, 'Manipulación de la materia','Permite controlar la composición de la materia'),
+                (17, 'Fuerza Sobrehumana','Pemite al usuario demostrar fuerza superior a la de un humano promedio'),
+                (18, 'Invulnerabilidad','Otorga al usuario gran resistencia ante ataques o condiciones adversas'),
+                (19, 'Estamina Extrema','Permite aguantar actividades de alto esfuerzo físico por mucho tiempo'),
+                (20, 'Regeneración','Otorga una rapidez de curación sobrehumana'),
+                (21, 'Memoria Genética','Permite a un simbiote adquirir información de otros seres con solo tocarlos'),
+                (22, 'Telepatía','Otorga la capacidad de comunicarse con la mente'),
+                (23, 'Sentido Arácnido','Permite detectar el peligro de ataques enemigos'),
+                (24, 'Cambio de Forma','Permite modificar la apariencia del usuario'),
+                (25, 'Generación de redes','Otorga la capacidad de disparar redes arácnidas'),
+                (26, 'Inmersión Digital','Capacidad de viajar por el internet a nivel molecular'),
+                (27, 'Volar','Permite al usuario la capacidad de desplazarse con libertad por el aire'),
+                (28, 'Visión Nocturna','Otorga la habilidad de poder ver sin ningún problema en ambientes oscuros'),
+                (29, 'Salto superhumano','Permite saltar distancias de gran longitud'),
+                (30, 'Incapacidad de perder','Mientras se crea que se puede ganar, la derrota es imposible');
+
+
+    INSERT INTO public.p_pod(fk_person, fk_poder) --Relacion entre personaje y poderes
+	VALUES  (0, 0),
+                (0, 12),
+                (1, 1),
+                (1, 13),
+                (2, 14),
+                (2, 2),
+                (3, 15),
+                (3, 3),
+                (4, 4),
+                (5, 5),
+                (6, 6),
+                (7, 7),
+                (8, 8),
+                (9, 9),
+                (10, 10),
+                (11, 11);
+
+    INSERT INTO public.catego(id, nombre, descrip) --Categorias
+	VALUES  (0, 'Dios', 'Deidades Divinas'),
+	        (1, 'Heroe', 'Solo heroes'),
+	        (2, 'Villano', 'Solo villanos'),
+	        (3, 'Mercenario', 'Solo mercenarios'),
+	        (4, 'Escolar', 'Solo docentes y alumnos'),
+	        (5, 'Agente', 'Solo funcionarios de la ley'),
+	        (6, 'Caos', 'Solo los que siembren en caos'),
+	        (7, 'Animales','Solo relacionados con animales'),
+	        (8, 'Espacio', 'Seres de otro planeta'),
+	        (9, 'Tierra-616', 'De la dimension 616'),
+	        (10, 'Cientifico', 'Solo con gran inteligencia'),
+                (11, 'Anti-Heroe','Quienes luchan contra el crimen con metodos pocos convencionales'),
+                (12, 'Armas de fuego', 'Quienes utilizan armas de fuego para el combate'),
+                (13, 'Magia','Solo aquellos que tienen la capacidad de usar magia');
+
+    INSERT INTO public.c_p(fk_person, fk_catego) --Relacion entre personajes y Categorias
+	VALUES (0, 0), --Thor
+               (0, 1),
+               (0, 8),
+               (0, 9),
+               (0, 13),
+
+               (1, 9), --punisher
+               (1, 11),
+               (1, 12),
+
+               (2, 11), --Deadpool
+               (2, 12),
+               (2, 3),
+               (2, 9),
+
+               (3, 9), --ChicaArdilla
+               (3, 7),
+               (3, 4),
+               (3, 1),
+
+               (4, 2), --Doctor Doom
+               (4, 9),
+               (4, 10),
+               (4, 13),
+
+               (5, 11), --Venom
+               (5, 9),
+               (5, 8),
+
+               (6, 0), --Thanos
+               (6, 2),
+               (6, 6),
+               (6, 8),
+               (6, 13),
+
+               (7, 0), --Shuma Gorath
+               (7, 2),
+               (7, 6),
+               (7, 8),
+               (7, 13),
+
+               (8, 1), --Silver Surfer
+               (8, 8),
+               (8, 13),
+
+               (9, 0), --Adam warlock
+               (9, 13),
+               (9, 8),
+               (9, 1),
+               (9, 9),
+
+               (10, 1), --Capitana marvel
+               (10, 5),
+               (10, 9),
+
+
+               (11, 1), --Phoenix
+               (11, 9),
+               (11, 4);
+
+        INSERT INTO public.person_no_combat(id, nombre, genero, fallece, nombre_real, apellido_real) --Personajes no combatientes
+	VALUES  (0, 'Freyja', 'F', FALSE, 'Freyja', 'Freyrddotin'),
+                (1, 'Odin', 'M', FALSE, 'Odin', 'Borson'),
+
+                (2, 'Mario', 'M', TRUE, 'Mario', 'Castiglione'),
+                (3, 'Maria', 'F', TRUE, 'Maria Elizabeth', 'Castle'),
+
+                (4, 'Hailey', 'F', TRUE, 'Hailey', 'Wilson'),
+
+                (5, 'Dor', 'M', FALSE, 'Dorian', 'Green'),
+
+                (6, 'Cynthia', 'F', TRUE, 'Cynthia', 'Von Doom'),
+                (7, 'Werner', 'M', TRUE, 'Werner', 'Von Doom'),
+
+                (8, 'Carnage', 'M', FALSE, 'Cletus', 'Kasadin'),
+                (9, 'Carl', 'M', FALSE, 'Carl', 'Brock'),
+
+                (10, 'Sui-San', 'F', True, 'Sui-San', ' '),
+                (11, 'Starfox', 'M', FALSE, 'Eros', ' '),
+
+                (12, 'Jartran', 'M', TRUE, 'Jartran', 'Radd'),
+                (13, 'Elmar', 'F', TRUE, 'Elmar', 'Radd'),
+
+                (14, 'Marie', 'F', FALSE, 'Marie', 'Danvers'),
+                (15, 'Joe', 'M', TRUE, 'Joe', 'Danvers'),
+
+                (16, 'Ciclope', 'M', TRUE, 'Scott', 'Summers'),
+                (17, 'Jhon', 'M', TRUE, 'Jhon', 'Grey');
+
+        INSERT INTO public.per_noper(id, tipo_rel, tipo_paren, fk_person, fk_person_rel, fk_noperson) --Relaciones de personajes
+	VALUES  (0, 'Aliado', 'Familia', 0,null, 0), --Thor
+                (1, 'Aliado', 'Familia', 0,null, 1),
+                (2, 'Aliado', null, 0, 10, null),
+                (3, 'Aliado', null, 0, 11, null),
+                (4, 'Enemigo', null, 0, 6, null),
+                (5, 'Aliado', null, 0, 9, null),
+
+                (6, 'Aliado', 'Familia', 1, null, 2),
+                (7, 'Aliado', 'Familia', 1, null, 3),
+
+                (8, 'Aliado', 'Familia', 2, null, 4),
+
+                (9, 'Aliado', 'Familia', 3, null, 5),
+                (10, 'Enemigo', null, 3, 6,null),
+
+                (11, 'Aliado', 'Familia', 4, null, 6),
+                (12, 'Aliado', 'Familia', 4, null, 7),
+
+                (13, 'Enemigo', 'Familia', 5, null, 8),
+                (14, 'Aliado', 'Familia', 5, null, 9),
+
+                (15, 'Enemigo', 'Familia', 6, null, 10),
+                (16, 'Enemigo', 'Familia', 6, null, 11),
+                (17, 'Enemigo', null, 6, 0,null),
+                (18, 'Enemigo', null, 6, 8,null),
+                (19, 'Enemigo', null, 6, 3,null),
+
+                (20, 'Aliado', 'Familia', 8, null, 12),
+                (21, 'Aliado', 'Familia', 8, null, 13),
+                (22, 'Enemigo', null, 8, 6,null),
+
+                (23, 'Aliado', null, 9, 0,null),
+                (24, 'Enemigo', null, 9, 6,null),
+                (25, 'Enemigo', null, 9, 7,null),
+
+                (26, 'Enemigo', null, 7, 0,null),
+                (27, 'Enemigo', null, 7, 9,null),
+                (28, 'Enemigo', null, 0, 7,null),
+
+                (29, 'Aliado', 'Familia', 10, null, 14),
+                (30, 'Aliado', 'Familia', 10, null, 15),
+
+                (31, 'Aliado', 'Familia', 11, null, 16),
+                (32, 'Aliado', 'Familia', 11, null, 17),
+                (33, 'Aliado', null, 10, 0, null),
+                (34, 'Aliado', null, 11, 0, null);
+
+commit;
+
+
+
+
+
