@@ -184,7 +184,14 @@
             <div class="container" id="seccion_biografia"> <!--Seccion biografia-->
               <div class="panel panel-danger">
                   <div class="panel-heading" id='titulo_biografia'>Biografia</div>
-                  <div class="panel-body" id='contenido_biografia'><p>Toda la biografia</p></div>
+                  <div class="panel-body" id='contenido_biografia'>
+                    <p>
+                      Toda la biografia <!-- AQUI!!! SOLO QUIERO PROBAR QUE SI ESCRIBE TODOS LOS NOMBRES DE LA BSD -->
+                      {%for data in obj%} 
+                      [{%data.nombre%}]
+                      {%endfor%}
+                    </p>
+                  </div>
               </div>
             </div>
     
@@ -255,7 +262,9 @@
     
     <div class="container" id='lista_heroe'> <!-- lista de heroes-->
       <div id='titulo_listado'>
-        <h4>Personajes</h4>
+        <h4>Miembros del grupo:</h4>        
+        <h4 id="nombre_del_grupo"> <center id='palabra_nombre'>Nombre</center></h4>
+        <br>
       </div>
       <div id="scroll_heroe">
           <div class="list-group">          
@@ -277,8 +286,7 @@
     
     <div class="container" id='lista_grupo'>  <!-- lista de grupos-->
         <div class="container" id='titulo_listado'>
-          <h4>Grupos</h4>
-          
+          <h4>Grupos</h4>          
           <div class="row justify-content-between">
             <input id='nombre_grupo' class="form-control mr-sm-2" type="search" placeholder="Nombre" aria-label="Nombre" style="width:65%">
             <button class="btn btn-primary my-2 my-sm-0" type="submit" onclick="agregarNuevo('agregar_nuevo_grupo',$('#nombre_grupo').val());">Agregar</button>
