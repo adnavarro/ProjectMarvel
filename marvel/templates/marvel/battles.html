@@ -180,6 +180,7 @@
 
         </div><!--Fin datos primarios-->
         
+        {%for data in obj%} 
         <section class="row" id="extra_datos">
             <div class="container" id="seccion_biografia"> <!--Seccion biografia-->
               <div class="panel panel-danger">
@@ -187,13 +188,12 @@
                   <div class="panel-body" id='contenido_biografia'>
                     <p>
                       Toda la biografia <!-- AQUI!!! SOLO QUIERO PROBAR QUE SI ESCRIBE TODOS LOS NOMBRES DE LA BSD -->
-                      {%for data in obj%} 
-                      [{%data.nombre%}]
-                      {%endfor%}
+                      {{data.nombre}}
                     </p>
                   </div>
               </div>
             </div>
+            {%endfor%}
     
             <div class="container" id="seccion_estadisticas" > <!--Seccion Estadisticas-->
               <table class="table table-sm" id="estadisticas">
