@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render_to_response
 
-# Create your views here.
+def homepage(request):
+    return render_to_response('index.html')
+
+def battleGroup(request):
+    return render_to_response('battles.html')
+
