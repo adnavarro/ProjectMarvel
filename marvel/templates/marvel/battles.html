@@ -31,59 +31,14 @@
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     </nav>-->
-    <div id="miniaturas_heroes" class="row justify-content-between" >
-
-      <div class='card' style='width: 7rem; position: relative;'>
-        <img class='card-img-top ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
-        <center> <h5 class='card-title'>Nombre</h5> </center>
-      </div> 
-
-      <div class='card' style='width: 7rem; position: relative;'>
-          <img class='card-img-top ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
-          <center> <h5 class='card-title'>Nombre</h5> </center>
-      </div>
-      
-      <div class='card' style='width: 7rem; position: relative;'>
-          <img class='card-img-top ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
-          <center> <h5 class='card-title'>Nombre</h5> </center>
-      </div>
-
-      <div class='card' style='width: 7rem; position: relative;'>
-        <img class='card-img-top ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
-        <center> <h5 class='card-title'>Nombre</h5> </center>
-      </div>
-
-      <div class='card' style='width:7rem; position: relative;'>
-        <img class='card-img-top ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
-        <center> <h5 class='card-title'>Nombre</h5> </center>
-      </div>
-
-      <div class='card' style='width: 7rem; position: relative;'>
-        <img class='card-img-top ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
-        <center> <h5 class='card-title'>Nombre</h5> </center>
-      </div>
-
-      <div class='card' style='width: 7rem; position: relative;'>
-        <img class='card-img-top ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
-        <center> <h5 class='card-title'>Nombre</h5> </center>
-      </div>
-
-      <div class='card' style='width: 7rem; position: relative;'>
-        <img class='card-img-top ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
-        <center> <h5 class='card-title'>Nombre</h5> </center>
-      </div> 
-
-      <div class='card' style='width: 7rem; position: relative;'>
-        <img class='card-img-top ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height :70%'>
-        <center> <h5 class='card-title'>Nombre</h5> </center>
-      </div>
-
-      <div class='card' style='width: 7rem; position: relative;'>
-        <img class='card-img-top ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
-        <center> <h5 class='card-title'>Nombre</h5> </center>
-      </div>
-
-    </div>
+    
+        {%for data in obj%} 
+        <li id='carta_personaje' class='card'>
+            <img id='miniatura_personaje'class='card-img-top rounded float-left ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
+            <center> <h6 class='card-title'>{{data.nombre}}</h6> </center>
+        </li>         
+        {%endfor%} 
+       
   </section>
   <hr>
   <section id="edicion_grupo" class="row justify-content-between" style="background-color:rgba(39, 39, 39, 0.342);color:white;" >
@@ -180,7 +135,7 @@
 
         </div><!--Fin datos primarios-->
         
-        {%for data in obj%} 
+        
         <section class="row" id="extra_datos">
             <div class="container" id="seccion_biografia"> <!--Seccion biografia-->
               <div class="panel panel-danger">
@@ -188,13 +143,15 @@
                   <div class="panel-body" id='contenido_biografia'>
                     <p>
                       Toda la biografia <!-- AQUI!!! SOLO QUIERO PROBAR QUE SI ESCRIBE TODOS LOS NOMBRES DE LA BSD -->
+                      {%for data in obj%} 
                       {{data.nombre}}
+                      {%endfor%}
+    
                     </p>
                   </div>
               </div>
             </div>
-            {%endfor%}
-    
+            
             <div class="container" id="seccion_estadisticas" > <!--Seccion Estadisticas-->
               <table class="table table-sm" id="estadisticas">
                   <thead class="thead-dark"> 
