@@ -5,22 +5,42 @@ nav{
     background-color:rgba(255, 255, 255, 0.342);
 }
 .navegacion{
-    height: 15%;
-    width: 100%; 
-    background-color:rgba(255, 255, 255, 0.342);
-    border-right:2px solid black; 
-    border-left:2px solid black;
-    border-top:2px solid black; 
-    border-bottom:2px solid black;
+    height:145px;
+    width: auto; 
+        
+    overflow-y: hidden; 
+    overflow-x: auto;
+    white-space: nowrap;    
+    display: inline-flex;
+   
+
+    padding: 10px;
+
+
+    background-color:rgba(166, 245, 164, 0.342);
+    border-right:1px solid black; 
+    border-left:1px solid black;
+    border-top:1px solid black; 
+    border-bottom:1px solid black;
 }
-#miniaturas_heroes{
-    background-color:rgba(255, 255, 255, 0.342);    
-    overflow-x: auto;    
-    overflow-y: hidden;
-    white-space: nowrap;
-    margin-left: 0.5%;
-    height: 145px;
-    width: 100%;
+
+#carta_personaje{    
+    width: 10%;
+    height: 100%; 
+    background: rgba(255, 255, 255, 0.521);
+    transition: all 0.5s;   
+}
+#miniatura_personaje{
+    opacity: 0.5;
+}
+#carta_personaje:hover {
+    background-color: white;    
+}
+#carta_personaje:hover #miniatura_personaje {
+    opacity: 1;
+}
+#carta_personaje:active {
+    background-color: rgb(169, 194, 240);    
 }
 
 #edicion_grupo{
@@ -39,6 +59,9 @@ nav{
     height: 100%;
     border-right:1px solid black; 
     border-left:1px solid black; 
+}
+#miniatura_personaje :hover{
+    opacity: 0;
 }
 #titulo_listado{
     background-color: rgb(24, 30, 39);
