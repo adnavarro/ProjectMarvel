@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse,HttpResponseRedirect
-from .models import Person
+from .models import *
 
 def homepage(request):
     return render_to_response('index.html')
@@ -19,7 +19,7 @@ def battleGroup(request):
         obj_nombre_real   = data.nombre_real      
         obj_apellido_real = data.apellido_real
         obj_edo_civil  = data.edo_civil
-        obj_color_pelo   = data.color_pelo       
+        obj_color_pelo   = data.color_pelo
         obj_fk_lugar  = data.fk_lugar
         obj_fk_univer  = data.fk_univer
 
@@ -39,7 +39,6 @@ def battleGroup(request):
         "obj_fk_lugar":obj_fk_lugar,
         "obj_fk_univer":obj_fk_univer
     }
-
-    
     return render_to_response('battles.html',context)
 
+def prueba(request):
