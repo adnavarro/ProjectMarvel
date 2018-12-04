@@ -42,6 +42,8 @@ def battleGroup(request):
     }
     return render_to_response('battles.html', context)
 
+#Aqui estoy probando mis validaciones (Esto no ira en el proyecto final)
+#OJO: El Html que estoy utilizando se llama prueba (NO BORRAR POR AHORA)
 def prueba(request):
     if request.method == "POST":
         Personaje1 = request.POST.get('Personaje1')
