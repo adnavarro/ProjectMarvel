@@ -2,29 +2,39 @@ import random
 from .models import *
 
 #Valido que existe el personaje
-def personValidate (persona):
+def personValidate(persona):
     try:
-        Person.objects.get(id = persona)
+        per = Person.objects.get(id = persona)
     except Person.DoesNotExist:
-        return(0) #Si retorna 0 significa que el personaje no existe
-    print("Character found!")
+        try:
+            per = PersonNoCombat.objects.get(id = persona)
+        except PersonNoCombat.DoesNotExist:
+            print("Personaje no encontrado")
+            return(0) #Si retorna 0 significa que el personaje no existe
+    print("Personaje encontrado", per.nombre)
     return (1)    #Sino el personaje si existe y me retorna 1
 
-#Valido que existe el personaje no combatiente (Funciona igual que personValidate)
-def personNoCombatValidate (persona):
-    try:
-        PersonNoCombat.objects.get(id = persona)
-    except PersonNoCombat.DoesNotExist:
-        return (0)
-    print("Character found!")
-    return (1)
-
-def etp1Validate (persona, personaNoCombate):
-    if personValidate(persona) != 0 and personNoCombatValidate(personaNoCombate) != 0:
+def etp1Validate(persona1, persona2):
+    if personValidate(persona1) != 0 and personValidate(persona2) != 0:
         try:
-            PerNoper.objects.get(fk_person = persona, fk_noperson = personaNoCombate)
+          PerNoper.objects.get(fk_person = persona1, fk_noperson = persona2, tipo_rel = "Aliado")
         except PerNoper.DoesNotExist:
-            print("Estos personajes NO son parientes")
-            return (0)
-        print("Estos personajes son parientes")
-        return (1)
+            try:
+              PerNoper.objects.get(fk_person = persona1, fk_person_rel = persona2, tipo_rel = "Aliado")
+            except PerNoper.DoesNotExist:
+                print("Estos personajes pueden pelear")
+                return (1)
+        print("Estos personajes NO pueden pelear")
+        return (0)
+    else:
+        print("Uno de los personajes no se encuentra en la BD")
+        return(-1)
+
+def mula1(persona1, persona2):
+    if etp1Validate(persona1, persona2) == 1:
+        winner = random.randint(0, 2)
+        print(winner)
+        return (winner)
+    else:
+        print("Los personajes introducidos son incorrectos")
+        return (-1)
