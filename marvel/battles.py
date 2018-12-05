@@ -13,24 +13,16 @@ def personValidate(persona):
 
 #Valido que los personajes no sean Aliados
 def etp1Validate(persona1, persona2):
-    if personValidate(persona1) != 0 and personValidate(persona2) != 0:
-        try:
-          PerNoper.objects.get(fk_person = persona1, fk_person_rel = persona2, tipo_rel = "Aliado")
-        except PerNoper.DoesNotExist:
-            print("Estos personajes pueden pelear")
-            return (1) #Si retorna 1 los personajes pueden pelear
-        print("Estos personajes NO pueden pelear")
-        return (0) #Si retorna 0 los personajes no pueden pelear
-    else:
-        print("Uno de los personajes no se encuentra en la BD")
-        return(-1) #Alguno de los personajes no esta en la BD
+    try:
+        PerNoper.objects.get(fk_person = persona1, fk_person_rel = persona2, tipo_rel = "Aliado")
+    except PerNoper.DoesNotExist:
+        print("Estos personajes pueden pelear")
+        return (1) #Si retorna 1 los personajes pueden pelear
+    print("Estos personajes NO pueden pelear")
+    return (0) #Si retorna 0 los personajes no pueden pelear
 
 #Simulo la etapa1
-def mula1(persona1, persona2):
-    if etp1Validate(persona1, persona2) == 1:
-        winner = random.randint(0, 2) #0: Empate, 1: Gana el personaje 1, 2: Gana el personaje 2
-        print(winner) #Retorno en ganador
-        return (winner)
-    else:
-        print("Los personajes introducidos son incorrectos")
-        return (-1) #Si algo ocurrio en la validacion retorno un error
+def mula1():
+    winner = random.randint(0, 2) #0: Empate, 1: Gana el personaje 1, 2: Gana el personaje 2
+    print(winner) #Retorno en ganador
+    return (winner)
