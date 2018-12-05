@@ -45,8 +45,6 @@ def battleGroup(request):
     return render_to_response('battles.html', context)
 #accediendo a los demas datos
 
-
-
 #Aqui estoy probando mis validaciones (Esto no ira en el proyecto final)
 #OJO: El Html que estoy utilizando se llama prueba (NO BORRAR POR AHORA)
 def prueba(request):
@@ -54,11 +52,11 @@ def prueba(request):
         Personaje1 = request.POST.get('Personaje1')
         Personaje2 = request.POST.get('Personaje2')
 
-        if battles.mula1(Personaje1, Personaje2) == 1:
+        if battles.mula1() == 1:
             return HttpResponse("Gano el personaje 1")
-        if battles.mula1(Personaje1, Personaje2) == 2:
+        if battles.mula1() == 2:
             return HttpResponse("Gano el personaje 2")
-        if battles.mula1(Personaje1, Personaje2) == 0:
+        if battles.mula1() == 0:
             return HttpResponse("Hubo un empate")
         else:
             return HttpResponse("ERROR")

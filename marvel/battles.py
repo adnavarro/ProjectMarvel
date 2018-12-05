@@ -11,6 +11,18 @@ def personValidate(persona):
     print("Personaje encontrado", per.nombre)
     return (1)    #Sino el personaje si existe y me retorna 1
 
+def dstr(persona):
+    try:
+       Destre = PD.objects.get(fk_person = persona)
+    except PD.DoesNotExist:
+        print("Este personaje no tiene destrezas porque es un vago")
+        return(-1)
+    try:
+       Resultado = Destr.objects.get(id = Destre.fk_destr)
+    except Destr.DoesNotExist:
+        print("Error inesperado: debe faltar algo en la BD")
+    return (Resultado.id)
+
 #Valido que los personajes no sean Aliados
 def etp1Validate(persona1, persona2):
     try:
