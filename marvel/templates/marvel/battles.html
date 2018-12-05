@@ -57,8 +57,8 @@
            
           
           <div id="contenedor_datos">
-            <div id='nombre_person'>
-              <p style="margin:-1.5% 0;" > <font SIZE=2>Nombre original:</font> </p>
+            <div id='nombre_person'>            
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Nombre original:  </font> </p>                
               <hr style="margin:-1% 0;">
             </div> 
             
@@ -78,7 +78,7 @@
             </div>
             
             <div id='profesion_person'>
-              <p style="margin:-1.5% 0;"> <font SIZE=2>Profesion: </font> </p>
+              <p style="margin:-1.5% 0;"> <font SIZE=2>Profesion: {%for dataDestre in objeto%} {{profesion.nombre}} {%endfor%}  </font> </p>
               <hr style="margin:-1% 0;">
             </div> 
 

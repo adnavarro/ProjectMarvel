@@ -45,6 +45,30 @@ def battleGroup(request):
     return render_to_response('battles.html', context)
 #accediendo a los demas datos
 
+
+
+def getProfesion(request,idPersonaje):
+   
+    objeto = PD.objects.all()
+    for dataDestre in objeto:
+        if(dataDestre.fk_person == idPersonaje):
+            profesion = Destr.objects.get(id = dataDestre.fk_destr)
+            profesion_nombre = profesion.nombre
+            profesion_descrip = profesion.descrip
+
+        contex = {
+            "profesion":profesion,
+            "profesion_nombre": profesion_nombre,
+            "profesion_descrip": profesion_descrip 
+        }                   
+   
+    return render_to_response('battles.html', context) 
+
+
+
+
+
+
 #Aqui estoy probando mis validaciones (Esto no ira en el proyecto final)
 #OJO: El Html que estoy utilizando se llama prueba (NO BORRAR POR AHORA)
 def prueba(request):
