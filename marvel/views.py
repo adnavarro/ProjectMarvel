@@ -10,6 +10,7 @@ def battleGroup(request):
 
     obj = Person.objects.all()
     for data in obj:
+        obj_id = data.id
         obj_nombre = data.nombre
         obj_tipo = data.tipo
         obj_tipo_iden = data.tipo_iden
@@ -26,6 +27,7 @@ def battleGroup(request):
 
     context = {
         "obj":obj,
+        "obj_id":obj_id,
         "obj_nombre":obj_nombre,
         "obj_tipo":obj_tipo,
         "obj_tipo_iden":obj_tipo_iden, 
@@ -41,6 +43,9 @@ def battleGroup(request):
         "obj_fk_univer":obj_fk_univer
     }
     return render_to_response('battles.html', context)
+#accediendo a los demas datos
+
+
 
 #Aqui estoy probando mis validaciones (Esto no ira en el proyecto final)
 #OJO: El Html que estoy utilizando se llama prueba (NO BORRAR POR AHORA)

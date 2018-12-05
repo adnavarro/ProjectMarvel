@@ -1,6 +1,6 @@
 
 var numero_grupo = 0;
-function agregarNuevo(nombre_grupo,nombre_elemento){    
+function agregarNuevo(nombre_grupo,nombre_elemento){ //Agrega la etiqueta del grupo   
     $( "#"+nombre_grupo ).append(    
         ' <li class="list-group-item grupo-combate" id="grupo_'+numero_grupo+'">'+
              '<div class="row" style="color:black; padding:0;margin:0; width:100%">'+
@@ -15,14 +15,14 @@ function agregarNuevo(nombre_grupo,nombre_elemento){
     );    
     numero_grupo++;    
 }
-function quitarElemento(id_elemento,nombre_elemento){
+function quitarElemento(id_elemento,nombre_elemento){ //Elimina la etiqueta
     $("#"+id_elemento).remove();
     if(sessionStorage.getItem('actualGroup') === nombre_elemento ){
         $('#palabra_nombre').remove();
         sessionStorage.removeItem('actualGroup');
     }
 }
-function focusGrupo(nombre_elemento){
+function focusGrupo(nombre_elemento){ //Hace focus a la etiqueta seleccionada
     sessionStorage.removeItem('actualGroup');
     sessionStorage.setItem('actualGroup',nombre_elemento);
     $('#palabra_nombre').remove();

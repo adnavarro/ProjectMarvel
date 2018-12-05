@@ -10,6 +10,7 @@
     <script src="../../static/marvel/js/jquery/jQuery-3.3.1.min.js"></script>
     <script src="../../static/marvel/js/bootstrap.min.js"></script> 
     <script src="../../static/marvel/js/AgregarGrupo.js"></script>
+    <script src="../../static/marvel/js/MostrarPersonaje.js"></script>
     <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/marvel/css/battle.css">
     
@@ -33,7 +34,7 @@
     </nav>-->
     
         {%for data in obj%} 
-        <li id='carta_personaje' class='card'>
+        <li id='carta_personaje' onclick='verDatos("{{data.nombre}}","{{data.nombre_real}} " + "{{data.apellido_real}}","{{data.tipo_iden}}","{{data.tipo}}","{{data.tipo}}","{{data.edo_civil}}","{{data.altura}}","No hay peso","{{data.color_ojo}}","{{data.biografia}}","{{data.genero}}","{{data.tipo}}")' class='card'>
             <img id='miniatura_personaje'class='card-img-top rounded float-left ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
             <center> <h6 class='card-title'>{{data.nombre}}</h6> </center>
         </li>         
@@ -46,30 +47,74 @@
     <div class="container" id='ficha_heroe'> <!-- visor de herore-->
       <section class="row"> <!-- columna de datos-->
         <div class="container" id= 'imagen_heroe'>                 
-          <img class='card-img-top ' src='../../static/marvel/img/HeroePerfil.png' alt='Card image cap' >
-          <button type="button" class="btn  btn-danger" style="position:absolute;margin-top:-4%;margin-left: 0.5%" >Eliminar</button>
-          <button type="button" class="btn btn-success" style="position:absolute;margin-top:-4%;margin-left: 10%" >Agregar</button>
+          <img class='card-img-top ' id='imagen_heroe_ruta' src='../../static/marvel/img/HeroePerfil.png' alt='Card image cap' >
+          <button id="Eliminar_Heroe" type="button" class="btn  btn-danger" style="display:none;position:absolute;margin-top:-4%;margin-left: 0.5%" >Eliminar</button>
+          <button id="Añadir_Heroe" type="button" class="btn btn-success" style="display:none; position:absolute;margin-top:-4%;margin-left: 10%" >Agregar</button>
         </div>
 
         <div class="container" id='datos_heroe' > <!--datos primarios-->
-          <p style="margin:-1.5% 0;"> <font SIZE=2>Nombre original: </font> </p>
-          <hr style="margin:-1% 0;">
-          <p style="margin:-1.5% 0;"> <font SIZE=2>Nombre Real: </font> </p>
-          <hr style="margin:-1% 0;">
-          <p style="margin:-1.5% 0;"> <font SIZE=2>Identidad: </font> </p>
-          <hr style="margin:-1% 0;">
-          <p style="margin:-1.5% 0;"> <font SIZE=2>Profesion: </font> </p>
-          <hr style="margin:-1% 0;">
-          <p style="margin:-1.5% 0;"> <font SIZE=2>Lugar de nacimiento: </font> </p>
-          <hr style="margin:-1% 0;">
-          <p style="margin:-1.5% 0;"> <font SIZE=2>Estado civil: </font> </p>
-          <hr style="margin:-1% 0;">
-           <p style="margin:-1.5% 0;"> <font SIZE=2>Altura: </font> </p>
-          <hr style="margin:-1% 0;">
-           <p style="margin:-1.5% 0;"> <font SIZE=2>Peso: </font> </p>
-          <hr style="margin:-1% 0;">
-           <p style="margin:-1.5% 0;"> <font SIZE=2>Ojos: </font> </p>
-          <hr style="margin:-1% 0;">
+         
+           
+          
+          <div id="contenedor_datos">
+            <div id='nombre_person'>
+                {% block fragment1 %}
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Nombre original:  {{ view.getProfesion('1') }}</font> </p>
+                {% endblock fragment1 %}
+              <hr style="margin:-1% 0;">
+            </div> 
+            
+            <div id='nombre_real_person'>
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Nombre Real: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div>
+
+            <div id='identidad_person'>
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Identidad: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div> 
+
+            <div id='sexo_person'>
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Genero: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div>
+            
+            <div id='profesion_person'>
+              <p style="margin:-1.5% 0;"> <font SIZE=2>Profesion: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div> 
+
+            <div id='rol_person'>
+              <p style="margin:-1.5% 0;"> <font SIZE=2>Rol: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div>
+
+            <div id='lug_nac_person'>
+              <p style="margin:-1.5% 0;"> <font SIZE=2>Lugar de nacimiento: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div> 
+            
+            <div id='ed_civ_person'>
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Estado civil: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div> 
+            
+            <div id='altura_person'>
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Altura: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div>  
+            
+            <div id='peso_person'>
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Peso: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div> 
+
+            <div id='ojos_person'>
+              <p style="margin:-1.5% 0;"> <font SIZE=2>Ojos: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div> 
+          </div>               
+           
           <br>
           <div class="row" id='lista_info' style="background-color:rgba(255, 255, 255, 0.623);"> 
 
@@ -126,6 +171,9 @@
                     <li class="list-group-item list-group-item-info" >
                       <p> Cambur</p>
                     </li>
+                    <li class="list-group-item list-group-item-info" >
+                        <p> Cambur</p>
+                      </li>
                   </ul> 
 
               </div>
@@ -141,13 +189,7 @@
               <div class="panel panel-danger">
                   <div class="panel-heading" id='titulo_biografia'>Biografia</div>
                   <div class="panel-body" id='contenido_biografia'>
-                    <p>
-                      Toda la biografia <!-- AQUI!!! SOLO QUIERO PROBAR QUE SI ESCRIBE TODOS LOS NOMBRES DE LA BSD -->
-                      {%for data in obj%} 
-                      {{data.nombre}}
-                      {%endfor%}
-    
-                    </p>
+                    
                   </div>
               </div>
             </div>
