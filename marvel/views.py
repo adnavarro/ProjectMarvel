@@ -45,29 +45,27 @@ def battleGroup(request):
     return render_to_response('battles.html', context)
 #accediendo a los demas datos
 
+def getProfesion(request, idPersonaje):
+    if battles.personValidate(idPersonaje) == 1:
+        try:
+            objeto = PD.objects.all()
+        except PD.DoesNotExist:
+            return HttpResponse("ERROR")
 
+        for dataDestre in objeto:
+            if(dataDestre.fk_person == idPersonaje):
+                profesion = Destr.objects.get(id = dataDestre.fk_destr)
+                profesion_nombre = profesion.nombre
+                profesion_descrip = profesion.descrip
 
-def getProfesion(request,idPersonaje):
-   
-    objeto = PD.objects.all()
-    for dataDestre in objeto:
-        if(dataDestre.fk_person == idPersonaje):
-            profesion = Destr.objects.get(id = dataDestre.fk_destr)
-            profesion_nombre = profesion.nombre
-            profesion_descrip = profesion.descrip
-
-        contex = {
+        context = {
             "profesion":profesion,
             "profesion_nombre": profesion_nombre,
-            "profesion_descrip": profesion_descrip 
-        }                   
-   
-    return render_to_response('battles.html', context) 
-
-
-
-
-
+            "profesion_descrip": profesion_descrip
+        }
+    else:
+        return HttpResponse("Personaje no encontrado en la BD")
+    return render_to_response('battles.html', context)
 
 #Aqui estoy probando mis validaciones (Esto no ira en el proyecto final)
 #OJO: El Html que estoy utilizando se llama prueba (NO BORRAR POR AHORA)
