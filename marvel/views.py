@@ -6,9 +6,9 @@ from . import battles
 def homepage(request):
     return render_to_response('index.html')
 
-def battleGroup(request):
-
-    obj = Person.objects.all()
+def battleGroup(request):    
+    obj = Person.objects.all() 
+    atributo_fue = 'Fuer'   
     for data in obj:
         obj_id = data.id
         obj_nombre = data.nombre
@@ -23,49 +23,29 @@ def battleGroup(request):
         obj_edo_civil = data.edo_civil
         obj_color_pelo = data.color_pelo
         obj_fk_lugar = data.fk_lugar
-        obj_fk_univer = data.fk_univer
-
-    context = {
-        "obj":obj,
-        "obj_id":obj_id,
-        "obj_nombre":obj_nombre,
-        "obj_tipo":obj_tipo,
-        "obj_tipo_iden":obj_tipo_iden, 
-        "obj_genero":obj_genero,
-        "obj_altura":obj_altura,
-        "obj_color_ojo":obj_color_ojo,
-        "obj_biografia":obj_biografia, 
-        "obj_nombre_real":obj_nombre_real,  
-        "obj_apellido_real":obj_apellido_real,
-        "obj_edo_civil":obj_edo_civil,
-        "obj_color_pelo":obj_color_pelo,   
-        "obj_fk_lugar":obj_fk_lugar,
-        "obj_fk_univer":obj_fk_univer
-    }
-    return render_to_response('battles.html', context)
-#accediendo a los demas datos
-
-def getProfesion(request, idPersonaje):
-    if battles.personValidate(idPersonaje) == 1:
-        try:
-            objeto = PD.objects.all()
-        except PD.DoesNotExist:
-            return HttpResponse("ERROR")
-
-        for dataDestre in objeto:
-            if(dataDestre.fk_person == idPersonaje):
-                profesion = Destr.objects.get(id = dataDestre.fk_destr)
-                profesion_nombre = profesion.nombre
-                profesion_descrip = profesion.descrip
-
-        context = {
-            "profesion":profesion,
-            "profesion_nombre": profesion_nombre,
-            "profesion_descrip": profesion_descrip
+        obj_fk_univer = data.fk_univer       
+         
+        context = {        
+            "obj":obj,
+            "obj_id":obj_id,
+            "obj_nombre":obj_nombre,
+            "obj_tipo":obj_tipo,
+            "obj_tipo_iden":obj_tipo_iden,
+            "obj_genero":obj_genero,
+            "obj_altura":obj_altura,
+            "obj_color_ojo":obj_color_ojo,
+            "obj_biografia":obj_biografia,
+            "obj_nombre_real":obj_nombre,
+            "obj_apellido_real":obj_apellido_real,
+            "obj_edo_civil":obj_edo_civil,
+            "obj_color_pelo":obj_color_pelo,
+            "obj_fk_lugar":obj_fk_lugar,
+            "obj_fk_univer":obj_fk_univer,
+            "atributo_fue":atributo_fue            
         }
-    else:
-        return HttpResponse("Personaje no encontrado en la BD")
     return render_to_response('battles.html', context)
+   
+
 
 #Aqui estoy probando mis validaciones (Esto no ira en el proyecto final)
 #OJO: El Html que estoy utilizando se llama prueba (NO BORRAR POR AHORA)

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-
+{% load tables_forean %}
 <html>
-   
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,8 +9,8 @@
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0, width=device-width">
     <script src="../../static/marvel/js/jquery/jQuery-3.3.1.min.js"></script>
     <script src="../../static/marvel/js/bootstrap.min.js"></script> 
-    <script src="../../static/marvel/js/AgregarGrupo.js"></script>
-    <script src="../../static/marvel/js/MostrarPersonaje.js"></script>
+    <script src="../../static/marvel/js/AgregarGrupos.js"></script>
+    <script src="../../static/marvel/js/MostrarPersonajesMarvel.js"></script>
     <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/marvel/css/battle.css">
     
@@ -23,7 +23,9 @@
 </header>    
 
 <body class="container"> 
+  
   <section class="container navegacion" >
+    
     <!--
     <nav class="navbar navbar-light bg-light justify-content-between"  >
       <a class="navbar-brand">Navbar</a>
@@ -34,7 +36,27 @@
     </nav>-->
     
         {%for data in obj%} 
-        <li id='carta_personaje' onclick='verDatos("{{data.nombre}}","{{data.nombre_real}} " + "{{data.apellido_real}}","{{data.tipo_iden}}","{{data.tipo}}","{{data.tipo}}","{{data.edo_civil}}","{{data.altura}}","No hay peso","{{data.color_ojo}}","{{data.biografia}}","{{data.genero}}","{{data.tipo}}")' class='card'>
+        <li id='carta_personaje' onclick='fuer = "Fuer"; intel = "Int"; agil = "Vel"; resis = "Res"; proy = "Proy"; hab = "Hab"  
+                                                  verDatos("{{data.nombre}}"
+                                                  ,"{{data.nombre_real}} " + "{{data.apellido_real}}"
+                                                  ,"{{data.tipo_iden}}"
+                                                  ,"{% getProfesion data.id %}"
+                                                  ,"{{data.tipo}}"
+                                                  ,"{{data.edo_civil}}"
+                                                  ,"{{data.altura}}"
+                                                  ,"No hay peso"
+                                                  ,"{{data.color_ojo}}"
+                                                  ,"{{data.biografia}}"
+                                                  ,"{{data.genero}}"
+                                                  ,"{{data.tipo}}"
+                                                  ,"{% getHab data.id "Fuer" %}"
+                                                  ,"{% getHab data.id "Int" %}"
+                                                  ,"{% getHab data.id "Vel" %}"
+                                                  ,"{% getHab data.id "Res" %}"
+                                                  ,"{% getHab data.id "Proy" %}"
+                                                  ,"{% getHab data.id "Hab" %}"
+                                                  ,"{{data.id}}")' class='card'>
+                                                  
             <img id='miniatura_personaje'class='card-img-top rounded float-left ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
             <center> <h6 class='card-title'>{{data.nombre}}</h6> </center>
         </li>         
@@ -48,8 +70,8 @@
       <section class="row"> <!-- columna de datos-->
         <div class="container" id= 'imagen_heroe'>                 
           <img class='card-img-top ' id='imagen_heroe_ruta' src='../../static/marvel/img/HeroePerfil.png' alt='Card image cap' >
-          <button id="Eliminar_Heroe" type="button" class="btn  btn-danger" style="display:none;position:absolute;margin-top:-4%;margin-left: 0.5%" >Eliminar</button>
-          <button id="Añadir_Heroe" type="button" class="btn btn-success" style="display:none; position:absolute;margin-top:-4%;margin-left: 10%" >Agregar</button>
+          <button id="Eliminar_Heroe" type="button" class="btn  btn-danger" style="display:none; position:absolute;margin-top:-4%;margin-left: 0.5%" >Eliminar</button>
+          <button id="Añadir_Heroe" onclick="agegarPersonajeGrupo();" type="button" class="btn btn-success" style="display:none; position:absolute;margin-top:-4%;margin-left: 10%" >Agregar</button>
         </div>
 
         <div class="container" id='datos_heroe' > <!--datos primarios-->
@@ -76,11 +98,16 @@
               <p style="margin:-1.5% 0;" > <font SIZE=2>Genero: </font> </p>
               <hr style="margin:-1% 0;">
             </div>
-            
-            <div id='profesion_person'>
-              <p style="margin:-1.5% 0;"> <font SIZE=2>Profesion: {%for dataDestre in objeto%} {{profesion.nombre}} {%endfor%}  </font> </p>
-              <hr style="margin:-1% 0;">
-            </div> 
+            <form method="POST">
+                
+                
+              <div id='profesion_person'> 
+                  
+                                  
+                <p style="margin:-1.5% 0;"> <font SIZE=2>Profesion:  </font> </p> 
+                <hr style="margin:-1% 0;">
+              </div> 
+            </form>
 
             <div id='rol_person'>
               <p style="margin:-1.5% 0;"> <font SIZE=2>Rol: </font> </p>
@@ -207,43 +234,33 @@
                       </tr>
                   </thead>   
                   <tbody> 
-                    <tr>
+                    <tr id = "fuer">
                        <th scope="row">Fuerza</th>
-                       <td class="table-primary"></td>
-                       <td class="table-primary"></td>
-                       <td class="table-primary"></td>
+                       
                     </tr>                   
-                    <tr>
+                    <tr id = "intel">
                       <th scope="row">Inteligen</th>
-                      <td class="table-primary"></td>
-                      <td class="table-primary"></td>
-                      <td class="table-primary"></td>
-                      <td class="table-primary"></td>
+                      
                     </tr>
-                    <tr>
+                    <tr id = "agil">
                       <th scope="row">Agilidad</th>
-                      <td class="table-primary"></td>
+                      
                       <td></td>
                       <td></td>
                     </tr>
-                    <tr>
+                    <tr id = "resi">
                       <th scope="row">Resist</th>
-                      <td class="table-primary"></td>
-                      <td class="table-primary"></td>
+                      
                     </tr>
           
-                    <tr>
+                    <tr id = "proy_en">
                       <th scope="row">Proyect Energy</th>
-                      <td class="table-primary"></td>
-                      <td class="table-primary"></td>
-                      <td class="table-primary"></td>
-                      <td class="table-primary"></td>
+                     
                     </tr>
           
-                    <tr>
+                    <tr id = "hab_comb">
                       <th scope="row">Hab combat</th>
-                      <td class="table-primary"></td>
-                      <td class="table-primary"></td>
+                      
                     </tr>
                   </tbody>
                   
@@ -266,17 +283,7 @@
       <div id="scroll_heroe">
           <div class="list-group">          
               <button type="button" class="list-group-item list-group-item-action">Nombre</button>
-              <button type="button" class="list-group-item list-group-item-action">Nombre</button>
-              <button type="button" class="list-group-item list-group-item-action">Nombre</button>
-              <button type="button" class="list-group-item list-group-item-action">Nombre</button>
-              <button type="button" class="list-group-item list-group-item-action">Nombre</button>
-              <button type="button" class="list-group-item list-group-item-action">Nombre</button>
-              <button type="button" class="list-group-item list-group-item-action">Nombre</button>
-              <button type="button" class="list-group-item list-group-item-action">Nombre</button>
-              <button type="button" class="list-group-item list-group-item-action">Nombre</button>
-              <button type="button" class="list-group-item list-group-item-action">Nombre</button>
-              <button type="button" class="list-group-item list-group-item-action">Nombre</button>
-              <button type="button" class="list-group-item list-group-item-action">Nombre</button>
+              
           </div>     
       </div>       
     </div>
@@ -289,7 +296,7 @@
             <button class="btn btn-primary my-2 my-sm-0" type="submit" onclick="agregarNuevo('agregar_nuevo_grupo',$('#nombre_grupo').val());">Agregar</button>
           </div>
           <br>
-        </div>
+        </div> 
         <div id="scroll_grupo">
             <div class="list-group" id="agregar_nuevo_grupo">          
                 
@@ -312,4 +319,9 @@
 
 </footer>
 <!-- Footer -->
+<script>
+    $( document ).ready(function() {
+      cargarListaGrupos();
+    });
+  </script>
 </html>
