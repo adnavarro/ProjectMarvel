@@ -21,6 +21,29 @@ def etp1Validate(persona1, persona2):
     print("Estos personajes NO pueden pelear")
     return (0) #Si retorna 0 los personajes no pueden pelear
 
+def perGroupValidate(persona):
+    try:
+        Inscri.objects.get(fk_person=persona)
+    except Inscri.DoesNotExist:
+        return(1)
+    print('Este personaje ya se encuentra inscrito en un grupo')
+    return(0)
+
+def groupVlidate(fecha):
+    try:
+        dat = Even.objects.get(fech_in=fecha)
+    except Even.DoesNotExist:
+        return(-1)
+    ins = Inscri.objects.all()
+    cont = 0
+    for i in ins:
+        if ins.fk_even == dat.id:
+            cont+=1
+    if cont%2 == 0:
+        return(1)
+    else:
+        return(0)
+    
 #Simulo la etapa1
 def mula1():
     winner=randbelow(3) #0: Empate, 1: Gana el personaje 1, 2: Gana el personaje 2
