@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, render
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
-from . import battles
+from .templatetags.battles import * 
 
 def homepage(request):
     return render_to_response('index.html')
@@ -49,6 +49,7 @@ def battleGroup(request):
 
 #Aqui estoy probando mis validaciones (Esto no ira en el proyecto final)
 #OJO: El Html que estoy utilizando se llama prueba (NO BORRAR POR AHORA)
+
 def prueba(request):
     if request.method == "POST":
         Personaje1 = request.POST.get('Personaje1')
