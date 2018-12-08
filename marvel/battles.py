@@ -1,4 +1,4 @@
-import random
+from secrets import randbelow
 from .models import *
 
 #Valido que existe el personaje
@@ -23,6 +23,5 @@ def etp1Validate(persona1, persona2):
 
 #Simulo la etapa1
 def mula1():
-    winner = random.randint(0, 2) #0: Empate, 1: Gana el personaje 1, 2: Gana el personaje 2
-    print(winner) #Retorno en ganador
+    winner=randbelow(3) #0: Empate, 1: Gana el personaje 1, 2: Gana el personaje 2
     return (winner)

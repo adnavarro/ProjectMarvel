@@ -53,13 +53,14 @@ def prueba(request):
     if request.method == "POST":
         Personaje1 = request.POST.get('Personaje1')
         Personaje2 = request.POST.get('Personaje2')
-
-        if battles.mula1() == 1:
+        battleresult = battles.mula1()
+        if battleresult == 1:
             return HttpResponse("Gano el personaje 1")
-        if battles.mula1() == 2:
+        if battleresult == 2:
             return HttpResponse("Gano el personaje 2")
-        if battles.mula1() == 0:
+        if battleresult == 0:
             return HttpResponse("Hubo un empate")
         else:
+ 
             return HttpResponse("ERROR")
     return render(request, 'prueba.html', {})
