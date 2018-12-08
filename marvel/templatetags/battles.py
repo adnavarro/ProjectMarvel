@@ -22,6 +22,7 @@ def etp1Validate(persona1, persona2):
     print("Estos personajes NO pueden pelear")
     return (0) #Si retorna 0 los personajes no pueden pelear
 
+#Valido que el personaje no se encuentre en otro grupo
 def perGroupValidate(persona):
     try:
         Inscri.objects.get(fk_person=persona)
@@ -30,7 +31,8 @@ def perGroupValidate(persona):
     print('Este personaje ya se encuentra inscrito en un grupo')
     return(0)
 
-def groupVlidate(fecha):
+#Valido que la cantidad de inscritos en un grupo sea impar
+def groupInscriVal(ngroup, fecha):
     try:
         dat = Even.objects.get(fech_in=fecha)
     except Even.DoesNotExist:
@@ -38,8 +40,27 @@ def groupVlidate(fecha):
     ins = Inscri.objects.all()
     cont = 0
     for i in ins:
-        if ins.fk_even == dat.id:
+        if (ins.fk_even == dat.id) and (ins.n_grupo == ngroup):
             cont+=1
+    if count%2 != 0 and count != 1:
+        return(1)
+    else:
+        return(0)
+
+#Valido que la cantidad de grupos sea par
+def groupValidate(fecha):
+    try:
+        dat = Even.objects.get(fech_in=fecha)
+    except Even.DoesNotExist:
+        return(-1)
+    ins = Inscri.objects.all()
+    op = 0
+    cont = 0
+    for i in ins:
+        if (ins.fk_even == dat.id):
+            if ins.n_ngroup != op:
+                op = ins.n_ngroup
+                cont+=1
     if cont%2 == 0:
         return(1)
     else:
