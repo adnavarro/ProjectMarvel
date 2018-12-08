@@ -1,5 +1,6 @@
+from django.template import Library
 from secrets import randbelow
-from .models import *
+from .. models import *
 
 #Valido que existe el personaje
 def personValidate(persona):
