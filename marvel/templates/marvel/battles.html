@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load tables_forean %}
+{% load staticfiles %}
 <html>
 
 <head>
@@ -9,8 +10,8 @@
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0, width=device-width">
     <script src="../../static/marvel/js/jquery/jQuery-3.3.1.min.js"></script>
     <script src="../../static/marvel/js/bootstrap.min.js"></script> 
-    <script src="../../static/marvel/js/AgregarGrupos.js"></script>
-    <script src="../../static/marvel/js/MostrarPersonajesMarvel.js"></script>
+    <script src="../../static/marvel/js/AgregarGruposs.js"></script>
+    <script src="../../static/marvel/js/MostrarPersonajesMarvelss.js"></script>
     <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/marvel/css/battle.css">
     
@@ -306,6 +307,11 @@
         </div>      
     </div>
   </section>
+  
+  <section>
+    <button class="btn btn-primary my-2 my-sm-0" type="submit" onclick="location.href = 'http://127.0.0.1:8000/prueba/'; "">Empezar Batalla</button> <!--Empezar-->
+  </section>
+
 </body>
 
 <!-- Footer -->

@@ -134,23 +134,51 @@ function verificarFocusGrupo(id){
     }      
 }
 
-function agegarPersonajeGrupo(){
-    operacionExitosa = true;
-    if(arregloDeIdPorGrupo.length > 0){
-        arregloDeIdPorGrupo.forEach(idPersonaj => {
-            if(idPersonaj === idPersonajeActual){
-                alert("Personaje agregado");
-                operacionExitosa = false;
-            }
-        });
-        if(operacionExitosa){
-            arregloDeIdPorGrupo.push(idPersonajeActual);
-            almacenarDatosStorage(sessionStorage.getItem("actualGroup"),arregloDeIdPorGrupo); 
+function agegarPersonajeGrupo(){//Se usa una lista que se vaciara si se cambia de focus en el grupo
+    operacionExitosa = true; //
+    personajeEnUso = false;
+    if(sessionStorage.getItem("personajes_usados")){
+       listaPersonajesUsados = [];
+       listaPersonajesUsados = JSON.parse(sessionStorage.getItem("personajes_usados"));
+       listaPersonajesUsados.forEach(function(dato){ //Verifica que el personaje que se va agregar no este ya en uso
+           if(idPersonajeActual == dato){
+               personajeEnUso = true;                           
+           }
+       });
+        if(!personajeEnUso){
+            listaPersonajesUsados.push(idPersonajeActual);
+            sessionStorage.setItem("personajes_usados",JSON.stringify(listaPersonajesUsados));
         }
+
     }else{
-        arregloDeIdPorGrupo.push(idPersonajeActual);
-        almacenarDatosStorage(sessionStorage.getItem("actualGroup"),arregloDeIdPorGrupo); 
-    }   
+        listaPersonajesUsados = [];
+        listaPersonajesUsados.push(idPersonajeActual);
+        sessionStorage.setItem("personajes_usados",JSON.stringify(listaPersonajesUsados));
+    }
+
+    if(!personajeEnUso){
+        if(arregloDeIdPorGrupo.length > 0){// si hay personajes en la lista de los heroes que iran al grupo
+            
+            arregloDeIdPorGrupo.forEach(idPersonaj => {//
+                if(idPersonaj === idPersonajeActual){//Si el personaje ya esta en la lista
+                    alert("El personaje ya esta en este grupo");
+                    operacionExitosa = false;
+                }
+            });
+
+            if(operacionExitosa){//
+                arregloDeIdPorGrupo.push(idPersonajeActual);//Agrega el id del personaje a la lista de personajes
+                almacenarDatosStorage(sessionStorage.getItem("actualGroup"),arregloDeIdPorGrupo); //se guarda en el navegador
+               
+            }
+        }else{ //Si la lista esta vacia se agrega directamente el personaje
+            arregloDeIdPorGrupo.push(idPersonajeActual);            
+            almacenarDatosStorage(sessionStorage.getItem("actualGroup"),arregloDeIdPorGrupo);          
+            //sessionStorage.setItem("personajes_usados",JSON.stringify(listaUsados));
+        }   
+    }else{
+        alert("El personaje pertenece a un grupo")
+    }    
 }
 function almacenarDatosStorage(nombreGrupo,listaMiembros) {  
     sessionStorage.setItem("miembros_"+nombreGrupo,JSON.stringify(listaMiembros));

@@ -1,4 +1,5 @@
 <DOCTYPE HTML>
+        {% load save_in_database %}
     <html>
     <head>
     <meta charset="utf-8">
@@ -11,6 +12,7 @@
             <div class="form_bg">
                 <form method="POST">
                     {% csrf_token %}
+                    
                   <br/>
                      <h2 class="text-center">HAHA</h2>
                     <br/><br/>
@@ -22,7 +24,7 @@
                     </div>
                     <br/>
                     <div class="align-center">
-                      <button type="submit" class="btn btn-success" id="test">PRUEBA</button>
+                      <button type="submit" class="btn btn-success" id="test" >PRUEBA</button>
                     </div>
                 </form>
             </div>

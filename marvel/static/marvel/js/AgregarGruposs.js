@@ -73,7 +73,14 @@ function agregarNuevo(nombre_grupo,nombre_elemento){ //Agrega la etiqueta del gr
     }    
 }
 function quitarElemento(id_elemento,nombre_elemento){ //Elimina la etiqueta
-    lista_grupos.splice( lista_grupos.indexOf(nombre_elemento), 1 );
+    lista_grupos.splice( lista_grupos.indexOf(nombre_elemento), 1 );   
+    
+    
+    //JSON.parse(sessionStorage.getItem("personajes_usados"));
+    //JSON.parse(sessionStorage.getItem("miembros_"+nombre_elemento));
+    
+    sessionStorage.removeItem("miembros_"+nombre_elemento);
+    
     $("#"+id_elemento).remove();
     if(sessionStorage.getItem('actualGroup') === nombre_elemento ){
         $('#palabra_nombre').remove();
