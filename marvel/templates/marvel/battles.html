@@ -12,11 +12,12 @@
     <script src="../../static/marvel/js/bootstrap.min.js"></script> 
     <script src="../../static/marvel/js/AgregarGruposs.js"></script>
     <script src="../../static/marvel/js/MostrarPersonajesMarvelss.js"></script>
+    <script src="../../static/marvel/js/BdToLocalStorage.js"></script>
     <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/marvel/css/battle.css">
     
 </head>
-
+alert('Actualizando');location.href = 'http://127.0.0.1:8000/eventos/'; 
 
 <header class="container" style="color:white;background-color:rgba(117, 117, 117, 0.342)">
         <h1>Banco de datos de Personajes de Marvel</h1>
@@ -307,10 +308,23 @@
         </div>      
     </div>
   </section>
+    <form>    
+      <button class="btn btn-primary my-2 my-sm-0" onclick="
+      contador = 1;        
+        while(sessionStorage.getItem('miembros_grupo_'+contador)){           
+            lista = JSON.parse(sessionStorage.getItem('miembros_grupo_'+contador));
+            lista.forEach(function(idPersonaje) {
+              sendData(idPersonaje,contador,0);              
+            });            
+            contador++;
+        }           
+      " >Empezar Batalla</button> 
+    <div div="etiquetasConDatos">
+        
+    </div>    
+    <!--Empezar-->
+  </form>
   
-  <section>
-    <button class="btn btn-primary my-2 my-sm-0" type="submit" onclick="location.href = 'http://127.0.0.1:8000/prueba/'; "">Empezar Batalla</button> <!--Empezar-->
-  </section>
 
 </body>
 

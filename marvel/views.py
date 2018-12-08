@@ -45,8 +45,6 @@ def battleGroup(request):
         }
     return render_to_response('battles.html', context)
    
-
-
 #Aqui estoy probando mis validaciones (Esto no ira en el proyecto final)
 #OJO: El Html que estoy utilizando se llama prueba (NO BORRAR POR AHORA)
 
@@ -65,3 +63,22 @@ def prueba(request):
  
             return HttpResponse("ERROR")
     return render(request, 'prueba.html', {})
+
+def eventos(request):
+    if request.method == "POST":
+        try:
+            numGrupo = request.POST.get('numGrupo')
+            idEvento = request.POST.get('idEvento')
+            fkPersonaje = request.POST.get('idPersonaje')
+        except (None):
+            return HttpResponse("ERROR")
+        if battles.personValidate(idPersonaje) == 1:
+            ins = Inscri(
+                id = battles.newValueId(Inscri),
+                n_grupo = numGrupo,
+                fk_person = fkPersonaje,
+                fk_even = idEvento,
+            )
+            ins.save()
+            print("Personaje inscrito")
+    return render(request, 'eventos.html', {})

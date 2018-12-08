@@ -1,16 +1,41 @@
 <!DOCTYPE html>
 <html>
+    {% load save_in_database %}
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">       
+    <script src="../../static/marvel/js/jquery/jQuery-3.3.1.min.js"></script>
+    <script src="../../static/marvel/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
+    
 </head>
 <body>
     <section>
-        
+        <div id="funcion_django">
+
+        </div>
     </section>
 </body>
+    <script>
+    function inscritoGuardado(operacion){
+        if(operacion)
+            return true;
+        else
+            return false;
+    }
+    $(document).ready(function(){
+        contador = 1;
+        
+        while(sessionStorage.getItem("miembros_grupo_"+contador)){
+           
+            lista = JSON.parse(sessionStorage.getItem("miembros_grupo_"+contador));
+           
+           
+            contador++;
+        }
+    });
+    
+    </script>
 </html>

@@ -7,9 +7,7 @@ def personValidate(persona):
     try:
         per = Person.objects.get(id = persona)
     except Person.DoesNotExist:
-        print("Personaje no encontrado")
         return(0) #Si retorna 0 significa que el personaje no existe
-    print("Personaje encontrado", per.nombre)
     return (1)    #Sino el personaje si existe y me retorna 1
 
 #Valido que los personajes no sean Aliados
@@ -22,7 +20,7 @@ def etp1Validate(persona1, persona2):
     print("Estos personajes NO pueden pelear")
     return (0) #Si retorna 0 los personajes no pueden pelear
 
-#Valido que el personaje no se encuentre en otro grupo
+#Valido que el personaje no se encuentre en otro grupo (OJO: MEJORAR)
 def perGroupValidate(persona):
     try:
         Inscri.objects.get(fk_person=persona)
@@ -70,3 +68,6 @@ def groupValidate(fecha):
 def mula1():
     winner=randbelow(3) #0: Empate, 1: Gana el personaje 1, 2: Gana el personaje 2
     return (winner)
+
+def newValueId(table): #recordar que cuando se eliminen datos esto no funcionara optimamente
+    return len(table)
