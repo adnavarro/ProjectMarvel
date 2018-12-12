@@ -1,7 +1,9 @@
 from django.shortcuts import render_to_response, render
+from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from .templatetags.battles import * 
+from django.http import JsonResponse
 
 def homepage(request):
     return render_to_response('index.html')
@@ -42,8 +44,8 @@ def battleGroup(request):
             "obj_fk_lugar":obj_fk_lugar,
             "obj_fk_univer":obj_fk_univer,
             "atributo_fue":atributo_fue            
-        }
-    return render_to_response('battles.html', context)
+        }    
+    return render(request, 'battles.html', context)
    
 #Aqui estoy probando mis validaciones (Esto no ira en el proyecto final)
 #OJO: El Html que estoy utilizando se llama prueba (NO BORRAR POR AHORA)
@@ -64,6 +66,15 @@ def prueba(request):
             return HttpResponse("ERROR")
     return render(request, 'prueba.html', {})
 
+def search(request): #Aca se reciben los datos, por ahora solo los imprimo por consola y devuelvo un json
+    if request.is_ajax:
+        data = request.POST.get('grupos','')
+        respuesta = {
+            'mensaje':'datoRecivido'
+        }
+        print(data)
+    return JsonResponse(respuesta)
+"""
 def eventos(request):
     if request.method == "POST":
         try:
@@ -81,4 +92,4 @@ def eventos(request):
             )
             ins.save()
             print("Personaje inscrito")
-    return render(request, 'eventos.html', {})
+    return render(request, 'eventos.html', {})"""
