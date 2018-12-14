@@ -92,33 +92,35 @@ function quitarElemento(id_elemento,nombre_elemento){ //Elimina la etiqueta
         sessionStorage.removeItem("lista_grupos");
         
 }
-function focusGrupos(nombre_elemento,numero,token){ //Hace focus a la etiqueta seleccionada
-    alert(sessionStorage.getItem(nombre_elemento));
-    if(sessionStorage.getItem(nombre_elemento)){
-      //Pedir nombres a la base de datos
+function focusGrupos(nombre_elemento,numero,token){ //Hace focus a la etiqueta seleccionada    
+
+    if(sessionStorage.getItem(nombre_elemento)){      
+        listaPersonajes = JSON.parse(sessionStorage.getItem(nombre_elemento));   
         if(listaPersonajes.length > 0){
             $.ajax({
                 url:"/personInGroup/",
                 type:"POST",
                 data:{ 'lista[]':JSON.stringify(listaPersonajes),csrfmiddlewaretoken:token },
                 success:function(respuesta){
-                    alert("Datos");
+                    lista = [];
+                    lista = respuesta.split(",");                    
+                    $("#scroll_heroe").html("");
+                    for(indice = 0; indice < lista.length;indice++){
+                        if(lista[indice].length > 0){
+                            $("#scroll_heroe").append(
+                                '<div class="list-group"> '+         
+                                '<button type="button" class="list-group-item list-group-item-action">'+lista[indice]+'</button>'+ 
+                                '</div>' 
+                            ); 
+                        }                          
+                    }
                 },error:function (err) { 
                     alert("Fallo");
                 }
             });
-        }
-        listaPersonajes = JSON.parse(sessionStorage.getItem(nombre_elemento));   
-
+        }     
+    }else{
         $("#scroll_heroe").html("");
-        for(indice = 0; indice < listaPersonajes.length;indice++){
-            $("#scroll_heroe").append(
-                '<div class="list-group"> '+         
-                '<button type="button" class="list-group-item list-group-item-action">'+"Heroe"+'</button>'+ 
-                '</div>' 
-            );    
-        }
-    
     }
 
     sessionStorage.removeItem('actualGroup');

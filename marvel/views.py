@@ -131,12 +131,14 @@ def personInGroup(request):
     lista = request.POST.get("lista[]")
     lista = eval(lista)
     listaPersonaje = []
-    indice = 0
-    for indice in range(0,len(lista)): 
-        personajes = Person.objects.filter(id = lista[indice])
-        print(personajes.nombre)
-   
-    return HttpResponse("nada")
+    for idPer in lista: 
+        per = Person.objects.get(id = idPer)     
+        listaPersonaje.append(per.nombre+",")
+
+    for nombre in listaPersonaje:
+        print(nombre)  
+
+    return HttpResponse(listaPersonaje)
 
 """
 def eventos(request):
