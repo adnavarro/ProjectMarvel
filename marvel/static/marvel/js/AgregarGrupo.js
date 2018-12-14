@@ -1,5 +1,5 @@
 var lista_grupos = []
-var numero_grupo = 0;
+var numero_grupo = 1;
 
 function cargarListaGrupos() { 
     if(!sessionStorage.getItem("lista_grupos")){
@@ -12,7 +12,7 @@ function cargarListaGrupos() {
             $( "#agregar_nuevo_grupo").append(    
                 ' <li class="list-group-item grupo-combate" id="grupo_'+numero_grupo+'">'+
                      '<div class="row" style="color:black; padding:0;margin:0; width:100%">'+
-                         '<div onclick="focusGrupo('+"'"+grupo+"'"+');" style="overflow:auto;width: 80%">'+
+                         '<div onclick="focusGrupo('+"'"+grupo+"'"+','+numero_grupo+');" style="overflow:auto;width: 80%">'+
                              grupo+
                          '</div>'+
                          '<div>'+
@@ -26,12 +26,12 @@ function cargarListaGrupos() {
     }
 }
 
-function agregarNuevo(nombre_grupo,nombre_elemento){ //Agrega la etiqueta del grupo 
+function agregarNuevoGrupo(nombre_grupo,nombre_elemento){ //Agrega la etiqueta del grupo 
     if(lista_grupos.length === 0){
         $( "#"+nombre_grupo ).append(    
             ' <li class="list-group-item grupo-combate" id="grupo_'+numero_grupo+'">'+
                  '<div class="row" style="color:black; padding:0;margin:0; width:100%">'+
-                     '<div onclick="focusGrupo('+"'"+nombre_elemento+"'"+');" style="overflow:auto;width: 80%">'+
+                     '<div onclick="focusGrupo('+"'"+nombre_elemento+"'"+','+numero_grupo+');" style="overflow:auto;width: 80%">'+
                          nombre_elemento+
                      '</div>'+
                      '<div>'+
@@ -39,8 +39,7 @@ function agregarNuevo(nombre_grupo,nombre_elemento){ //Agrega la etiqueta del gr
                      '</div> '+
                  '</div>'+
              '</li>'
-        ); 
-        alert("Agregado");
+        );        
         lista_grupos.push(nombre_elemento);
         sessionStorage.setItem("lista_grupos",JSON.stringify(lista_grupos)); 
         numero_grupo++;   
@@ -55,7 +54,7 @@ function agregarNuevo(nombre_grupo,nombre_elemento){ //Agrega la etiqueta del gr
             $( "#"+nombre_grupo ).append(    
             ' <li class="list-group-item grupo-combate" id="grupo_'+numero_grupo+'">'+
                 '<div class="row" style="color:black; padding:0;margin:0; width:100%">'+
-                    '<div onclick="focusGrupo('+"'"+nombre_elemento+"'"+');" style="overflow:auto;width: 80%">'+
+                    '<div onclick="focusGrupo('+"'"+nombre_elemento+"'"+','+numero_grupo+');" style="overflow:auto;width: 80%">'+
                         nombre_elemento+
                     '</div>'+
                     '<div>'+
@@ -92,8 +91,10 @@ function quitarElemento(id_elemento,nombre_elemento){ //Elimina la etiqueta
         sessionStorage.removeItem("lista_grupos");
         
 }
-function focusGrupo(nombre_elemento){ //Hace focus a la etiqueta seleccionada
+function focusGrupo(nombre_elemento,numero){ //Hace focus a la etiqueta seleccionada
+    alert(numero);
     sessionStorage.removeItem('actualGroup');
+    sessionStorage.setItem('numeroGrupo',numero);
     sessionStorage.setItem('actualGroup',nombre_elemento);
     $('#palabra_nombre').remove();
     $('#nombre_del_grupo').append(

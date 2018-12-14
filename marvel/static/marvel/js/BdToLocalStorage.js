@@ -12,18 +12,24 @@ function postResquesttt(token){
     });
     grupo = [];
     numGrupo = 1;
+    jsonDatoPreparado = [{}]
     while(true){
         if(!sessionStorage.getItem("miembros_grupo_"+numGrupo))
             break;
-
-         grupo.push(JSON.parse(sessionStorage.getItem("miembros_grupo_"+numGrupo)))
-         console.log(sessionStorage.getItem("miembros_grupo_"+numGrupo) + "\n");
-        if(numGrupo == 10)
-            break;
         
+            grupo.push(JSON.parse(sessionStorage.getItem("miembros_grupo_"+numGrupo)))
+         jsontemporal = {
+             "fk_person":grupo[0],
+             "n_grupo":numGrupo
+         }         
+         jsonDatoPreparado.push(jsontemporal);
+         //console.log(sessionStorage.getItem("miembros_grupo_"+numGrupo) + "\n");
+        if(numGrupo == 10)
+            break;        
         numGrupo++;
-    }  
-    
+    }     
+    console.log(grupo)
+    console.log(grupo);
     $("#enviarData").submit(function(e){
         e.preventDefault();
 
@@ -31,7 +37,7 @@ function postResquesttt(token){
             url: $(this).attr('action'),
             type: "POST",
             data:{ 
-                  grupos:JSON.stringify(grupo),
+                  datos:grupo,
                   csrfmiddlewaretoken: token
                 },            
             success: function(json){

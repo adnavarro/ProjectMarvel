@@ -26,7 +26,7 @@ def insertEvent1():
 
 @register.simple_tag()
 def insertInscript(num_grup,idPersonaje,idEven):
-    """
+    
     tab_inscri = Inscri.objects.all()
     ins = Inscri(
         id = newValueId(tab_inscri),
@@ -37,5 +37,5 @@ def insertInscript(num_grup,idPersonaje,idEven):
         fk_person = idPersonaje,
         fk_even = idEven
     )    
-    ins.save()"""
+    ins.save()
     print(idPersonaje)

@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from .templatetags.battles import * 
 from django.http import JsonResponse
+from datetime import datetime, date, time, timedelta
 
 def homepage(request):
     return render_to_response('index.html')
@@ -66,14 +67,22 @@ def prueba(request):
             return HttpResponse("ERROR")
     return render(request, 'prueba.html', {})
 
+#Se debe crear variables dinamicas para ir almacenando los grupos en python
+# Hasta que se decida que se quiere comenzar las batallas y guardar todo.
+
 def search(request): #Aca se reciben los datos, por ahora solo los imprimo por consola y devuelvo un json
-    if request.is_ajax:
-        data = request.POST.get('grupos','')
-        respuesta = {
-            'mensaje':'datoRecivido'
-        }
-        print(data)
-    return JsonResponse(respuesta)
+    idPerson = request.POST.get('fk_person')
+    numGrupo = request.POST.get('num_grupo')
+    #Primero vemos si el evento 1 esta creado
+    print(idPerson)
+    print(numGrupo)
+    if personValidate(idPerson) > 0 :#Si es 1 el personaje existe
+        return HttpResponse("found") #Enviar una señal al frontend de que se paso las pruebas
+    else:
+        return HttpResponse("person_not_found")
+
+
+    
 """
 def eventos(request):
     if request.method == "POST":

@@ -10,11 +10,11 @@
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0, width=device-width">
     <script src="../../static/marvel/js/jquery/jQuery-3.3.1.min.js"></script>
     <script src="../../static/marvel/js/bootstrap.min.js"></script> 
-    <script src="../../static/marvel/js/AgregarGruposs.js"></script>
-    <script src="../../static/marvel/js/MostrarPersonajesMarvelss.js"></script>
+    <script src="../../static/marvel/js/AgregarGrupo.js"></script>
+    <script src="../../static/marvel/js/MostrarPersonajesMarvel.js"></script>
     <script src="../../static/marvel/js/BdToLocalStorage.js"></script>
     <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../static/marvel/css/battle.css">
+    <link rel="stylesheet" href="../../static/marvel/css/battleStyle.css"> 
     
 </head>
 
@@ -56,7 +56,8 @@
                                                   ,"{% getHab data.id "Res" %}"
                                                   ,"{% getHab data.id "Proy" %}"
                                                   ,"{% getHab data.id "Hab" %}"
-                                                  ,"{{data.id}}")' class='card'>
+                                                  ,"{{data.id}}"
+                                                  ,"{% getPoder data.id %}")' class='card'>
                                                   
             <img id='miniatura_personaje'class='card-img-top rounded float-left ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
             <center> <h6 class='card-title'>{{data.nombre}}</h6> </center>
@@ -69,10 +70,11 @@
     
     <div class="container" id='ficha_heroe'> <!-- visor de herore-->
       <section class="row"> <!-- columna de datos-->
-        <div class="container" id= 'imagen_heroe'>                 
+        <div class="container" id= 'imagen_heroe'>   
+            {% csrf_token %}               
           <img class='card-img-top ' id='imagen_heroe_ruta' src='../../static/marvel/img/HeroePerfil.png' alt='Card image cap' >
           <button id="Eliminar_Heroe" type="button" class="btn  btn-danger" style="display:none; position:absolute;margin-top:-4%;margin-left: 0.5%" >Eliminar</button>
-          <button id="Añadir_Heroe" onclick="agegarPersonajeGrupo();" type="button" class="btn btn-success" style="display:none; position:absolute;margin-top:-4%;margin-left: 10%" >Agregar</button>
+          <button id="Añadir_Heroe" onclick="agegarPersonajeGrupo('{{ csrf_token }}');" type="button" class="btn btn-success" style="display:none; position:absolute;margin-top:-4%;margin-left: 10%" >Agregar</button>
         </div>
 
         <div class="container" id='datos_heroe' > <!--datos primarios-->
@@ -144,11 +146,11 @@
           <br>
           <div class="row" id='lista_info' style="background-color:rgba(255, 255, 255, 0.623);"> 
 
-            <div class="container" id="division_secciones"> <!-- Seccion 1 Poderes-->
+            <div class="container division_secciones" > <!-- Seccion 1 Poderes-->
                 <header id='titulo_lista'>
                   <p> <b>Poderes</b></p>
                 </header>
-                <div class="container" id='division_lista'>
+                <div class="container division_lista" id = "lista_poderes">
                     
                     <ul class="list-goup">
                       <li class="list-group-item list-group-item-info">
@@ -159,11 +161,11 @@
             </div>
             
 
-            <div class="container" id="division_secciones"> <!-- Seccion 2 Afiliaciones-->
+            <div class="container division_secciones " > <!-- Seccion 2 Afiliaciones-->
               <header id='titulo_lista'>
                   <p><b>Afiliaciones</b></p>
               </header>
-              <div class="container" id='division_lista'>                  
+              <div class="container division_lista" >                  
                   <ul class="list-goup">
                     <li class="list-group-item list-group-item-info">
                       <p> Shield</p>
@@ -173,11 +175,11 @@
               </div>
             </div>
 
-            <div class="container" id="division_secciones"> <!-- Seccion 3 Parientes-->
+            <div class="container division_secciones" > <!-- Seccion 3 Parientes-->
               <header id='titulo_lista'>
                 <p ><b>Parientes</b></p>
               </header>
-              <div class="container" id='division_lista'>
+              <div class="container division_lista" >
                   
                   <ul class="list-goup">
                     <li class="list-group-item list-group-item-info">
@@ -187,11 +189,11 @@
               </div>
             </div>
 
-            <div class="container" id="division_secciones"> <!-- Seccion 4 Alias-->
+            <div class="container division_secciones" > <!-- Seccion 4 Alias-->
               <header id='titulo_lista'>
                 <p><b>Alias</b></p>
               </header>
-              <div class="container" id='division_lista'>
+              <div class="container division_lista" >
                   
                   <ul class="list-goup">
                     <li class="list-group-item list-group-item-info" >
@@ -294,7 +296,7 @@
           <h4>Grupos</h4>          
           <div class="row justify-content-between">
             <input id='nombre_grupo' class="form-control mr-sm-2" type="search" placeholder="Descripcion" aria-label="Nombre" style="width:65%">
-            <button class="btn btn-primary my-2 my-sm-0" type="submit" onclick="agregarNuevo('agregar_nuevo_grupo',$('#nombre_grupo').val());">Agregar</button>
+            <button class="btn btn-primary my-2 my-sm-0" type="submit" onclick="agregarNuevoGrupo('agregar_nuevo_grupo',$('#nombre_grupo').val());">Agregar</button>
           </div>
           <br>
         </div> 

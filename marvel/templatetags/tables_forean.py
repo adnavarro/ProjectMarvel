@@ -1,5 +1,6 @@
 from django.template import Library
 from .. models import *
+import json
 
 register = Library()
 
@@ -27,4 +28,16 @@ def getHab(id_person,num_atrib):
     for atributo in habilidades:
         if(atributo.nombre == num_atrib):           
            return int(atributo.valor) 
+
+@register.simple_tag()
+def getPoder(id_person):
+    miPoderId = PPod.objects.filter(fk_person = id_person)
+    contador = 0
+    resultado = []
+    for poderId in miPoderId:          
+        resultado.append(poderId.fk_poder.nombre)
+        contador = contador + 1    
+
+    return resultado
+
         

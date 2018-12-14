@@ -55,10 +55,11 @@ function verDatos(nombre,
     altura,
     peso,
     ojos,biografia,sexo,rol,
-    fuer,inte,agil,resi,proy,hab,id){
+    fuer,inte,agil,resi,proy,hab,id,
+    listaPoderes){
         
     llenarAtributo(fuer,inte,agil,resi,proy,hab);
-    
+    llenarPoderes(listaPoderes);
     function generoFunc(){if(sexo === 'M'){ $("#imagen_heroe_ruta").attr("src","../../static/marvel/img/HeroePerfil.png"); return "Masculino"; }else{ $("#imagen_heroe_ruta").attr("src","../../static/marvel/img/HeroePerfil2.png"); return "Femenino";}}
     function identidadFunc(){if(identidad === 'D') return "Desconocida"; else return "Conocida";}
     function rolFunc(){if (rol === 'H') return "Heroe"; else if (rol === 'V') return "Villano"; else return "Anti-Heroe";}
@@ -113,6 +114,7 @@ function verDatos(nombre,
         '<p>'+ biografia +'</p>'        
     );   
     verificarFocusGrupo(id); 
+    
 }
 
 function verificarFocusGrupo(id){
@@ -134,10 +136,25 @@ function verificarFocusGrupo(id){
     }      
 }
 
-function agegarPersonajeGrupo(){//Se usa una lista que se vaciara si se cambia de focus en el grupo
+function agegarPersonajeGrupo(token){//Se usa una lista que se vaciara si se cambia de focus en el grupo
     operacionExitosa = true; //
-    personajeEnUso = false;
-    if(sessionStorage.getItem("personajes_usados")){
+    personajeEnUso = false;    
+    $.ajax({
+        url: "/search/",
+        type: "POST",
+        data:{ 
+              fk_person:idPersonajeActual,
+              num_grupo:sessionStorage.getItem("numeroGrupo"),
+              csrfmiddlewaretoken: token
+            },            
+        success: function(respuesta){
+            alert(respuesta);            
+        },error:function(data){
+            alert("error");
+            //location.reload();
+        }
+      });
+    /*if(sessionStorage.getItem("personajes_usados")){
        listaPersonajesUsados = [];
        listaPersonajesUsados = JSON.parse(sessionStorage.getItem("personajes_usados"));
        listaPersonajesUsados.forEach(function(dato){ //Verifica que el personaje que se va agregar no este ya en uso
@@ -173,15 +190,66 @@ function agegarPersonajeGrupo(){//Se usa una lista que se vaciara si se cambia d
             }
         }else{ //Si la lista esta vacia se agrega directamente el personaje
             arregloDeIdPorGrupo.push(idPersonajeActual);            
-            almacenarDatosStorage(sessionStorage.getItem("actualGroup"),arregloDeIdPorGrupo);          
-            //sessionStorage.setItem("personajes_usados",JSON.stringify(listaUsados));
+            almacenarDatosStorage(sessionStorage.getItem("actualGroup"),arregloDeIdPorGrupo);       
         }   
     }else{
         alert("El personaje pertenece a un grupo")
-    }    
+    }  */  
 }
-function almacenarDatosStorage(nombreGrupo,listaMiembros) {  
+function almacenarDatosStorage(nombreGrupo,listaMiembros) {  //Modificar para guardar un estandar de grupo
     sessionStorage.setItem("miembros_"+nombreGrupo,JSON.stringify(listaMiembros));
+}
+
+function llenarPoderes(listaPoder){    
+    dato = tokenizarDato(listaPoder);
+   
+    $("#lista_poderes").html('<ul class="list-goup"> </ul>');   
+    
+    for(indice = 0;indice < dato.length; indice++) {
+        $("#lista_poderes ul").append(        
+            '<li class="list-group-item list-group-item-info">'+
+                 '<p>'+dato[indice]+'</p>'+
+            '</li>'      
+        );       
+     }   
+}
+function tokenizarDato(cadena){
+    array = cadena.split(",");
+    resultado = [];
+    for(num = 0; num <  array.length;num++){
+        console.log("dato: " + array[num]);
+
+        if (array[num].indexOf("[") > -1){
+            inicio = array[num].indexOf("[") + 1;
+            fin = array[num].length;
+
+            subCadena = array[num].substring(inicio, fin);
+            subCadena = subCadena.replace("'", "");
+            resultado.push(subCadena);
+            console.log("Resultado incial: " + subCadena);
+
+        }else if (array[num].indexOf("]") > 0){
+            inicio = 0
+            fin = array[num].indexOf("]");
+            subCadena = array[num].substring(0, fin);
+            subCadena = subCadena.replace("'", "");
+            resultado.push(subCadena);
+            console.log("Resultado final: " +subCadena);
+        }else{
+            array[num] = array[num].replace("'", "");
+            resultado.push(array[num]);  
+        }     
+    }
+    return resultado;
+}
+function llenarAfiliaciones(){
+
+}
+function llenarParientes(){
+
+}
+function llenarAlias(){
+
 }
 
 

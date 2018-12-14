@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^battle/', views.battleGroup, name='battle'),
     url(r'^prueba/', views.prueba, name='prueba'),
     #url(r'^eventos/', views.eventos, name='eventos'),
-    url(r'^search', views.search, name='search')
+    url(r'^search/', views.search, name='search') 
 ]
