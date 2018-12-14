@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load tables_forean %}
 {% load staticfiles %}
+{% load save_in_database %}
 <html>
 
 <head>
@@ -9,15 +10,21 @@
     <title>Grupos de Combates</title>
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0, width=device-width">
     <script src="../../static/marvel/js/jquery/jQuery-3.3.1.min.js"></script>
+    <script src="../../static/marvel/js/jquery/jquery-ui.min.js"></script>
     <script src="../../static/marvel/js/bootstrap.min.js"></script> 
     <script src="../../static/marvel/js/AgregarGrupo.js"></script>
     <script src="../../static/marvel/js/MostrarPersonajesMarvel.js"></script>
     <script src="../../static/marvel/js/BdToLocalStorage.js"></script>
     <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/marvel/css/battleStyle.css"> 
+    <link rel="stylesheet" href="../../static/marvel/css/autoComplete.css">
     
 </head>
-
+<script>
+    $(document).ready(function(){
+        
+    }); 
+  </script>
 <header class="container" style="color:white;background-color:rgba(117, 117, 117, 0.342)">
         <h1>Banco de datos de Personajes de Marvel</h1>
         <hr/>
@@ -320,8 +327,39 @@
   </div>    
     <!--Empezar-->
   </form>
-  
-
+    <!--MODAL---------------------------------------------------------------------------->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">                
+                <h4 class="modal-title" id="exampleModalLabel">Creacion de Evento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form method="GET" autocomplete="off" action="/autoCompleteLugar/">                   
+                    <div class="ui-widget autocomplete">
+                        <label for="lugar_input" class="control-label">Lugar:</label>
+                        <input  type="text" id="lugar_input" class="form-control">
+                    </div>
+                    <div class="form-group">
+                            <label for="recipient-name" class="control-label">Duracion (Dias):</label>
+                            <input data-toggle="tooltip" data-placement="top" title="maximo 3 dias" type="number" min="1" max ="3" class="form-control" id="dias_select">
+                    </div>
+                </form>
+            </div>
+            <form method="POST" action="/insertEvento/">
+                
+                <div class="modal-footer">
+                    {% csrf_token %}  
+                    <button id="cerrar_modal" disabled="true" type="button" class="btn btn-danger" >Close</button>
+                    <button id="crear_evento" type="button" class="btn btn-primary" onclick="postEventRquests('{{ csrf_token }}')">Crear Evento</button>
+                </div>
+            </form>
+            
+            </div>
+        </div>
+    </div>
+    <!--MODAL---------------------------------------------------------------------------->
 </body>
 
 <!-- Footer -->
@@ -338,6 +376,114 @@
 <script>
     $( document ).ready(function() {
       cargarListaGrupos();
+      var booleano = "{% isEventEmpy %}"        
+      $("#cerrar_modal").attr("disabled",booleano);
+      if(booleano)
+      $('#exampleModal').modal({backdrop: 'static', keyboard: false})  
+      $('#exampleModal').modal("show");
     });
-  </script>
+</script>
+<script> //ATUO COMPLETE ----------------------------------------
+
+    function autocomplete(inp) {    
+        var currentFocus;    
+        var arr = [];
+    
+        inp.addEventListener("input", function(e) {
+            var a, b, i, val = this.value;
+            closeAllLists();
+            if (!val) { return false;}
+            currentFocus = -1;
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            
+            this.parentNode.appendChild(a);
+            
+            var find = $("#lugar_input").val();
+            var suggestion = [];
+            if(find.length >= 3){
+                $.ajax({
+                    url:"/autoCompleteLugar/",            
+                    async:false,
+                    dataType:"json",
+                    type:"GET",
+                    data:{"find":find},
+                success: function(respuesta){                        
+                    $.each(respuesta,function(index,objeto){
+                        suggestion.push(objeto.value);
+                    });                         
+                },
+                error: function(error){
+                    alert("error");
+                }
+                });
+            }            
+            arr = suggestion;        
+            for (i = 0; i < arr.length; i++) {
+             
+              if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                b = document.createElement("DIV");
+                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                b.innerHTML += arr[i].substr(val.length);
+                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                    b.addEventListener("click", function(e) {                
+                    inp.value = this.getElementsByTagName("input")[0].value;                
+                    closeAllLists();
+                });
+                a.appendChild(b);
+              }
+            }
+        });
+        inp.addEventListener("keydown", function(e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+              currentFocus++;
+              addActive(x);
+            } else if (e.keyCode == 38) { 
+              currentFocus--;
+              
+              addActive(x);
+            } else if (e.keyCode == 13) {
+              e.preventDefault();
+              if (currentFocus > -1) {
+                if (x) x[currentFocus].click();
+              }
+            }
+        });
+        function addActive(x) {
+          
+          if (!x) return false;
+        
+          removeActive(x);
+          if (currentFocus >= x.length) currentFocus = 0;
+          if (currentFocus < 0) currentFocus = (x.length - 1);
+         
+          x[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(x) {
+         
+          for (var i = 0; i < x.length; i++) {
+            x[i].classList.remove("autocomplete-active");
+          }
+        }
+        function closeAllLists(elmnt) {
+         
+          var x = document.getElementsByClassName("autocomplete-items");
+          for (var i = 0; i < x.length; i++) {
+            if (elmnt != x[i] && elmnt != inp) {
+            x[i].parentNode.removeChild(x[i]);
+          }
+        }
+      }
+      document.addEventListener("click", function (e) {
+          closeAllLists(e.target);
+      });
+      }
+    </script>
+    
+    <script>       
+            autocomplete(document.getElementById("lugar_input"));
+    </script>
 </html>

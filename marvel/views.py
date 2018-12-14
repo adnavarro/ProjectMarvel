@@ -5,9 +5,17 @@ from .models import *
 from .templatetags.battles import * 
 from django.http import JsonResponse
 from datetime import datetime, date, time, timedelta
+import json
 
 def homepage(request):
     return render_to_response('index.html')
+
+def testing(request):
+    context = {}
+    return render (request, 'testing.html', context)
+
+def prueba2(request):
+    return render_to_response('prueba2.html')
 
 def battleGroup(request):    
     obj = Person.objects.all() 
@@ -81,8 +89,38 @@ def search(request): #Aca se reciben los datos, por ahora solo los imprimo por c
     else:
         return HttpResponse("person_not_found")
 
+def autoCompleteLugar(request):
+    if request.is_ajax:
+        palabra = request.GET.get('find')
+       
+        lugares = Lugar.objects.filter(nombre__icontains = palabra)
+        resultado = []
+        lugar_json = {}
+        for lugar in lugares:
+            print
+            lugar_json['label'] = lugar.nombre
+            lugar_json['value'] = lugar.nombre 
+            resultado.append(lugar_json)
+        lugar_json = json.dumps(resultado)
+    else:
+        lugar_json = 'fail'
+    mimetype = 'aplication/json'
+    print(lugar_json)
+    return HttpResponse(lugar_json,mimetype)
 
-    
+def insertEvento(request):
+    if request.is_ajax:
+        lugar = request.POST.get('lugar','')
+        duracion = request.POST.get('duracion','')        
+        idLugar = Lugar.objects.get(nombre = lugar)        
+        if guardarEvento(idLugar.id,int(duracion)):
+            return HttpResponse("listo")
+        else:
+            return HttpResponse("fallo")
+    else:
+        return HttpResponse("no ajax")        
+
+
 """
 def eventos(request):
     if request.method == "POST":

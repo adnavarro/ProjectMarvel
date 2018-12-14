@@ -49,6 +49,31 @@ function postResquesttt(token){
                 //location.reload();
             }
           });
-    })
-       
+    })       
+}
+
+function postEventRquests(token){       
+    var lugar = $("#lugar_input").val();
+    var duracion = $("#dias_select").val();
+    if(lugar.length > 0 && duracion.length > 0 && duracion <= 3){
+        $.ajax({
+            url: "/insertEvento/",
+            type: "POST",
+            data:{ 
+                lugar: lugar,
+                duracion: duracion,
+                csrfmiddlewaretoken:token
+            },            
+            success: function(json){            
+                if(json === "fallo")
+                    alert("No se pudo crear el evento");
+                else
+                $('#exampleModal').modal("hide");
+            },error:function(data){
+                alert("fallo el envio");                
+            }
+          });         
+    }else{
+        alert("los campos son invalidos");
+    }          
 }

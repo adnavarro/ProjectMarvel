@@ -1,6 +1,30 @@
 from django.template import Library
 from secrets import randbelow
+from datetime import datetime, date, time, timedelta
+import calendar
 from ..models import *
+
+#crea el evento en la base de datos
+def guardarEvento(id_lugar,duracion):
+    print("procede a crear evento")
+    try:
+        lug = Lugar.objects.get(id = id_lugar)
+        hoy = datetime.today()        
+        fechaActual = "%Y-%m-%d"        
+        tab_even = Even.objects.all()        
+        id_evento = newValueId(tab_even)        
+        eve = Even( 
+            id = id_evento,
+            fech_in =  hoy.strftime(fechaActual),
+            fech_fin = (hoy + timedelta(days = duracion)).strftime(fechaActual), 
+            dura = duracion,
+            fk_lugar = lug
+            ) 
+        print("evento creado")
+        eve.save()
+        return True
+    except:        
+        return False
 
 #Valido que existe el personaje
 def personValidate(persona):
@@ -71,3 +95,6 @@ def mula1():
 
 def newValueId(table): #recordar que cuando se eliminen datos esto no funcionara optimamente
     return len(table)
+
+
+    
