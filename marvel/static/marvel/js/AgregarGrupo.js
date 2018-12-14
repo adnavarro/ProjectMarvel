@@ -1,7 +1,8 @@
 var lista_grupos = []
 var numero_grupo = 1;
 
-function cargarListaGrupos() { 
+function cargarListaGrupos(token) { 
+    token = "" + token;
     if(!sessionStorage.getItem("lista_grupos")){
         console.log("No hay grupos");
     }  else{
@@ -12,7 +13,7 @@ function cargarListaGrupos() {
             $( "#agregar_nuevo_grupo").append(    
                 ' <li class="list-group-item grupo-combate" id="grupo_'+numero_grupo+'">'+
                      '<div class="row" style="color:black; padding:0;margin:0; width:100%">'+
-                         '<div onclick="focusGrupo('+"'"+grupo+"'"+','+numero_grupo+');" style="overflow:auto;width: 80%">'+
+                         '<div onclick="focusGrupos('+"'"+grupo+"'"+','+numero_grupo+','+"'"+token+"'"+');" style="overflow:auto;width: 80%">'+
                              grupo+
                          '</div>'+
                          '<div>'+
@@ -26,16 +27,16 @@ function cargarListaGrupos() {
     }
 }
 
-function agregarNuevoGrupo(nombre_grupo,nombre_elemento){ //Agrega la etiqueta del grupo 
+function agregarNuevoGrupo(nombre_grupo,nombre_elemento,token){ //Agrega la etiqueta del grupo 
     if(lista_grupos.length === 0){
         $( "#"+nombre_grupo ).append(    
             ' <li class="list-group-item grupo-combate" id="grupo_'+numero_grupo+'">'+
                  '<div class="row" style="color:black; padding:0;margin:0; width:100%">'+
-                     '<div onclick="focusGrupo('+"'"+nombre_elemento+"'"+','+numero_grupo+');" style="overflow:auto;width: 80%">'+
+                     '<div onclick="focusGrupos('+"'"+nombre_elemento+"'"+','+numero_grupo+','+"'"+token+"'"+');" style="overflow:auto;width: 80%">'+
                          nombre_elemento+
                      '</div>'+
                      '<div>'+
-                         '<button type="button" class="btn btn-danger" onclick="quitarElemento('+"'grupo_"+ numero_grupo+"','"+nombre_elemento+"'"+');">X</button>'+
+                         '<button type="button" class="btn btn-danger" onclick="quitarElemento('+ numero_grupo+"','"+nombre_elemento+"'"+');">X</button>'+
                      '</div> '+
                  '</div>'+
              '</li>'
@@ -54,7 +55,7 @@ function agregarNuevoGrupo(nombre_grupo,nombre_elemento){ //Agrega la etiqueta d
             $( "#"+nombre_grupo ).append(    
             ' <li class="list-group-item grupo-combate" id="grupo_'+numero_grupo+'">'+
                 '<div class="row" style="color:black; padding:0;margin:0; width:100%">'+
-                    '<div onclick="focusGrupo('+"'"+nombre_elemento+"'"+','+numero_grupo+');" style="overflow:auto;width: 80%">'+
+                    '<div onclick="focusGrupos('+"'"+nombre_elemento+"'"+','+numero_grupo+','+"'"+token+"'"+');" style="overflow:auto;width: 80%">'+
                         nombre_elemento+
                     '</div>'+
                     '<div>'+
@@ -91,13 +92,40 @@ function quitarElemento(id_elemento,nombre_elemento){ //Elimina la etiqueta
         sessionStorage.removeItem("lista_grupos");
         
 }
-function focusGrupo(nombre_elemento,numero){ //Hace focus a la etiqueta seleccionada
-    alert(numero);
+function focusGrupos(nombre_elemento,numero,token){ //Hace focus a la etiqueta seleccionada
+    alert(sessionStorage.getItem(nombre_elemento));
+    if(sessionStorage.getItem(nombre_elemento)){
+      //Pedir nombres a la base de datos
+        if(listaPersonajes.length > 0){
+            $.ajax({
+                url:"/personInGroup/",
+                type:"POST",
+                data:{ 'lista[]':JSON.stringify(listaPersonajes),csrfmiddlewaretoken:token },
+                success:function(respuesta){
+                    alert("Datos");
+                },error:function (err) { 
+                    alert("Fallo");
+                }
+            });
+        }
+        listaPersonajes = JSON.parse(sessionStorage.getItem(nombre_elemento));   
+
+        $("#scroll_heroe").html("");
+        for(indice = 0; indice < listaPersonajes.length;indice++){
+            $("#scroll_heroe").append(
+                '<div class="list-group"> '+         
+                '<button type="button" class="list-group-item list-group-item-action">'+"Heroe"+'</button>'+ 
+                '</div>' 
+            );    
+        }
+    
+    }
+
     sessionStorage.removeItem('actualGroup');
     sessionStorage.setItem('numeroGrupo',numero);
     sessionStorage.setItem('actualGroup',nombre_elemento);
     $('#palabra_nombre').remove();
     $('#nombre_del_grupo').append(
         '<center id="palabra_nombre" >'+nombre_elemento+'</center>'
-    );
+    );    
 }

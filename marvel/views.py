@@ -79,11 +79,10 @@ def prueba(request):
 # Hasta que se decida que se quiere comenzar las batallas y guardar todo.
 
 def search(request): #Aca se reciben los datos, por ahora solo los imprimo por consola y devuelvo un json
-    idPerson = request.POST.get('fk_person')
-    numGrupo = request.POST.get('num_grupo')
-    #Primero vemos si el evento 1 esta creado
-    print(idPerson)
-    print(numGrupo)
+    idPerson  = request.POST.get('fk_person')
+    numGrupo  = request.POST.get('num_grupo')
+    numEnvent = request.POST.get('fk_even')
+    
     if personValidate(idPerson) > 0 :#Si es 1 el personaje existe
         return HttpResponse("found") #Enviar una señal al frontend de que se paso las pruebas
     else:
@@ -111,8 +110,16 @@ def autoCompleteLugar(request):
 def insertEvento(request):
     if request.is_ajax:
         lugar = request.POST.get('lugar','')
-        duracion = request.POST.get('duracion','')        
-        idLugar = Lugar.objects.get(nombre = lugar)        
+        duracion = request.POST.get('duracion','')
+        idLugar = None        
+        if int(duracion) > 3:
+            return HttpResponse("fallo_duracion")
+        if int(duracion) <= 0:
+             return HttpResponse("fallo_duracion_min")
+        try:
+            idLugar = Lugar.objects.get(nombre = lugar)    
+        except:
+            return HttpResponse("fallo_lugar")     
         if guardarEvento(idLugar.id,int(duracion)):
             return HttpResponse("listo")
         else:
@@ -120,6 +127,16 @@ def insertEvento(request):
     else:
         return HttpResponse("no ajax")        
 
+def personInGroup(request):    
+    lista = request.POST.get("lista[]")
+    lista = eval(lista)
+    listaPersonaje = []
+    indice = 0
+    for indice in range(0,len(lista)): 
+        personajes = Person.objects.filter(id = lista[indice])
+        print(personajes.nombre)
+   
+    return HttpResponse("nada")
 
 """
 def eventos(request):

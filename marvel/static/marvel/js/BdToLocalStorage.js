@@ -6,52 +6,6 @@
     |El return  que de search en views.py lo recivira el ajax en el succes(respuesta)
     
 */
-function postResquesttt(token){
-    $("#enviarData").submit(function(e){
-        e.preventDefault();
-    });
-    grupo = [];
-    numGrupo = 1;
-    jsonDatoPreparado = [{}]
-    while(true){
-        if(!sessionStorage.getItem("miembros_grupo_"+numGrupo))
-            break;
-        
-            grupo.push(JSON.parse(sessionStorage.getItem("miembros_grupo_"+numGrupo)))
-         jsontemporal = {
-             "fk_person":grupo[0],
-             "n_grupo":numGrupo
-         }         
-         jsonDatoPreparado.push(jsontemporal);
-         //console.log(sessionStorage.getItem("miembros_grupo_"+numGrupo) + "\n");
-        if(numGrupo == 10)
-            break;        
-        numGrupo++;
-    }     
-    console.log(grupo)
-    console.log(grupo);
-    $("#enviarData").submit(function(e){
-        e.preventDefault();
-
-        $.ajax({
-            url: $(this).attr('action'),
-            type: "POST",
-            data:{ 
-                  datos:grupo,
-                  csrfmiddlewaretoken: token
-                },            
-            success: function(json){
-             alert("Enviado"); 
-             alert(grupo);
-                
-            },error:function(data){
-                alert("fallo:");
-                //location.reload();
-            }
-          });
-    })       
-}
-
 function postEventRquests(token){       
     var lugar = $("#lugar_input").val();
     var duracion = $("#dias_select").val();
@@ -67,8 +21,19 @@ function postEventRquests(token){
             success: function(json){            
                 if(json === "fallo")
                     alert("No se pudo crear el evento");
-                else
-                $('#exampleModal').modal("hide");
+                else if (json === "fallo_lugar"){
+                    alert("El lugar no se encuentra en la base de datos");
+                }
+                else if (json === "fallo_duracion"){
+                    alert("La duracion debe ser de maximo 3 dias");
+                }else if (json === "fallo_duracion_min"){
+                    alert("La duracion debe ser de minimo 1 dia");
+                }
+                else{
+                    sessionStorage.setItem("eventoActual",""+json);
+                    $('#exampleModal').modal("hide");
+                }
+                
             },error:function(data){
                 alert("fallo el envio");                
             }

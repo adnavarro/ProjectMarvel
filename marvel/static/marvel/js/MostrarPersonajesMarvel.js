@@ -124,12 +124,12 @@ function verificarFocusGrupo(id){
     }else{
         $("#Añadir_Heroe").css("display","block");
         idPersonajeActual = id;  
-        if(!sessionStorage.getItem("miembros_"+sessionStorage.getItem("actualGroup"))) {
+        if(!sessionStorage.getItem(sessionStorage.getItem("actualGroup"))) {
             arregloDeIdPorGrupo = [];
             alert("Vacio");           
         }else{
-            if(sessionStorage.getItem("miembros_"+sessionStorage.getItem("actualGroup")).length > 0)
-            arregloDeIdPorGrupo  = JSON.parse(sessionStorage.getItem("miembros_"+sessionStorage.getItem("actualGroup")));
+            if(sessionStorage.getItem(sessionStorage.getItem("actualGroup")).length > 0)
+            arregloDeIdPorGrupo  = JSON.parse(sessionStorage.getItem(sessionStorage.getItem("actualGroup")));
             else
                 arregloDeIdPorGrupo = [];
         }                     
@@ -145,10 +145,13 @@ function agegarPersonajeGrupo(token){//Se usa una lista que se vaciara si se cam
         data:{ 
               fk_person:idPersonajeActual,
               num_grupo:sessionStorage.getItem("numeroGrupo"),
+              fk_even:sessionStorage.getItem("eventoActual"),
               csrfmiddlewaretoken: token
             },            
         success: function(respuesta){
-            alert(respuesta);            
+            alert(respuesta);
+            arregloDeIdPorGrupo.push(idPersonajeActual);
+            sessionStorage.setItem(sessionStorage.getItem("actualGroup"),JSON.stringify(arregloDeIdPorGrupo));            
         },error:function(data){
             alert("error");
             //location.reload();

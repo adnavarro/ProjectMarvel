@@ -25,6 +25,8 @@ def guardarEvento(id_lugar,duracion):
         return True
     except:        
         return False
+def inscribirPersonaje(ngrupo,fk_person,fk_evento,descripcion):#id,ngrupo,punto,campeon,descrip,fkPerson,fkGrupo
+    return True
 
 #Valido que existe el personaje
 def personValidate(persona):

@@ -20,11 +20,6 @@
     <link rel="stylesheet" href="../../static/marvel/css/autoComplete.css">
     
 </head>
-<script>
-    $(document).ready(function(){
-        
-    }); 
-  </script>
 <header class="container" style="color:white;background-color:rgba(117, 117, 117, 0.342)">
         <h1>Banco de datos de Personajes de Marvel</h1>
         <hr/>
@@ -301,9 +296,9 @@
     <div class="container" id='lista_grupo'>  <!-- lista de grupos-->
         <div class="container" id='titulo_listado'>
           <h4>Grupos</h4>          
-          <div class="row justify-content-between">
+          <div class="row justify-content-between">    {% csrf_token %} 
             <input id='nombre_grupo' class="form-control mr-sm-2" type="search" placeholder="Descripcion" aria-label="Nombre" style="width:65%">
-            <button class="btn btn-primary my-2 my-sm-0" type="submit" onclick="agregarNuevoGrupo('agregar_nuevo_grupo',$('#nombre_grupo').val());">Agregar</button>
+            <button class="btn btn-primary my-2 my-sm-0" type="submit" onclick="agregarNuevoGrupo('agregar_nuevo_grupo',$('#nombre_grupo').val(),'{{ csrf_token }}');">Agregar</button>
           </div>
           <br>
         </div> 
@@ -319,9 +314,7 @@
     <!--Aca se envian los datos haciendo uso de la funcion que se encarga de enviar el session storage-->
   <form method="POST" action="{% url 'marvel:search' %}" id="enviarData"> 
       {% csrf_token %}   
-  <button class="btn btn-primary my-2 my-sm-0" onclick="     
-    postResquesttt('{{ csrf_token }}');
-    " >Empezar nueva Batalla ahora</button> 
+  <button class="btn btn-primary my-2 my-sm-0" onclick="alert('Sin abilitar temporalmente')" >Empezar nueva Batalla ahora</button> 
   <div div="etiquetasConDatos">
         
   </div>    
@@ -373,9 +366,11 @@
 
 </footer>
 <!-- Footer -->
+{% csrf_token %}  
 <script>
+  
     $( document ).ready(function() {
-      cargarListaGrupos();
+      cargarListaGrupos("{{ csrf_token }}");
       var booleano = "{% isEventEmpy %}"        
       $("#cerrar_modal").attr("disabled",booleano);
       if(booleano)
