@@ -7,6 +7,9 @@ from django.http import JsonResponse
 from datetime import datetime, date, time, timedelta
 import json
 
+def eventos(request):
+    return render_to_response('eventos.html')
+
 def homepage(request):
     return render_to_response('index.html')
 
@@ -119,11 +122,8 @@ def insertEvento(request):
         try:
             idLugar = Lugar.objects.get(nombre = lugar)    
         except:
-            return HttpResponse("fallo_lugar")     
-        if guardarEvento(idLugar.id,int(duracion)):
-            return HttpResponse("listo")
-        else:
-            return HttpResponse("fallo")
+            return HttpResponse("fallo_lugar")        
+        return HttpResponse(guardarEvento(idLugar.id,int(duracion)))        
     else:
         return HttpResponse("no ajax")        
 

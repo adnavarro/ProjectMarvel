@@ -29,9 +29,11 @@ function postEventRquests(token){
                 }else if (json === "fallo_duracion_min"){
                     alert("La duracion debe ser de minimo 1 dia");
                 }
-                else{
+                else if(json >= 0 ){
                     sessionStorage.setItem("eventoActual",""+json);
                     $('#exampleModal').modal("hide");
+                }else{
+                    alert("Error al guardar evento");
                 }
                 
             },error:function(data){

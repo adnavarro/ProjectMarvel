@@ -9,33 +9,55 @@
     <script src="../../static/marvel/js/jquery/jQuery-3.3.1.min.js"></script>
     <script src="../../static/marvel/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/marvel/css/evento_1.css">
     
 </head>
 <body>
-    <section>
-        <div id="funcion_django">
-
+    <header class="container">
+        <h1>Eventos</h1>
+        <hr/>  
+        <nav class="navbar navbar-light justify-content-between">
+            <a class="navbar-brand">Simulando combates</a>
+            <form class="form">
+                <button class="btn btn-danger my-2 my-sm-0" type="submit">Siguiente grupo</button>
+            </form>
+        </nav>      
+    </header>    
+    <section class="row" id="cuerpo_combate">
+       
+        <div class="container" id="lista_personajes">
+            <div id="titulo_lista_personajes">
+                <h2>Grupo 1</h2>
+            </div>
+            <div class="list-group" id="nombre_personaje">          
+                <button type="button" class="list-group-item list-group-item-action">Nombre</button>              
+            </div> 
+            <div class="list-group" id="nombre_personaje">          
+                    <button type="button" class="list-group-item list-group-item-action">Nombre</button>              
+                </div>
+                <div class="list-group" id="nombre_personaje">          
+                        <button type="button" class="list-group-item list-group-item-action">Nombre</button>              
+                    </div>    
         </div>
+
+
+
+        <div class="container" id="tablon_resultados">
+            <div id="titulo_resultados">
+                <h5>Resultados de combates</h5>
+            </div>
+        </div>
+
+        <div class="container" id="conclusion">
+            <div id="titulo_conclusion">
+                <h5>Conclusion</h5>
+            </div>
+        </div>
+
+    </section>
+    <section class="container" id="cuerpo_historial">
+        
     </section>
 </body>
-    <script>
-    function inscritoGuardado(operacion){
-        if(operacion)
-            return true;
-        else
-            return false;
-    }
-    $(document).ready(function(){
-        contador = 1;
-        
-        while(sessionStorage.getItem("miembros_grupo_"+contador)){
-           
-            lista = JSON.parse(sessionStorage.getItem("miembros_grupo_"+contador));
-           
-           
-            contador++;
-        }
-    });
-    
-    </script>
+   
 </html>

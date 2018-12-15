@@ -19,12 +19,12 @@ def guardarEvento(id_lugar,duracion):
             fech_fin = (hoy + timedelta(days = duracion)).strftime(fechaActual), 
             dura = duracion,
             fk_lugar = lug
-            ) 
-        print("evento creado")
+            )        
         eve.save()
-        return True
+        return id_evento
     except:        
-        return False
+        return -1
+
 def inscribirPersonaje(ngrupo,fk_person,fk_evento,descripcion):#id,ngrupo,punto,campeon,descrip,fkPerson,fkGrupo
     return True
 

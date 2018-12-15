@@ -6,17 +6,12 @@ nav{
 }
 .navegacion{
     height:145px;
-    width: auto; 
-        
+    width: auto;         
     overflow-y: hidden; 
     overflow-x: auto;
     white-space: nowrap;    
     display: inline-flex;
-   
-
     padding: 10px;
-
-
     background-color:rgba(224, 224, 224, 0.342);
     border-right:1px solid black; 
     border-left:1px solid black;
