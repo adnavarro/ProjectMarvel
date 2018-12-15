@@ -88,10 +88,7 @@ def search(request): #Aca se reciben los datos, por ahora solo los imprimo por c
     
     if personValidate(idPerson) == 1: #Si es 1 el personaje existe
         if perGroupValidate(idPerson, numEnvent) == 1:
-            if etp1Validate(idPerson, numEnvent, numGrupo) == 1:
-                return HttpResponse(inscribirPersonaje(numGrupo, idPerson, numEnvent))
-            else:
-                return HttpResponse("Este personaje tiene aliados en el grupo")
+            return HttpResponse(inscribirPersonaje(numGrupo, idPerson, numEnvent))
         else:
             return HttpResponse("Este personaje esta en otro grupo")
     else:

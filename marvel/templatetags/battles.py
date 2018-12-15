@@ -29,19 +29,22 @@ def inscribirPersonaje(ngrupo,fk_person,fk_evento):#id,ngrupo,punto,campeon,desc
     try:
         tab_inscri = Inscri.objects.all()
         id_inscri = newValueId(tab_inscri)
+    except:
+        print("No hay nadie inscrito, Este es el primero")
+        id_inscri = 0
+    try:
         ins = Inscri(
-            id = newValueId(tab_inscri),
+            id = id_inscri,
             n_grupo = ngrupo,
             punto_etp1 = 0,
-            campeon = None,
             descrip = "Personaje listo para la batalla",
             fk_person = fk_person,
             fk_even = fk_evento
         )
         ins.save()
-        return True
+        return "Personaje guardado"
     except:
-        return False
+        return "Error: No se pudo guardar"
 
 #Valido que existe el personaje
 def personValidate(persona):
@@ -114,7 +117,11 @@ def mula1():
     return (winner)
 
 def newValueId(table): #recordar que cuando se eliminen datos esto no funcionara optimamente
-    return len(table)
+    try:
+        ids = len(table)
+    except:
+        ids = 0
+    return ids
 
 
     
