@@ -58,33 +58,14 @@ def battleGroup(request):
             "atributo_fue":atributo_fue            
         }    
     return render(request, 'battles.html', context)
-   
-#Aqui estoy probando mis validaciones (Esto no ira en el proyecto final)
-#OJO: El Html que estoy utilizando se llama prueba (NO BORRAR POR AHORA)
-
-def prueba(request):
-    if request.method == "POST":
-        Personaje1 = request.POST.get('Personaje1')
-        Personaje2 = request.POST.get('Personaje2')
-        battleresult = battles.mula1()
-        if battleresult == 1:
-            return HttpResponse("Gano el personaje 1")
-        if battleresult == 2:
-            return HttpResponse("Gano el personaje 2")
-        if battleresult == 0:
-            return HttpResponse("Hubo un empate")
-        else:
- 
-            return HttpResponse("ERROR")
-    return render(request, 'prueba.html', {})
 
 #Se debe crear variables dinamicas para ir almacenando los grupos en python
 # Hasta que se decida que se quiere comenzar las batallas y guardar todo.
 
 def search(request): #Aca se reciben los datos, por ahora solo los imprimo por consola y devuelvo un json
-    idPerson  = request.POST.get('fk_person')
-    numGrupo  = request.POST.get('num_grupo')
-    numEnvent = request.POST.get('fk_even')
+    idPerson  = int(request.POST.get('fk_person'))
+    numGrupo  = int(request.POST.get('num_grupo'))
+    numEnvent = int(request.POST.get('fk_even'))
     
     if personValidate(idPerson) == 1: #Si es 1 el personaje existe
         if perGroupValidate(idPerson, numEnvent) == 1:
@@ -117,18 +98,18 @@ def insertEvento(request):
     if request.is_ajax:
         lugar = request.POST.get('lugar','')
         duracion = request.POST.get('duracion','')
-        idLugar = None        
+        idLugar = None
         if int(duracion) > 3:
             return HttpResponse("fallo_duracion")
         if int(duracion) <= 0:
              return HttpResponse("fallo_duracion_min")
         try:
-            idLugar = Lugar.objects.get(nombre = lugar)    
+            idLugar = Lugar.objects.get(nombre = lugar)
         except:
-            return HttpResponse("fallo_lugar")     
+            return HttpResponse("fallo_lugar")
         return HttpResponse(guardarEvento(idLugar.id, int(duracion)))
     else:
-        return HttpResponse("no ajax")        
+        return HttpResponse("no ajax")
 
 def personInGroup(request):
     lista = request.POST.get("lista[]")

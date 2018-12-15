@@ -25,21 +25,19 @@ def guardarEvento(id_lugar,duracion):
     except:        
         return -1
 
-def inscribirPersonaje(ngrupo,fk_person,fk_evento):#id,ngrupo,punto,campeon,descrip,fkPerson,fkGrupo
-    try:
-        tab_inscri = Inscri.objects.all()
-        id_inscri = newValueId(tab_inscri)
-    except:
-        print("No hay nadie inscrito, Este es el primero")
-        id_inscri = 0
+def inscribirPersonaje(ngrupo,fkperson,fkevento):#id,ngrupo,punto,campeon,descrip,fkPerson,fkGrupo
+    tab_inscri = Inscri.objects.all()
+    id_inscri = newValueId(tab_inscri)
+    Persona = Person.objects.get(id = fkperson)
+    Event = Even.objects.get(id = fkevento)
     try:
         ins = Inscri(
             id = id_inscri,
             n_grupo = ngrupo,
             punto_etp1 = 0,
             descrip = "Personaje listo para la batalla",
-            fk_person = fk_person,
-            fk_even = fk_evento
+            fk_person = Persona,
+            fk_even = Event
         )
         ins.save()
         return "Personaje guardado"
@@ -117,11 +115,7 @@ def mula1():
     return (winner)
 
 def newValueId(table): #recordar que cuando se eliminen datos esto no funcionara optimamente
-    try:
-        ids = len(table)
-    except:
-        ids = 0
-    return ids
+    return len(table)
 
 
     
