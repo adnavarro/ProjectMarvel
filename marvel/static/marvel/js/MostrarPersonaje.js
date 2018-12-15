@@ -78,10 +78,11 @@ function verDatos(nombre,
     peso,
     ojos,biografia,sexo,rol,
     fuer,inte,agil,resi,proy,hab,id,
-    listaPoderes){
+    listaPoderes,listaAfili){
         
     llenarAtributo(fuer,inte,agil,resi,proy,hab);
     llenarPoderes(listaPoderes);
+    llenarAfiliaciones(listaAfili);
     function generoFunc(){if(sexo === 'M'){ $("#imagen_heroe_ruta").attr("src","../../static/marvel/img/HeroePerfil.png"); return "Masculino"; }else{ $("#imagen_heroe_ruta").attr("src","../../static/marvel/img/HeroePerfil2.png"); return "Femenino";}}
     function identidadFunc(){if(identidad === 'D') return "Desconocida"; else return "Conocida";}
     function rolFunc(){if (rol === 'H') return "Heroe"; else if (rol === 'V') return "Villano"; else return "Anti-Heroe";}
@@ -171,7 +172,6 @@ function agegarPersonajeGrupo(token){//Se usa una lista que se vaciara si se cam
               csrfmiddlewaretoken: token
             },            
         success: function(respuesta){
-            alert("Cambios");
             if(respuesta === "per_save"){
                 alert("Personaje guardado");
                 arregloDeIdPorGrupo.push(idPersonajeActual);
@@ -193,51 +193,39 @@ function almacenarDatosStorage(nombreGrupo,listaMiembros) {  //Modificar para gu
     sessionStorage.setItem("miembros_"+nombreGrupo,JSON.stringify(listaMiembros));
 }
 
-function llenarPoderes(listaPoder){    
+function llenarPoderes(listaPoder){     
     dato = tokenizarDato(listaPoder);
-   
-    $("#lista_poderes").html('<ul class="list-goup"> </ul>');   
+    $("#lista_poderes").html('<ul class="list-goup"><li class="list">  </li></ul>');   
     
     for(indice = 0;indice < dato.length; indice++) {
-        $("#lista_poderes ul").append(        
-            '<li class="list-group-item list-group-item-info">'+
-                 '<p>'+dato[indice]+'</p>'+
-            '</li>'      
+        $("#lista_poderes li").append(        
+            '<button type="button" class="list-group-item list-group-item-info" onclick="mostrarPoder('+"'"+dato[indice]+"'"+','+"'Descripcion del poder'"+');" style="width:100%; height: 20px; margin: 0; padding: 0; text-align: center;"> <b>'+"Poder: "+(indice+1)+'</b> </button>'               
+        );       
+     }   
+}
+function llenarAfiliaciones(listaAfili){
+    dato = tokenizarDato(listaAfili);
+    $("#lista_afiliaciones").html('<ul class="list-goup"><li class="list">  </li></ul>');   
+    
+    for(indice = 0;indice < dato.length; indice++) {
+        $("#lista_afiliaciones li").append(        
+            '<button type="button" class="list-group-item list-group-item-info"  style="width:100%; height: 20px; margin: 0; padding: 0; text-align: center;"> <b>'+dato[indice]+'</b> </button>'               
         );       
      }   
 }
 function tokenizarDato(cadena){
-    array = cadena.split(",");
+    inicio = cadena.indexOf("[") + 1;
+    fin = cadena.indexOf("]");
+    subCadena = cadena.substring(inicio, fin);
+    array = subCadena.split(",");
     resultado = [];
-    for(num = 0; num <  array.length;num++){
-        console.log("dato: " + array[num]);
-
-        if (array[num].indexOf("[") > -1){
-            inicio = array[num].indexOf("[") + 1;
-            fin = array[num].length;
-
-            subCadena = array[num].substring(inicio, fin);
-            subCadena = subCadena.replace("'", "");
-            resultado.push(subCadena);
-            console.log("Resultado incial: " + subCadena);
-
-        }else if (array[num].indexOf("]") > 0){
-            inicio = 0
-            fin = array[num].indexOf("]");
-            subCadena = array[num].substring(0, fin);
-            subCadena = subCadena.replace("'", "");
-            resultado.push(subCadena);
-            console.log("Resultado final: " +subCadena);
-        }else{
-            array[num] = array[num].replace("'", "");
-            resultado.push(array[num]);  
-        }     
-    }
+    for(var indice = 0; indice < array.length;indice++){
+        subCadena = array[indice].replace(/'/g,'');
+        resultado.push(subCadena);
+    } 
     return resultado;
 }
-function llenarAfiliaciones(){
 
-}
 function llenarParientes(){
 
 }

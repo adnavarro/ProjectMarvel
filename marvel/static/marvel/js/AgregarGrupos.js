@@ -94,7 +94,7 @@ function quitarElemento(id_elemento,nombre_elemento){ //Elimina la etiqueta
 }
 function focusGrupos(nombre_elemento,numero,token){ //Hace focus a la etiqueta seleccionada    
 
-    if(sessionStorage.getItem(nombre_elemento)){      
+    if(sessionStorage.getItem(nombre_elemento)){       
         listaPersonajes = JSON.parse(sessionStorage.getItem(nombre_elemento));   
         if(listaPersonajes.length > 0){
             $.ajax({

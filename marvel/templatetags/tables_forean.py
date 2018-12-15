@@ -31,13 +31,18 @@ def getHab(id_person,num_atrib):
 
 @register.simple_tag()
 def getPoder(id_person):
-    miPoderId = PPod.objects.filter(fk_person = id_person)
-    contador = 0
+    miPoderId = PPod.objects.filter(fk_person = id_person)    
     resultado = []
     for poderId in miPoderId:          
-        resultado.append(poderId.fk_poder.nombre)
-        contador = contador + 1    
+        resultado.append(poderId.fk_poder.nombre)            
+    return resultado
 
+@register.simple_tag()
+def getAfili(id_person):
+    miAfiliId = PA.objects.filter(fk_person = id_person)    
+    resultado = []
+    for afiliId in miAfiliId:          
+        resultado.append(afiliId.fk_afili.nombre)            
     return resultado
 
         

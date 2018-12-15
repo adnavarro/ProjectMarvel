@@ -119,9 +119,6 @@ def personInGroup(request):
         per = Person.objects.get(id = idPer)     
         listaPersonaje.append(per.nombre+",")
 
-    for nombre in listaPersonaje:
-        print(nombre)  
-
     return HttpResponse(listaPersonaje)
 
 def getPerson(request):
