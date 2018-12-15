@@ -65,6 +65,24 @@ def groupDelete(ngroup, fk_even):
             print("No se pudo borrar a los inscritos")
             return(0)
     return(1)
+
+#Borro a un inscrito especifico
+def inscriDelete(ngroup, idpersona, fk_even):
+    try:
+        dat = Even.objects.get(id=fk_even)
+    except Even.DoesNotExist:
+        return(-1) 
+    try:
+        det = Person.objects.get(id=idpersona)
+    except Person.DoesNotExist:
+        return(-1)    
+    ins = Inscri.objects.get(n_grupo=ngroup,fk_person=idpersona,fk_even= fk_even)  
+    try:
+     ins.delete()
+    except:
+            print("No se pudo borrar al inscrito")
+            return(0)
+    return(1)
     
 #Valido que existe el personaje
 def personValidate(persona):
