@@ -83,8 +83,14 @@ def search(request): #Aca se reciben los datos, por ahora solo los imprimo por c
     numGrupo  = request.POST.get('num_grupo')
     numEnvent = request.POST.get('fk_even')
     
-    if personValidate(idPerson) > 0 :#Si es 1 el personaje existe
-        return HttpResponse("found") #Enviar una señal al frontend de que se paso las pruebas
+    if personValidate(idPerson) == 1: #Si es 1 el personaje existe
+        if perGroupValidate(idPerson, numEnvent) == 1:
+            if etp1Validate(idPerson, numEnvent, numGrupo) == 1:
+                return HttpResponse(inscribirPersonaje(numGrupo, idPerson, numEnvent))
+            else:
+                return HttpResponse("Este personaje tiene aliados en el grupo")
+        else:
+            return HttpResponse("Este personaje esta en otro grupo")
     else:
         return HttpResponse("person_not_found")
 
@@ -120,14 +126,11 @@ def insertEvento(request):
             idLugar = Lugar.objects.get(nombre = lugar)    
         except:
             return HttpResponse("fallo_lugar")     
-        if guardarEvento(idLugar.id,int(duracion)):
-            return HttpResponse("listo")
-        else:
-            return HttpResponse("fallo")
+        return HttpResponse(guardarEvento(idLugar.id, int(duracion)))
     else:
         return HttpResponse("no ajax")        
 
-def personInGroup(request):    
+def personInGroup(request):
     lista = request.POST.get("lista[]")
     lista = eval(lista)
     listaPersonaje = []

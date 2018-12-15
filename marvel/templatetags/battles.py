@@ -22,11 +22,27 @@ def guardarEvento(id_lugar,duracion):
             ) 
         print("evento creado")
         eve.save()
-        return True
+        return id_evento
     except:        
+        return -1
+
+def inscribirPersonaje(ngrupo,fk_person,fk_evento):#id,ngrupo,punto,campeon,descrip,fkPerson,fkGrupo
+    try:
+        tab_inscri = Inscri.objects.all()
+        id_inscri = newValueId(tab_inscri)
+        ins = Inscri(
+            id = newValueId(tab_inscri),
+            n_grupo = ngrupo,
+            punto_etp1 = 0,
+            campeon = None,
+            descrip = "Personaje listo para la batalla",
+            fk_person = fk_person,
+            fk_even = fk_evento
+        )
+        ins.save()
+        return True
+    except:
         return False
-def inscribirPersonaje(ngrupo,fk_person,fk_evento,descripcion):#id,ngrupo,punto,campeon,descrip,fkPerson,fkGrupo
-    return True
 
 #Valido que existe el personaje
 def personValidate(persona):
@@ -37,19 +53,22 @@ def personValidate(persona):
     return (1)    #Sino el personaje si existe y me retorna 1
 
 #Valido que los personajes no sean Aliados
-def etp1Validate(persona1, persona2):
+def etp1Validate(persona, even, ngrupo):
     try:
-        PerNoper.objects.get(fk_person = persona1, fk_person_rel = persona2, tipo_rel = "Aliado")
+        ins = Inscri.objects.get(fk_even = even, n_grupo = ngrupo)
+    except Inscri.DoesNotExist:
+        return (1)
+    IdCompa = ins.fk_person
+    try:
+        PerNoper.objects.get(fk_person = persona, fk_person_rel = IdCompa, tipo_rel = "Aliado")
     except PerNoper.DoesNotExist:
-        print("Estos personajes pueden pelear")
-        return (1) #Si retorna 1 los personajes pueden pelear
-    print("Estos personajes NO pueden pelear")
+        return (1) #Si retorna 1 los personajes SI pueden pelear
     return (0) #Si retorna 0 los personajes no pueden pelear
 
-#Valido que el personaje no se encuentre en otro grupo (OJO: MEJORAR)
-def perGroupValidate(persona):
+#Valido que el personaje no se encuentre en otro grupo
+def perGroupValidate(persona, fech):
     try:
-        Inscri.objects.get(fk_person=persona)
+        Inscri.objects.get(fk_person=persona, fk_even = fech)
     except Inscri.DoesNotExist:
         return(1)
     print('Este personaje ya se encuentra inscrito en un grupo')
