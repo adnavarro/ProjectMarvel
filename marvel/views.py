@@ -7,6 +7,9 @@ from django.http import JsonResponse
 from datetime import datetime, date, time, timedelta
 import json
 
+def eventos(request):
+    return render_to_response('eventos.html')
+
 def homepage(request):
     return render_to_response('index.html')
 

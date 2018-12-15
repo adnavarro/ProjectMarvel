@@ -19,8 +19,7 @@ def guardarEvento(id_lugar,duracion):
             fech_fin = (hoy + timedelta(days = duracion)).strftime(fechaActual), 
             dura = duracion,
             fk_lugar = lug
-            ) 
-        print("evento creado")
+            )        
         eve.save()
         return id_evento
     except:        
