@@ -51,7 +51,21 @@ def inscribirPersonaje(ngrupo,fkperson,fkevento):#id,ngrupo,punto,campeon,descri
         return "Personaje guardado"
     except:
         return "Error: No se pudo guardar"
-
+    
+#Borro a los inscritos de un grupo
+def groupDelete(ngroup, fk_even):
+    try:
+        dat = Even.objects.get(id=fk_even)
+    except Even.DoesNotExist:
+        return(-1) 
+    ins = Inscri.objects.filter(n_grupo=ngroup,fk_even= fk_even)  
+    try:
+     ins.delete()
+    except:
+            print("No se pudo borrar a los inscritos")
+            return(0)
+    return(1)
+    
 #Valido que existe el personaje
 def personValidate(persona):
     try:
