@@ -8,11 +8,16 @@ from ..models import *
 def guardarEvento(id_lugar,duracion):
     print("procede a crear evento")
     try:
+        even = Even.objects.latest('id')
+        evenid= even.id + 1
+    except:
+        evenid=0
+    try:
         lug = Lugar.objects.get(id = id_lugar)
         hoy = datetime.today()        
         fechaActual = "%Y-%m-%d"        
         tab_even = Even.objects.all()        
-        id_evento = newValueId(tab_even)        
+        id_evento = evenid      
         eve = Even( 
             id = id_evento,
             fech_in =  hoy.strftime(fechaActual),
