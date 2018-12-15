@@ -5,7 +5,29 @@ var grupoCreado = {
     nombre:'',
     integrante:''
 };
-
+function getPersonaje(){
+    $.ajax({
+        url: "/getPerson/",
+        type: "GET",
+        data:{ 
+            id_person:idPersonajeActual,              
+        },
+        success:function(respuesta){
+            $("#scroll_heroe").append(
+                '<div class="list-group"> '+         
+                '<button type="button" class="list-group-item list-group-item-action">'+respuesta+'</button>'+ 
+                '</div>' 
+            );            
+        },
+        error:function(error){
+            $("#scroll_heroe").append(
+                '<div class="list-group"> '+         
+                '<button type="button" class="list-group-item list-group-item-action">'+"personaje"+'</button>'+ 
+                '</div>' 
+            ); 
+        }    
+    });
+}
 function vaciarInfo(){
     $("#nombre_person").remove();
     $("#nombre_real_person").remove();
@@ -149,55 +171,23 @@ function agegarPersonajeGrupo(token){//Se usa una lista que se vaciara si se cam
               csrfmiddlewaretoken: token
             },            
         success: function(respuesta){
-            alert(respuesta);
-            arregloDeIdPorGrupo.push(idPersonajeActual);
-            sessionStorage.setItem(sessionStorage.getItem("actualGroup"),JSON.stringify(arregloDeIdPorGrupo));            
+            alert("Cambios");
+            if(respuesta === "per_save"){
+                alert("Personaje guardado");
+                arregloDeIdPorGrupo.push(idPersonajeActual);
+                sessionStorage.setItem(sessionStorage.getItem("actualGroup"),JSON.stringify(arregloDeIdPorGrupo));
+                getPersonaje();                
+            }else if(respuesta === "error_per_usado"){
+                alert("El personaje ya esta en un grupo");
+            }else{
+                alert("no se pudo guardar el personaje");
+            }
+                        
         },error:function(data){
-            alert("error");
-            //location.reload();
+            alert("error");            
         }
       });
-    /*if(sessionStorage.getItem("personajes_usados")){
-       listaPersonajesUsados = [];
-       listaPersonajesUsados = JSON.parse(sessionStorage.getItem("personajes_usados"));
-       listaPersonajesUsados.forEach(function(dato){ //Verifica que el personaje que se va agregar no este ya en uso
-           if(idPersonajeActual == dato){
-               personajeEnUso = true;                           
-           }
-       });
-        if(!personajeEnUso){
-            listaPersonajesUsados.push(idPersonajeActual);
-            sessionStorage.setItem("personajes_usados",JSON.stringify(listaPersonajesUsados));
-        }
-
-    }else{
-        listaPersonajesUsados = [];
-        listaPersonajesUsados.push(idPersonajeActual);
-        sessionStorage.setItem("personajes_usados",JSON.stringify(listaPersonajesUsados));
-    }
-
-    if(!personajeEnUso){
-        if(arregloDeIdPorGrupo.length > 0){// si hay personajes en la lista de los heroes que iran al grupo
-            
-            arregloDeIdPorGrupo.forEach(idPersonaj => {//
-                if(idPersonaj === idPersonajeActual){//Si el personaje ya esta en la lista
-                    alert("El personaje ya esta en este grupo");
-                    operacionExitosa = false;
-                }
-            });
-
-            if(operacionExitosa){//
-                arregloDeIdPorGrupo.push(idPersonajeActual);//Agrega el id del personaje a la lista de personajes
-                almacenarDatosStorage(sessionStorage.getItem("actualGroup"),arregloDeIdPorGrupo); //se guarda en el navegador
-               
-            }
-        }else{ //Si la lista esta vacia se agrega directamente el personaje
-            arregloDeIdPorGrupo.push(idPersonajeActual);            
-            almacenarDatosStorage(sessionStorage.getItem("actualGroup"),arregloDeIdPorGrupo);       
-        }   
-    }else{
-        alert("El personaje pertenece a un grupo")
-    }  */  
+   
 }
 function almacenarDatosStorage(nombreGrupo,listaMiembros) {  //Modificar para guardar un estandar de grupo
     sessionStorage.setItem("miembros_"+nombreGrupo,JSON.stringify(listaMiembros));

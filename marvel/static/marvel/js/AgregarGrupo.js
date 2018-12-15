@@ -122,7 +122,6 @@ function focusGrupos(nombre_elemento,numero,token){ //Hace focus a la etiqueta s
     }else{
         $("#scroll_heroe").html("");
     }
-
     sessionStorage.removeItem('actualGroup');
     sessionStorage.setItem('numeroGrupo',numero);
     sessionStorage.setItem('actualGroup',nombre_elemento);

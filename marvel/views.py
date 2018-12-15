@@ -68,10 +68,10 @@ def search(request): #Aca se reciben los datos, por ahora solo los imprimo por c
     numEnvent = int(request.POST.get('fk_even'))
     
     if personValidate(idPerson) == 1: #Si es 1 el personaje existe
-        if perGroupValidate(idPerson, numEnvent) == 1:
+        if perGroupValidate(idPerson, numEnvent) == 1: #verifica que el personaje no este en otro grupo
             return HttpResponse(inscribirPersonaje(numGrupo, idPerson, numEnvent))
         else:
-            return HttpResponse("Este personaje esta en otro grupo")
+            return HttpResponse("error_per_usado")
     else:
         return HttpResponse("person_not_found")
 
@@ -124,22 +124,8 @@ def personInGroup(request):
 
     return HttpResponse(listaPersonaje)
 
-"""
-def eventos(request):
-    if request.method == "POST":
-        try:
-            numGrupo = request.POST.get('numGrupo')
-            idEvento = request.POST.get('idEvento')
-            fkPersonaje = request.POST.get('idPersonaje')
-        except (None):
-            return HttpResponse("ERROR")
-        if battles.personValidate(idPersonaje) == 1:
-            ins = Inscri(
-                id = battles.newValueId(Inscri),
-                n_grupo = numGrupo,
-                fk_person = fkPersonaje,
-                fk_even = idEvento,
-            )
-            ins.save()
-            print("Personaje inscrito")
-    return render(request, 'eventos.html', {})"""
+def getPerson(request):
+    id_Person = request.GET.get('id_person')
+    person = Person.objects.get( id = id_Person)
+    nombre_person = person.nombre
+    return HttpResponse(nombre_person)

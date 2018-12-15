@@ -25,7 +25,7 @@ def guardarEvento(id_lugar,duracion):
     except:        
         return -1
 
-def inscribirPersonaje(ngrupo,fkperson,fkevento):#id,ngrupo,punto,campeon,descrip,fkPerson,fkGrupo
+def inscribirPersonaje(ngrupo,fkperson,fkevento):
     tab_inscri = Inscri.objects.all()
     id_inscri = newValueId(tab_inscri)
     Persona = Person.objects.get(id = fkperson)
@@ -40,9 +40,9 @@ def inscribirPersonaje(ngrupo,fkperson,fkevento):#id,ngrupo,punto,campeon,descri
             fk_even = Event
         )
         ins.save()
-        return "Personaje guardado"
+        return "per_save"
     except:
-        return "Error: No se pudo guardar"
+        return "per_error"
 
 #Valido que existe el personaje
 def personValidate(persona):
