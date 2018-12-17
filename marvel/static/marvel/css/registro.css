@@ -1,0 +1,51 @@
+body {
+    background:url(../img/ciudad2.jpg);
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+  .form_bg {
+      background-color:#808080;
+      color:#000099;
+      padding:50px;
+      border-radius:10px;
+      position: absolute;
+      border:5px solid #0000cc;
+      margin: auto;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 1000px;
+      height: 600px;
+  }
+  .form_bg2 {
+      background-color:#808080;
+      color:#000090;
+      padding:30px;
+      border-radius:10px;
+      position: absolute;
+      border:5px solid #0000cc;
+      margin: auto;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 1000px;
+      height: 600px;
+  }
+  .form-group {
+    padding:10px;
+  
+  }
+  .left {
+    float:left;
+    width: 45%;
+  }
+  .right {
+    float:right;
+    width: 45%;
+  }
+  .botton_register {
+    float: right;
+  }

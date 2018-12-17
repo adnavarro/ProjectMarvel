@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^prueba2/', views.prueba2, name='prueba2'),
     url(r'^testing/', views.testing, name='testing'),
     url(r'^getInscrit/', views.getInscrit, name='getInscrit'),
+    url(r'^regPerson/', views.regPerson, name='regPerson'),
     #url(r'^eventos/', views.eventos, name='eventos'),combate
     url(r'^personInGroup/', views.personInGroup, name='personInGroup'),
     url(r'^getPerson/', views.getPerson, name='getPerson'),

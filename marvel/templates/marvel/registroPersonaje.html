@@ -1,0 +1,55 @@
+{% load static %}
+<DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Marvel Register</title>
+  <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../static/marvel/css/registro.css">
+</head>
+
+<div class="container">
+  <div class="row">
+      <div class="form_bg">
+          <form method="POST"> {% csrf_token %}
+            <h2 class="text-center">Registro de Personaje</h2>
+            <div class="left">
+              <div class="form-group">
+                  <input type="text" name="nombre" class="form-control" id="pwd" placeholder="Nombre">
+              </div>
+              <div class="form-group">
+                  <input type="text" name="tipo" class="form-control" id="pwd" placeholder="Tipo">
+              </div>
+              <div class="form-group">
+                  <input type="text" name="tipo_iden" class="form-control" id="pwd" placeholder="Tipo de Identidad">
+              </div>
+                <div class="form-group">
+                    <input type="text" name="genero" class="form-control" id="pwd" placeholder="Genero">
+                </div>
+                <div class="form-group">
+                    <input type="number" name="altura" class="form-control" id="pwd" placeholder="Altura">
+                </div>
+            </div>
+            <div class="right">
+              <div class="form-group">
+                  <input type="text" name="color_ojo" class="form-control" id="userid" placeholder="Color de Ojos">
+              </div>
+              <div class="form-group">
+                  <input type="text" name="lugar" class="form-control" id="pwd" placeholder="Lugar en el que se encuentra">
+              </div>
+              <div class="form-group">
+                  <input type="text" name="universo" class="form-control" id="pwd" placeholder="Universo en el que se encuentra">
+              </div>
+              <div class="form-group">
+                <input type="text" name="biografia" class="form-control" id="pwd" placeholder="Biografia">
+            </div>
+                <br/>
+                <div class="botton_register">
+                    <button type="submit" class="btn btn-success" id="Register">Register</button>
+                </div>
+            </div>
+          </form>
+      </div>
+
+  </div>
+</div>

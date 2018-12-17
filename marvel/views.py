@@ -2,10 +2,27 @@ from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
-from .templatetags.battles import * 
+from .templatetags.battles import *
+from .templatetags.save_in_database import *
 from django.http import JsonResponse
 from datetime import datetime, date, time, timedelta
 import json
+
+def regPerson(request):
+    if request.method == "POST":
+        nombre = request.POST.get('nombre')
+        tipo = request.POST.get('tipo')
+        tipoIden = request.POST.get('tipo_iden')
+        genero = request.POST.get('genero')
+        altura = request.POST.get('altura')
+        ojos = request.POST.get('color_ojo')
+        lugar = request.POST.get('lugar')
+        universo = request.POST.get('universo')
+        biografia = request.POST.get('biografia')
+
+        HttpResponse(IngPerson(nombre, tipo, tipoIden, genero, altura, ojos, lugar, universo, biografia))
+
+    return render(request, 'registroPersonaje.html', {})
 
 def eventos(request):
     return render_to_response('eventos.html')

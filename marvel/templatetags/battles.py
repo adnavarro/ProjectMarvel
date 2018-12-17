@@ -190,6 +190,3 @@ def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo):
 def mula():
     winner=randbelow(3) #0: Empate, 1: Gana el personaje 1, 2: Gana el personaje 2
     return (winner)
-
-def newValueId(table): #recordar que cuando se eliminen datos esto no funcionara optimamente
-    return len(table)
