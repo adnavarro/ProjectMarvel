@@ -69,7 +69,10 @@ def search(request): #Aca se reciben los datos, por ahora solo los imprimo por c
     
     if personValidate(idPerson) == 1: #Si es 1 el personaje existe
         if perGroupValidate(idPerson, numEnvent) == 1: #verifica que el personaje no este en otro grupo
-            return HttpResponse(inscribirPersonaje(numGrupo, idPerson, numEnvent))
+            if relVali(numGrupo, idPerson, numEnvent) == 1:
+                return HttpResponse(inscribirPersonaje(numGrupo, idPerson, numEnvent))
+            else:
+                return HttpResponse("Este personaje esta relacionado")
         else:
             return HttpResponse("error_per_usado")
     else:
@@ -111,8 +114,8 @@ def insertEvento(request):
         return HttpResponse("no ajax")
 
 def getInscrit(request):
-    numeroGrupo = request.GET.get("numGrup");
-    numeroEvento = request.GET.get("numEvent");
+    numeroGrupo = request.GET.get("numGrup")
+    numeroEvento = request.GET.get("numEvent")
     inscritos = Inscri.objects.filter(n_grupo = numeroGrupo,fk_even = numeroEvento )
     listaPersonaje = []
     longitud = len(inscritos)
@@ -157,8 +160,7 @@ def combate(request):#Recibe parametros de ajax para el evento
     personaje_2 = request.GET.get("segundoPersonaje")
     numeroGrupo = request.GET.get("numGrupo")
     numeroEvento = request.GET.get("numEvento")
-    simularBatallas(int(personaje_1),int(personaje_2),int(numeroEvento),int(numeroGrupo))
-    return HttpResponse("success")
+    return HttpResponse(simularBatallas(int(personaje_1),int(personaje_2)))
 
 def deletGroup():
     return HttpResponse("success")

@@ -14,11 +14,11 @@ def guardarEvento(id_lugar,duracion):
         evenid=0
     try:
         lug = Lugar.objects.get(id = id_lugar)
-        hoy = datetime.today()        
-        fechaActual = "%Y-%m-%d"        
-        tab_even = Even.objects.all()        
-        id_evento = evenid      
-        eve = Even( 
+        hoy = datetime.today()
+        fechaActual = "%Y-%m-%d"
+        tab_even = Even.objects.all()
+        id_evento = evenid
+        eve = Even(
             id = id_evento,
             fech_in =  hoy.strftime(fechaActual),
             fech_fin = (hoy + timedelta(days = duracion)).strftime(fechaActual), 
@@ -105,7 +105,7 @@ def relVali(ngroup,idpersona, fk_even):
             if (data is not None):
                 return(0)
         except PerNoper.DoesNotExist:
-            print("Este personaje no guarda relación")      
+            print("Este personaje no guarda relación")
     return (1) #Si retorna 1 los personajes pueden pelear
 
 #Valido que el personaje no se encuentre en otro grupo
@@ -153,14 +153,42 @@ def groupValidate(fecha):
         return(0)
     
 #Simulo la etapa1
-def simularBatallas(personaje_1,personaje_2,evento,grupo): #ACA esta para que terminen lo de la batalla
-    return None
-def mula1():
+def simularBatallas(personaje_1, personaje_2):
+    print("Entro")
+    try:
+        inscri = Inscri.objects.latest('id')
+        inscrid= inscri.id + 1
+    except:
+        inscrid=0
+    lucha1 = Inscri.objects.get(fk_person = personaje_1)
+    lucha2 = Inscri.objects.get(fk_person = personaje_2)
+    hoy = datetime.today()
+    win = mula()
+    fechaActual = "%Y-%m-%d"
+    try:
+        bat = Combat(
+            id = inscrid,
+            fech = hoy.strftime(fechaActual),
+            etp = 1,
+            ganador = win,
+            fk_inscri1 = lucha1,
+            fk_inscri2 = lucha2,
+        )
+        bat.save()
+    except:
+        return "No se pudo realizar el combate"
+    if win == 0:
+        return "Hubo un empate"
+    elif win == 1:
+        return "Gano el personaje 1"
+    elif win == 2:
+        return "Gano el personaje 2"
+    else:
+        return "Gano un zombie"
+
+def mula():
     winner=randbelow(3) #0: Empate, 1: Gana el personaje 1, 2: Gana el personaje 2
     return (winner)
 
 def newValueId(table): #recordar que cuando se eliminen datos esto no funcionara optimamente
     return len(table)
-
-
-    
