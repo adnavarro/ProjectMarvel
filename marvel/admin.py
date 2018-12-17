@@ -1,3 +1,22 @@
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+admin.site.register(Lugar),
+admin.site.register(PersonNoCombat),
+admin.site.register(Catego),
+admin.site.register(Univer),
+admin.site.register(Destr),
+admin.site.register(Parafer),
+admin.site.register(AA),
+admin.site.register(Person),
+admin.site.register(Habili),
+admin.site.register(PerNoper),
+admin.site.register(PD),
+admin.site.register(PPod),
+admin.site.register(PPar),
+admin.site.register(CP),
+admin.site.register(Afili),
+admin.site.register(PA),
+admin.site.register(Even),
+admin.site.register(Inscri),
+admin.site.register(Combat),

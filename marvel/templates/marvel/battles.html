@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+{% load tables_forean %}
+{% load staticfiles %}
+{% load save_in_database %}
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Grupos de Combates</title>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0, width=device-width">
+    <script src="../../static/marvel/js/jquery/jQuery-3.3.1.min.js"></script>
+    <script src="../../static/marvel/js/jquery/jquery-ui.min.js"></script>
+    <script src="../../static/marvel/js/bootstrap.min.js"></script> 
+    <script src="../../static/marvel/js/AgregarGrupos.js"></script>
+    <script src="../../static/marvel/js/MostrarPersonaje.js"></script>
+    <script src="../../static/marvel/js/BdToLocalStorage.js"></script>
+    <script src="../../static/marvel/js/VentanasModal.js"></script>
+    <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/marvel/css/battleStyle.css"> 
+    <link rel="stylesheet" href="../../static/marvel/css/autoComplete.css">
+    
+</head>
+<header class="container" style="color:white;background-color:rgba(117, 117, 117, 0.342)">
+        <h1>Banco de datos de Personajes de Marvel</h1>
+        <hr/>
+</header>    
+
+<body class="container"> 
+  
+  <section class="container navegacion" >
+    
+    <!--
+    <nav class="navbar navbar-light bg-light justify-content-between"  >
+      <a class="navbar-brand">Navbar</a>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </nav>-->
+    
+        {%for data in obj%} 
+        <li id='carta_personaje' onclick='fuer = "Fuer"; intel = "Int"; agil = "Vel"; resis = "Res"; proy = "Proy"; hab = "Hab"  
+                                                  verDatos("{{data.nombre}}"
+                                                  ,"{{data.nombre_real}} " + "{{data.apellido_real}}"
+                                                  ,"{{data.tipo_iden}}"
+                                                  ,"{% getProfesion data.id %}"
+                                                  ,"{{data.tipo}}"
+                                                  ,"{{data.edo_civil}}"
+                                                  ,"{{data.altura}}"
+                                                  ,"No hay peso"
+                                                  ,"{{data.color_ojo}}"
+                                                  ,"{{data.biografia}}"
+                                                  ,"{{data.genero}}"
+                                                  ,"{{data.tipo}}"
+                                                  ,"{% getHab data.id "Fuer" %}"
+                                                  ,"{% getHab data.id "Int" %}"
+                                                  ,"{% getHab data.id "Vel" %}"
+                                                  ,"{% getHab data.id "Res" %}"
+                                                  ,"{% getHab data.id "Proy" %}"
+                                                  ,"{% getHab data.id "Hab" %}"
+                                                  ,"{{data.id}}"
+                                                  ,"{% getPoder data.id %}"
+                                                  ,"{% getAfili data.id %}")' class='card'>
+                                                  
+            <img id='miniatura_personaje'class='card-img-top rounded float-left ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
+            <center> <h6 class='card-title'>{{data.nombre}}</h6> </center>
+        </li>         
+        {%endfor%} 
+       
+  </section>
+  <hr>
+  <section id="edicion_grupo" class="row justify-content-between" style="background-color:rgba(39, 39, 39, 0.342);color:white;" >
+    
+    <div class="container" id='ficha_heroe'> <!-- visor de herore-->
+      <section class="row"> <!-- columna de datos-->
+        <div class="container" id= 'imagen_heroe'>   
+            {% csrf_token %}               
+          <img class='card-img-top ' id='imagen_heroe_ruta' src='../../static/marvel/img/HeroePerfil.png' alt='Card image cap' >
+          <button id="Eliminar_Heroe" onclick="eliminarPersonajeGrupo('{{ csrf_token }}');" type="button" class="btn  btn-danger" style="display:none; position:absolute;margin-top:-4%;margin-left: 0.5%" >Eliminar</button>
+          <button id="Añadir_Heroe" onclick="agegarPersonajeGrupo('{{ csrf_token }}');" type="button" class="btn btn-success" style="display:none; position:absolute;margin-top:-4%;margin-left: 10%" >Agregar</button>
+        </div>
+
+        <div class="container" id='datos_heroe' > <!--datos primarios-->
+         
+           
+          
+          <div id="contenedor_datos">
+            <div id='nombre_person'>            
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Nombre original:  </font> </p>                
+              <hr style="margin:-1% 0;">
+            </div> 
+            
+            <div id='nombre_real_person'>
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Nombre Real: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div>
+
+            <div id='identidad_person'>
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Identidad: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div> 
+
+            <div id='sexo_person'>
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Genero: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div>
+            <form method="POST">
+                
+                
+              <div id='profesion_person'> 
+                  
+                                  
+                <p style="margin:-1.5% 0;"> <font SIZE=2>Profesion:  </font> </p> 
+                <hr style="margin:-1% 0;">
+              </div> 
+            </form>
+
+            <div id='rol_person'>
+              <p style="margin:-1.5% 0;"> <font SIZE=2>Rol: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div>
+
+            <div id='lug_nac_person'>
+              <p style="margin:-1.5% 0;"> <font SIZE=2>Lugar de nacimiento: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div> 
+            
+            <div id='ed_civ_person'>
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Estado civil: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div> 
+            
+            <div id='altura_person'>
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Altura: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div>  
+            
+            <div id='peso_person'>
+              <p style="margin:-1.5% 0;" > <font SIZE=2>Peso: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div> 
+
+            <div id='ojos_person'>
+              <p style="margin:-1.5% 0;"> <font SIZE=2>Ojos: </font> </p>
+              <hr style="margin:-1% 0;">
+            </div> 
+          </div>               
+           
+          <br>
+          <div class="row" id='lista_info' style="background-color:rgba(255, 255, 255, 0.623);"> 
+
+            <div class="container division_secciones" > <!-- Seccion 1 Poderes-->
+                <header id='titulo_lista'>
+                  <p> <b>Poderes</b></p>
+                </header>
+                <div class="container division_lista" id = "lista_poderes">
+                    
+                    <ul class="list-goup">
+                      <li class="list">
+                        <button type="button" class="list-group-item list-group-item-info" style="width:100%; height: 20px; margin: 0; padding: 0; text-align: center;"> <b>correr</b> </button>  
+                        <button type="button" class="list-group-item list-group-item-info" style="width:100%; height: 20px; margin: 0; padding: 0; text-align: center;"> <b>correr</b> </button> 
+                      </li>
+                      
+                    </ul>                    
+                </div>
+            </div>
+            
+
+            <div class="container division_secciones" > <!-- Seccion 2 Afiliaciones-->
+              <header id='titulo_lista'>
+                  <p><b>Afiliaciones</b></p>
+              </header>
+              <div class="container division_lista" id = "lista_afiliaciones" >                  
+                  
+                <ul class="list-goup">
+                    <li class="list">                      
+                    </li>                  
+                </ul>      
+                                
+              </div>
+            </div>
+
+            <div class="container division_secciones" > <!-- Seccion 3 Parientes-->
+              <header id='titulo_lista'>
+                <p ><b>Parientes</b></p>
+              </header>
+              <div class="container division_lista" >
+                  
+                  <ul class="list-goup">
+                    <li class="list-group-item list-group-item-info">
+                      <p> Tio Ben</p>
+                    </li>
+                  </ul>                    
+              </div>
+            </div>
+
+            <div class="container division_secciones" > <!-- Seccion 4 Alias-->
+              <header id='titulo_lista'>
+                <p><b>Alias</b></p>
+              </header>
+              <div class="container division_lista" >
+                  
+                  <ul class="list-goup">
+                    <li class="list-group-item list-group-item-info" >
+                      <p> Cambur</p>
+                    </li>
+                    <li class="list-group-item list-group-item-info" >
+                        <p> Cambur</p>
+                      </li>
+                  </ul> 
+
+              </div>
+            </div>
+
+          </div>
+
+        </div><!--Fin datos primarios-->
+        
+        
+        <section class="row" id="extra_datos">
+            <div class="container" id="seccion_biografia"> <!--Seccion biografia-->
+              <div class="panel panel-danger">
+                  <div class="panel-heading" id='titulo_biografia'>Biografia</div>
+                  <div class="panel-body" id='contenido_biografia'>
+                    
+                  </div>
+              </div>
+            </div>
+            
+            <div class="container" id="seccion_estadisticas" > <!--Seccion Estadisticas-->
+              <table class="table table-sm" id="estadisticas">
+                  <thead class="thead-dark"> 
+                      <tr>
+                        <th scope="col">Atributo</th> 
+                        <th> <center>1</center></th> 
+                        <th> <center>2</center></th>
+                        <th> <center>3</center></th>
+                        <th> <center>4</center></th>
+                        <th> <center>5</center></th>
+                        <th> <center>6</center></th>
+                        <th> <center>7</center></th>                                          
+                      </tr>
+                  </thead>   
+                  <tbody> 
+                    <tr id = "fuer">
+                       <th scope="row">Fuerza</th>
+                       
+                    </tr>                   
+                    <tr id = "intel">
+                      <th scope="row">Inteligen</th>
+                      
+                    </tr>
+                    <tr id = "agil">
+                      <th scope="row">Agilidad</th>
+                      
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr id = "resi">
+                      <th scope="row">Resist</th>
+                      
+                    </tr>
+          
+                    <tr id = "proy_en">
+                      <th scope="row">Proyect Energy</th>
+                     
+                    </tr>
+          
+                    <tr id = "hab_comb">
+                      <th scope="row">Hab combat</th>
+                      
+                    </tr>
+                  </tbody>
+                  
+                </table>
+    
+            </div>
+            
+        </section>
+        
+      </section>
+              
+    </div><!--Fin visor de heroes-->
+    
+    <div class="container" id='lista_heroe'> <!-- lista de heroes-->
+      <div id='titulo_listado'>
+        <h4>Miembros del grupo:</h4>        
+        <h4 id="nombre_del_grupo"> <center id='palabra_nombre'>Nombre</center></h4>
+        <br>
+      </div>
+      <div id="scroll_heroe">
+          <div class="list-group">          
+              <button type="button" class="list-group-item list-group-item-action">Nombre</button>              
+          </div>     
+      </div>       
+    </div>
+    
+    <div class="container" id='lista_grupo'>  <!-- lista de grupos-->
+        <div class="container" id='titulo_listado'>
+          <h4>Grupos</h4>          
+          <div class="row justify-content-between">    {% csrf_token %} 
+            <input id='nombre_grupo' class="form-control mr-sm-2" type="search" placeholder="Descripcion" aria-label="Nombre" style="width:65%">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit" onclick="agregarNuevoGrupo('agregar_nuevo_grupo',$('#nombre_grupo').val(),'{{ csrf_token }}');">Agregar</button>
+          </div>
+          <br>
+        </div> 
+        <div id="scroll_grupo">
+            <div class="list-group" id="agregar_nuevo_grupo">      
+        
+            </div>     
+        </div>      
+    </div>
+  </section>
+    <!--Aca se envian los datos haciendo uso de la funcion que se encarga de enviar el session storage-->
+  <div id="enviarData">    
+    <button class="btn btn-primary my-2 my-sm-0" onclick="
+      if(sessionStorage.getItem('lista_grupos')){        
+        if( ((JSON.parse(sessionStorage.getItem('lista_grupos')).length )%2) === 0){
+          var URLactual = 'http://127.0.0.1:8000/eventos/'; 
+          location.href = URLactual;
+        }else{
+          alert('La cantidad de grupos es impar, no se pueden simular combates con esa cantidad de grupos');
+        }        
+      }     
+    " >Empezar nueva Batalla ahora</button>    
+  </div>
+    <!--MODAL---------------------------------------------------------------------------->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">                
+                <h4 class="modal-title" id="exampleModalLabel">Creacion de Evento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form method="GET" autocomplete="off" action="/autoCompleteLugar/">                   
+                    <div class="ui-widget autocomplete">
+                        <label for="lugar_input" class="control-label">Lugar:</label>
+                        <input  type="text" id="lugar_input" class="form-control">
+                    </div>
+                    <div class="form-group">
+                            <label for="recipient-name" class="control-label">Duracion (Dias):</label>
+                            <input data-toggle="tooltip" data-placement="top" title="maximo 3 dias" type="number" min="1" max ="3" class="form-control" id="dias_select">
+                    </div>
+                </form>
+            </div>
+            <form method="POST" action="/insertEvento/">
+                
+                <div class="modal-footer">
+                    {% csrf_token %}  
+                    <button id="cerrar_modal" disabled="true" type="button" class="btn btn-danger" >Close</button>
+                    <button id="crear_evento" type="button" class="btn btn-primary" onclick="postEventRquests('{{ csrf_token }}')">Crear Evento</button>
+                </div>
+            </form>
+            
+            </div>
+        </div>
+    </div>
+    <!--MODAL---------------------------------------------------------------------------->
+</body>
+
+<!-- Footer -->
+<footer class="page-footer font-small indigo" style="background-color:rgba(43, 43, 43, 0.514);color:white;">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2018 Copyright:
+    <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+{% csrf_token %}  
+<script>  
+    $( document ).ready(function() {
+      cargarListaGrupos("{{ csrf_token }}");
+      var booleano = "{% isEventEmpy %}"        
+      $("#cerrar_modal").attr("disabled",booleano);
+      if(booleano)
+      $('#exampleModal').modal({backdrop: 'static', keyboard: false})  
+      $('#exampleModal').modal("show");
+      crearModalPoder();
+    });
+</script>
+<script> //ATUO COMPLETE ----------------------------------------
+
+    function autocomplete(inp) {    
+        var currentFocus;    
+        var arr = [];
+    
+        inp.addEventListener("input", function(e) {
+            var a, b, i, val = this.value;
+            closeAllLists();
+            if (!val) { return false;}
+            currentFocus = -1;
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            
+            this.parentNode.appendChild(a);
+            
+            var find = $("#lugar_input").val();
+            var suggestion = [];
+            if(find.length >= 3){
+                $.ajax({
+                    url:"/autoCompleteLugar/",            
+                    async:false,
+                    dataType:"json",
+                    type:"GET",
+                    data:{"find":find},
+                success: function(respuesta){                        
+                    $.each(respuesta,function(index,objeto){
+                        suggestion.push(objeto.value);
+                    });                         
+                },
+                error: function(error){
+                    alert("error");
+                }
+                });
+            }            
+            arr = suggestion;        
+            for (i = 0; i < arr.length; i++) {
+             
+              if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                b = document.createElement("DIV");
+                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                b.innerHTML += arr[i].substr(val.length);
+                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                    b.addEventListener("click", function(e) {                
+                    inp.value = this.getElementsByTagName("input")[0].value;                
+                    closeAllLists();
+                });
+                a.appendChild(b);
+              }
+            }
+        });
+        inp.addEventListener("keydown", function(e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+              currentFocus++;
+              addActive(x);
+            } else if (e.keyCode == 38) { 
+              currentFocus--;
+              
+              addActive(x);
+            } else if (e.keyCode == 13) {
+              e.preventDefault();
+              if (currentFocus > -1) {
+                if (x) x[currentFocus].click();
+              }
+            }
+        });
+        function addActive(x) {
+          
+          if (!x) return false;
+        
+          removeActive(x);
+          if (currentFocus >= x.length) currentFocus = 0;
+          if (currentFocus < 0) currentFocus = (x.length - 1);
+         
+          x[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(x) {
+         
+          for (var i = 0; i < x.length; i++) {
+            x[i].classList.remove("autocomplete-active");
+          }
+        }
+        function closeAllLists(elmnt) {
+         
+          var x = document.getElementsByClassName("autocomplete-items");
+          for (var i = 0; i < x.length; i++) {
+            if (elmnt != x[i] && elmnt != inp) {
+            x[i].parentNode.removeChild(x[i]);
+          }
+        }
+      }
+      document.addEventListener("click", function (e) {
+          closeAllLists(e.target);
+      });
+      }
+    </script>
+    
+    <script>       
+            autocomplete(document.getElementById("lugar_input"));
+    </script>
+</html>

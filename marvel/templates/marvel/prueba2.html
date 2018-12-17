@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <script src="../../static/marvel/js/jquery/jQuery-3.3.1.min.js"></script>
+    <script src="../../static/marvel/js/jquery/jquery-ui.min.js"></script>
+    <script src="../../static/marvel/js/bootstrap.min.js"></script> 
+    <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
+</head>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#lugar_input").autocomplete({
+            minLength:3,
+            source: "/autoCompleteLugar/"                
+        });
+    });
+</script>
+<body>
+    
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">                
+                <h4 class="modal-title" id="exampleModalLabel">Creacion de Evento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    <div class="ui-widget">
+                        <label for="lugar_input" class="control-label">Lugar:</label>
+                        <input  id="lugar_input">
+                    </div>
+                    <div class="form-group">
+                            <label for="recipient-name" class="control-label">Duracion:</label>
+                            <input type="number" min="1" max ="3" class="form-control" id="recipient-name">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send message</button>
+            </div>
+            </div>
+        </div>
+   
+</body>
+</html>

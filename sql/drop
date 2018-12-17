@@ -1,40 +1,40 @@
-drop table a_a cascade;
+drop table gnu_a_a cascade;
 
-drop table afili cascade;
+drop table gnu_afili cascade;
 
-drop table c_p cascade;
+drop table gnu_c_p cascade;
 
-drop table catego cascade;
+drop table gnu_catego cascade;
 
-drop table combat cascade;
+drop table gnu_combat cascade;
 
-drop table destr cascade;
+drop table gnu_destr cascade;
 
-drop table even cascade;
+drop table gnu_even cascade;
 
-drop table habili cascade;
+drop table gnu_habili cascade;
 
-drop table inscri cascade;
+drop table gnu_inscri cascade;
 
-drop table lugar cascade;
+drop table gnu_lugar cascade;
 
-drop table p_a cascade;
+drop table gnu_p_a cascade;
 
-drop table p_d cascade;
+drop table gnu_p_d cascade;
 
-drop table p_par cascade;
+drop table gnu_p_par cascade;
 
-drop table p_pod cascade;
+drop table gnu_p_pod cascade;
 
-drop table parafer cascade;
+drop table gnu_parafer cascade;
 
-drop table per_noper cascade;
+drop table gnu_per_noper cascade;
 
-drop table person cascade;
+drop table gnu_person cascade;
 
-drop table person_no_combat cascade;
+drop table gnu_person_no_combat cascade;
 
-drop table poder cascade;
+drop table gnu_poder cascade;
 
-drop table univer cascade;
+drop table gnu_univer cascade;
 

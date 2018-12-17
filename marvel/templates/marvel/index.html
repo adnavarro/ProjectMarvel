@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+   
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Base de datos Marvel</title>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0, width=device-width">
+    <script src="../../static/marvel/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/marvel/css/index.css">
+    
+</head>
+
+<header class="container">
+        <h1>Banco de datos de Personajes de Marvel</h1>
+        <hr/>  
+        <nav class="navbar navbar-light bg-light justify-content-between">
+            <a class="navbar-brand">Navbar</a>
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </nav>      
+  </header>    
+
+<body>
+  
+  <div class="container">
+      <div class="row"> 
+        <div class="col card" style="width: 17rem;"><!-- Agregar-->
+            {% load staticfiles %}
+            <img id="seccion_pagina" class="card-img-top rounded float-left" src="{% static 'marvel/img/nuevoHeroe.png' %}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Agregar nuevo elemento</h5>
+            </div>     
+            <div class="overlay">
+                <div class="text"></div>
+            </div>
+        </div>
+
+        <div class="col card" style="width: 17rem;" onclick =" var URLactual = window.location + 'battle'; location.href = URLactual; "> <!-- Luchas-->
+                {% load staticfiles %}
+                <img id="seccion_pagina" class="card-img-top rounded float-left" src="{% static 'marvel/img/Pelea.png' %}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Simular combate</h5>
+                </div>  
+                <div class="overlay">
+                    <div class="text"></div>
+                </div>   
+        </div>
+
+        <div class="col card" style="width: 17rem;"> <!-- Luchas-->
+                {% load staticfiles %}
+                <img id="seccion_pagina" class="card-img-top rounded float-left" src="{% static 'marvel/img/Editar.png' %}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Editar datos</h5>
+                </div> 
+                <div class="overlay">
+                    <div class="text"></div>
+                </div>    
+        </div>
+
+        <div class="col card" style="width: 17rem;"> <!-- Luchas-->
+                {% load staticfiles %}
+                <img id="seccion_pagina" class="card-img-top rounded float-left" src="{% static 'marvel/img/Historial.png' %}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Historial</h5>
+                </div>   
+                <div class="overlay">
+                    <div class="text"></div>
+                </div>  
+        </div>
+      </div>    
+
+  </div>
+  
+ </div>
+</body>
+
+<!-- Footer -->
+<footer class="page-footer font-small indigo">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2018 Copyright:
+    <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+</html>

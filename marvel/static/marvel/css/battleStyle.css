@@ -1,0 +1,198 @@
+body{
+    background-image: url("../img/ciudad2.jpg") ;
+}
+nav{
+    background-color:rgba(226, 226, 226, 0.342);
+}
+.navegacion{
+    height:145px;
+    width: auto;         
+    overflow-y: hidden; 
+    overflow-x: auto;
+    white-space: nowrap;    
+    display: inline-flex;
+    padding: 10px;
+    background-color:rgba(224, 224, 224, 0.342);
+    border-right:1px solid black; 
+    border-left:1px solid black;
+    border-top:1px solid black; 
+    border-bottom:1px solid black;
+}
+
+#carta_personaje{    
+    width: 10%;
+    height: 100%; 
+    background: rgba(255, 255, 255, 0.521);
+    transition: all 0.5s;   
+}
+#miniatura_personaje{
+    opacity: 0.5;
+}
+#carta_personaje:hover {
+    background-color: white;    
+}
+#carta_personaje:hover #miniatura_personaje {
+    opacity: 1;
+}
+#carta_personaje:active {
+    background-color: rgb(169, 194, 240);    
+}
+
+#edicion_grupo{
+    background-color:rgba(112, 112, 112, 0.342);
+    height: 580px;
+    width: 100%;
+    margin-left: 0.2%;
+    border-right:1px solid black; 
+    border-left:1px solid black;
+    border-top:1px solid black; 
+    border-bottom:1px solid black;
+}
+
+#ficha_heroe{    
+    width: 50%;
+    height: 100%;
+    border-right:1px solid black; 
+    border-left:1px solid black; 
+}
+#miniatura_personaje :hover{
+    opacity: 0;
+}
+#titulo_listado{
+    background-color: rgb(24, 30, 39);
+    color:white;
+}
+#lista_heroe{
+    width: 25%;
+    height: 92%;
+    padding: 0;    
+    border-right:1px solid black; 
+    border-left:1px solid black;
+    
+}
+#scroll_heroe{
+    height: 87%;
+    overflow: auto;
+}
+
+#lista_grupo{
+    width: 25%;
+    height: 80%;
+    padding: 0;    
+    border-right:1px solid black; 
+    border-left:1px solid black;   
+}
+#scroll_grupo{
+    height: 100%;
+    overflow: auto;
+}
+#imagen_heroe{     
+    height: 120%;
+    width: 40%;
+    margin-left: 0;
+    
+    padding: 0;
+}
+#datos_heroe{
+       
+    height: 50%;
+    width: 60%;
+    margin-left: 0;
+    padding: 0;
+}
+#titulo_lista{
+    color: white;
+    background: rgb(21, 23, 29);
+}
+#lista_info{
+       
+    width: 100%;
+    margin-left: 0;
+    padding: 0;
+}
+.division_secciones{
+    width: 25%;
+    height: 145px;
+    font-size: 10px;
+    padding: 0;
+
+    border-right:2px solid black;    
+    border-left:2px solid black;
+    border-top:2px solid black; 
+    border-bottom:1px solid black;
+}
+
+.grupo-combate :hover{
+    transition: .5s ease;
+    background-color: rgb(203, 252, 229);
+}
+.grupo-combate :active{
+    transition: .2s ease;
+    background-color: rgb(143, 179, 162);
+}
+#titulo_lista{    
+    width: 100%;
+    margin-left: 0;
+    padding: 0;
+    text-align: center;
+}
+.division_lista{     
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    height: 80%;    
+    overflow: auto;    
+}
+.division_lista ul{
+    width: auto;    
+   margin-left: 0;
+   padding: 0;   
+   list-style: none;
+}
+.division_lista ul li{ 
+        
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-weight: bold;
+ }
+
+
+#extra_datos{
+    width: 100%;
+    height: auto;
+    padding: 0;
+    margin-left: 0;
+}
+#seccion_biografia{
+    width: 40%;
+    padding: 0;
+    margin-left: 0;
+    border-right:1px solid rgba(29, 29, 29, 0.527);
+    border-bottom:1px solid rgba(29, 29, 29, 0.527);
+}
+#titulo_biografia{
+    background-color: rgb(29, 29, 29);
+    color: white;
+}
+#contenido_biografia{
+    font-size: 10px;
+    height: 100%;    
+         
+}
+#seccion_estadisticas{
+    background: rgb(255, 255, 255);
+    color:black;
+    width: 60%;
+    padding: 0;
+    margin-left: 0;
+    border-bottom:1px solid rgba(29, 29, 29, 0.527);
+    height: 133%;
+}
+
+#estadisticas{
+    font-size: 9px;
+    height: 100%;    
+}

@@ -1,0 +1,36 @@
+
+#seccion_pagina{
+    opacity: 1;
+  }
+
+  #seccion_pagina :hover{
+    opacity: 1;
+  }
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5%;
+  right: 0;
+  height: 78%;
+  width: 90%;
+  opacity: 1;
+  transition: .5s ease;
+  background-color: rgba(0, 0, 0, 0.473);
+}
+
+.col:hover .overlay {
+  opacity: 0;
+}
+.col:active .overlay {
+   position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5%;
+  right: 0;
+  height: 78%;
+  width: 90%;
+  opacity: 1;
+  transition: .5s ease;
+  background-color: rgba(0, 0, 0, 0.473);
+}
