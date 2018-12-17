@@ -99,8 +99,8 @@ function focusGrupos(nombre_elemento,numero,token){ //Hace focus a la etiqueta s
         if(listaPersonajes.length > 0){
             $.ajax({
                 url:"/personInGroup/",
-                type:"POST",
-                data:{ 'lista[]':JSON.stringify(listaPersonajes),csrfmiddlewaretoken:token },
+                type:"GET",
+                data:{ 'lista[]':JSON.stringify(listaPersonajes)},
                 success:function(respuesta){
                     lista = [];
                     lista = respuesta.split(",");                    

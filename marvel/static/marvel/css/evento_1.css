@@ -3,14 +3,16 @@ body{
 }
 header{
     color:white;
+    
     background-color:  rgba(135, 135, 145, 0.452);
     border-radius: 1%;
-    border-right:1px solid  rgb(16, 26, 29);  
+    border-right:1px solid  rgb(44, 213, 255);  
     border-left:1px solid  rgb(44, 213, 255); 
     border-top:1px solid  rgb(44, 213, 255);  
     border-bottom:1px solid  rgb(44, 213, 255);  
 }
 header nav{
+    margin-left: 2%;
     color: black;
     background-color: rgba(197, 196, 247, 0);
 }
@@ -26,37 +28,86 @@ header nav{
     border-top:1px solid  rgb(44, 213, 255);  
     border-bottom:1px solid  rgb(44, 213, 255); 
 }
+#cuerpo_historial{
+    width: 100%;   
+    height: 250px;
+    margin-left:8.5%;
+    padding: 0;
+    display: inherit;
+    background-color: rgba(135, 135, 145, 0.452);
+    border-right:1px solid rgb(44, 213, 255); 
+    border-left:1px solid rgb(44, 213, 255); 
+    border-top:1px solid  rgb(44, 213, 255);  
+    border-bottom:1px solid  rgb(44, 213, 255); 
+}
 #titulo_lista_personajes{
-    width: 100%;    
-    background-color: rgb(43, 183, 226);
+    width: 99%;    
+    background-color:  rgba(12, 12, 12, 0.507);
+    color:white;
+    text-align: center;
 }
 #titulo_resultados{
-    width: 100%;    
-    background-color: rgb(43, 183, 226);
+    width: 100%;
+    height: 15%;    
+    padding: 0;
+    margin: 0;    
+    background-color: rgba(12, 12, 12, 0.507);
+    color: white;
+    text-align: center;
+}
+#titulo_conclusion{
+    width: 100%;
+    height: 15%;    
+    padding: 0;
+    margin: 0;    
+    background-color: rgba(12, 12, 12, 0.507);
+    color: white;
+    text-align: center;
 }
 #nombre_personaje{
     width: 90%;
+    margin-left: 3%;
 }
 #lista_personajes{
     padding: 0;
-    width: 25%;
+    margin: 0;
+    margin-left:1%; 
+    width: 24%;
     height: 250px;
-    display: inline-block;
-    background-color: blueviolet;
+    background-color: rgba(0, 0, 0, 0.363);
 }
 #conclusion{
     padding: 0;
     margin:0;    
-    width: 25%;
+    width: 24%;
     height: 250px;
-    display: inline-block;
-    background-color: rgb(43, 46, 226);
+    background-color: rgba(0, 0, 0, 0.363);
 }
 #tablon_resultados{
     padding: 0;
-    margin:0;    
-    width: 45%;
+    margin:0; 
+    width: 50%;
     height: 250px;
-    display: inline-block;
-    background-color: rgb(49, 226, 43);
+    background-color: rgba(0, 0, 0, 0.363);
+}
+#tablon_valores{
+    position: relative;
+    margin-top: -20px;  
+    overflow:auto;
+    height: 155px;  
+    padding: 0;      
+}
+#cuerpo_conclusion{    
+    width: 99%;
+    height: 210px;
+}
+#primer_lugar{
+    width: 100%;
+    height: 50%;
+    background-color: blue;
+}
+#segundo_lugar{
+    width: 100%;
+    height: 50%;
+    background-color: green;
 }

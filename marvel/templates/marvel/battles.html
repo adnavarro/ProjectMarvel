@@ -77,7 +77,7 @@
         <div class="container" id= 'imagen_heroe'>   
             {% csrf_token %}               
           <img class='card-img-top ' id='imagen_heroe_ruta' src='../../static/marvel/img/HeroePerfil.png' alt='Card image cap' >
-          <button id="Eliminar_Heroe" type="button" class="btn  btn-danger" style="display:none; position:absolute;margin-top:-4%;margin-left: 0.5%" >Eliminar</button>
+          <button id="Eliminar_Heroe" onclick="eliminarPersonajeGrupo('{{ csrf_token }}');" type="button" class="btn  btn-danger" style="display:none; position:absolute;margin-top:-4%;margin-left: 0.5%" >Eliminar</button>
           <button id="Añadir_Heroe" onclick="agegarPersonajeGrupo('{{ csrf_token }}');" type="button" class="btn btn-success" style="display:none; position:absolute;margin-top:-4%;margin-left: 10%" >Agregar</button>
         </div>
 
@@ -306,23 +306,25 @@
           <br>
         </div> 
         <div id="scroll_grupo">
-            <div class="list-group" id="agregar_nuevo_grupo">          
-                
-              
-
+            <div class="list-group" id="agregar_nuevo_grupo">      
+        
             </div>     
         </div>      
     </div>
   </section>
     <!--Aca se envian los datos haciendo uso de la funcion que se encarga de enviar el session storage-->
-  <form method="POST" action="{% url 'marvel:search' %}" id="enviarData"> 
-      {% csrf_token %}   
-  <button class="btn btn-primary my-2 my-sm-0" onclick="alert('Sin abilitar temporalmente')" >Empezar nueva Batalla ahora</button> 
-  <div div="etiquetasConDatos">
-        
-  </div>    
-    <!--Empezar-->
-  </form>
+  <div id="enviarData">    
+    <button class="btn btn-primary my-2 my-sm-0" onclick="
+      if(sessionStorage.getItem('lista_grupos')){        
+        if( ((JSON.parse(sessionStorage.getItem('lista_grupos')).length )%2) === 0){
+          var URLactual = 'http://127.0.0.1:8000/eventos/'; 
+          location.href = URLactual;
+        }else{
+          alert('La cantidad de grupos es impar, no se pueden simular combates con esa cantidad de grupos');
+        }        
+      }     
+    " >Empezar nueva Batalla ahora</button>    
+  </div>
     <!--MODAL---------------------------------------------------------------------------->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">

@@ -77,8 +77,7 @@ def search(request): #Aca se reciben los datos, por ahora solo los imprimo por c
 
 def autoCompleteLugar(request):
     if request.is_ajax:
-        palabra = request.GET.get('find')
-       
+        palabra = request.GET.get('find')       
         lugares = Lugar.objects.filter(nombre__icontains = palabra)
         resultado = []
         lugar_json = {}
@@ -111,14 +110,30 @@ def insertEvento(request):
     else:
         return HttpResponse("no ajax")
 
+def getInscrit(request):
+    numeroGrupo = request.GET.get("numGrup");
+    numeroEvento = request.GET.get("numEvent");
+    inscritos = Inscri.objects.filter(n_grupo = numeroGrupo,fk_even = numeroEvento )
+    listaPersonaje = []
+    longitud = len(inscritos)
+    contador = 0
+    for personaje in inscritos: 
+        if(contador < (longitud-1) ):       
+            listaPersonaje.append( str(personaje.fk_person.id) + ",")
+        else:
+            listaPersonaje.append( str(personaje.fk_person.id))
+        contador = contador + 1
+
+    return HttpResponse(listaPersonaje)
+
 def personInGroup(request):
-    lista = request.POST.get("lista[]")
+    lista = request.GET.get("lista[]")
+    print(lista)
     lista = eval(lista)
     listaPersonaje = []
     for idPer in lista: 
         per = Person.objects.get(id = idPer)     
         listaPersonaje.append(per.nombre+",")
-
     return HttpResponse(listaPersonaje)
 
 def getPerson(request):
@@ -126,3 +141,24 @@ def getPerson(request):
     person = Person.objects.get( id = id_Person)
     nombre_person = person.nombre
     return HttpResponse(nombre_person)
+
+def deletInscri(request):
+    idPerson  = int(request.POST.get('fk_person'))
+    numGrupo  = int(request.POST.get('num_grupo'))
+    numEnvent = int(request.POST.get('fk_even'))
+    
+    if personValidate(idPerson) == 1: #Si es 1 el personaje existe
+        return HttpResponse(inscriDelete(numGrupo, idPerson, numEnvent))       
+    else:
+        return HttpResponse("person_not_found")
+    
+def combate(request):#Recibe parametros de ajax para el evento 
+    personaje_1 = request.GET.get("primerPersonaje")#Id
+    personaje_2 = request.GET.get("segundoPersonaje")
+    numeroGrupo = request.GET.get("numGrupo")
+    numeroEvento = request.GET.get("numEvento")
+    simularBatallas(int(personaje_1),int(personaje_2),int(numeroEvento),int(numeroGrupo))
+    return HttpResponse("success")
+
+def deletGroup():
+    return HttpResponse("success")

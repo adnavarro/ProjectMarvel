@@ -48,7 +48,7 @@ def inscribirPersonaje(ngrupo,fkperson,fkevento):#id,ngrupo,punto,campeon,descri
             fk_even = Event
         )
         ins.save()
-        return "Personaje guardado"
+        return "per_save"
     except:
         return "Error: No se pudo guardar"
     
@@ -77,11 +77,12 @@ def inscriDelete(ngroup, idpersona, fk_even):
     except Person.DoesNotExist:
         return(-1)    
     ins = Inscri.objects.get(n_grupo=ngroup,fk_person=idpersona,fk_even= fk_even)  
+    
     try:
-     ins.delete()
-    except:
-            print("No se pudo borrar al inscrito")
-            return(0)
+        ins.delete()
+    except:            
+        return(0)
+        
     return(1)
     
 #Valido que existe el personaje
@@ -150,6 +151,8 @@ def groupValidate(fecha):
         return(0)
     
 #Simulo la etapa1
+def simularBatallas(personaje_1,personaje_2,evento,grupo): #ACA esta para que terminen lo de la batalla
+    return None
 def mula1():
     winner=randbelow(3) #0: Empate, 1: Gana el personaje 1, 2: Gana el personaje 2
     return (winner)

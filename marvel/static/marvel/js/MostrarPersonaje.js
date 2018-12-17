@@ -1,10 +1,7 @@
 
 var idPersonajeActual = -1;
 var arregloDeIdPorGrupo = [];
-var grupoCreado = {
-    nombre:'',
-    integrante:''
-};
+
 function getPersonaje(){
     $.ajax({
         url: "/getPerson/",
@@ -13,6 +10,7 @@ function getPersonaje(){
             id_person:idPersonajeActual,              
         },
         success:function(respuesta){
+            
             $("#scroll_heroe").append(
                 '<div class="list-group"> '+         
                 '<button type="button" class="list-group-item list-group-item-action">'+respuesta+'</button>'+ 
@@ -79,7 +77,7 @@ function verDatos(nombre,
     ojos,biografia,sexo,rol,
     fuer,inte,agil,resi,proy,hab,id,
     listaPoderes,listaAfili){
-        
+
     llenarAtributo(fuer,inte,agil,resi,proy,hab);
     llenarPoderes(listaPoderes);
     llenarAfiliaciones(listaAfili);
@@ -87,7 +85,7 @@ function verDatos(nombre,
     function identidadFunc(){if(identidad === 'D') return "Desconocida"; else return "Conocida";}
     function rolFunc(){if (rol === 'H') return "Heroe"; else if (rol === 'V') return "Villano"; else return "Anti-Heroe";}
     function edoCivilFunc(edo) { if(edo === "S") return "Soltero"; else return "Casado"; }
-
+        
     $("#nombre_person").html(
     '<p style="margin:-1.5% 0;" ><font SIZE=2>Nombre original: '+nombre+'</font></p>'+
     ' <hr style="margin:-1% 0;"></hr>'
@@ -136,26 +134,44 @@ function verDatos(nombre,
     $("#contenido_biografia").html(
         '<p>'+ biografia +'</p>'        
     );   
-    verificarFocusGrupo(id); 
-    
+    verificarFocusGrupo(id);  
 }
 
 function verificarFocusGrupo(id){
     if(!sessionStorage.getItem("actualGroup")){
+        $('#Eliminar_Heroe').css('display','none');                
         $("#Añadir_Heroe").css("display","none");
         idPersonajeActual = -1;
     }else{
-        $("#Añadir_Heroe").css("display","block");
-        idPersonajeActual = id;  
-        if(!sessionStorage.getItem(sessionStorage.getItem("actualGroup"))) {
-            arregloDeIdPorGrupo = [];
-            alert("Vacio");           
-        }else{
-            if(sessionStorage.getItem(sessionStorage.getItem("actualGroup")).length > 0)
-            arregloDeIdPorGrupo  = JSON.parse(sessionStorage.getItem(sessionStorage.getItem("actualGroup")));
-            else
+        idPersonajeActual = id; 
+        encontrado = false;
+        nombreGrupo = sessionStorage.getItem("actualGroup");
+
+        if(sessionStorage.getItem(nombreGrupo)){ //Si el grupo no esta vacio
+            integrantes = JSON.parse(sessionStorage.getItem(nombreGrupo));
+            if(integrantes.length > 0){
+                arregloDeIdPorGrupo = integrantes;
+                integrantes.forEach(function(element){
+                    if(element === idPersonajeActual){
+                        encontrado = true;                                    
+                    }
+                });
+            }else{
                 arregloDeIdPorGrupo = [];
-        }                     
+            }            
+        }else{
+            arregloDeIdPorGrupo = [];
+        }        
+        if(!encontrado){
+            $("#Eliminar_Heroe").css("display","none");
+            $("#Añadir_Heroe").css("display","block");
+        }else if (encontrado){            
+            $('#Eliminar_Heroe').css('display','block');
+            $("#Añadir_Heroe").css("display","none");
+        }  
+
+        //condicion si esta en un grupo 
+                          
     }      
 }
 
@@ -176,21 +192,54 @@ function agegarPersonajeGrupo(token){//Se usa una lista que se vaciara si se cam
                 alert("Personaje guardado");
                 arregloDeIdPorGrupo.push(idPersonajeActual);
                 sessionStorage.setItem(sessionStorage.getItem("actualGroup"),JSON.stringify(arregloDeIdPorGrupo));
+                $('#Eliminar_Heroe').css('display','block');
+                $('#Añadir_Heroe').css('display','none');
                 getPersonaje();                
             }else if(respuesta === "error_per_usado"){
                 alert("El personaje ya esta en un grupo");
             }else{
                 alert("no se pudo guardar el personaje");
-            }
-                        
+            }                        
         },error:function(data){
             alert("error");            
         }
-      });
-   
+      });   
 }
-function almacenarDatosStorage(nombreGrupo,listaMiembros) {  //Modificar para guardar un estandar de grupo
-    sessionStorage.setItem("miembros_"+nombreGrupo,JSON.stringify(listaMiembros));
+
+function eliminarPersonajeGrupo(token){//Se usa una lista que se vaciara si se cambia de focus en el grupo
+    operacionExitosa = true; //
+    personajeEnUso = false;    
+    $.ajax({
+        url: "/deletInscri/",
+        type: "POST",
+        data:{ 
+              fk_person:idPersonajeActual,
+              num_grupo:sessionStorage.getItem("numeroGrupo"),
+              fk_even:sessionStorage.getItem("eventoActual"),
+              csrfmiddlewaretoken: token
+            },            
+        success: function(respuesta){
+            if(respuesta === "1"){
+                alert("Personaje Eliminado");
+                arregloDeIdPorGrupo.pop(idPersonajeActual);
+                sessionStorage.setItem(sessionStorage.getItem("actualGroup"),JSON.stringify(arregloDeIdPorGrupo));
+                $('#Eliminar_Heroe').css('display','none');
+                $('#Añadir_Heroe').css('display','block');
+                integrantesRestantes = JSON.parse(sessionStorage.getItem( sessionStorage.getItem("actualGroup")));
+                if(integrantesRestantes.length > 0)
+                    focusGrupos(sessionStorage.getItem("actualGroup"),sessionStorage.getItem("numeroGrupo"),token)
+                else{
+                    sessionStorage.removeItem(sessionStorage.getItem("actualGroup"));
+                    focusGrupos(sessionStorage.getItem("actualGroup"),sessionStorage.getItem("numeroGrupo"),token);
+                }               
+            }
+            else{
+                alert("no se pudo eliminar el personaje");
+            }                        
+        },error:function(data){
+            alert("error");            
+        }
+      });   
 }
 
 function llenarPoderes(listaPoder){     
@@ -232,6 +281,3 @@ function llenarParientes(){
 function llenarAlias(){
 
 }
-
-
-
