@@ -93,18 +93,20 @@ def personValidate(persona):
         return(0) #Si retorna 0 significa que el personaje no existe
     return (1)    #Sino el personaje si existe y me retorna 1
 
-#Valido que los personajes no sean Aliados
-def etp1Validate(persona, even, ngrupo):
+#Valido que los personajes no esten relacionados
+def relVali(ngroup,idpersona, fk_even):
     try:
-        ins = Inscri.objects.get(fk_even = even, n_grupo = ngrupo)
+         ins = Inscri.objects.filter(n_grupo=ngroup,fk_even= fk_even)   
     except Inscri.DoesNotExist:
-        return (1)
-    IdCompa = ins.fk_person
-    try:
-        PerNoper.objects.get(fk_person = persona, fk_person_rel = IdCompa, tipo_rel = "Aliado")
-    except PerNoper.DoesNotExist:
-        return (1) #Si retorna 1 los personajes SI pueden pelear
-    return (0) #Si retorna 0 los personajes no pueden pelear
+        return (-1)
+    for i in ins:
+        try:
+            data = PerNoper.objects.get(fk_person = idpersona, fk_person_rel = i.fk_person)
+            if (data is not None):
+                return(0)
+        except PerNoper.DoesNotExist:
+            print("Este personaje no guarda relación")      
+    return (1) #Si retorna 1 los personajes pueden pelear
 
 #Valido que el personaje no se encuentre en otro grupo
 def perGroupValidate(persona, fech):
