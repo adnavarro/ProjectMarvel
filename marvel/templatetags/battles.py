@@ -153,19 +153,20 @@ def groupValidate(fecha):
         return(0)
     
 #Simulo la etapa1
-def simularBatallas(personaje_1, personaje_2):
+def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo):
     print("Entro")
     try:
         inscri = Inscri.objects.latest('id')
         inscrid= inscri.id + 1
     except:
         inscrid=0
-    lucha1 = Inscri.objects.get(fk_person = personaje_1)
-    lucha2 = Inscri.objects.get(fk_person = personaje_2)
-    hoy = datetime.today()
-    win = mula()
-    fechaActual = "%Y-%m-%d"
     try:
+        lucha1 = Inscri.objects.get(fk_person = personaje_1, fk_even = numeroEvento, n_grupo = numeroGrupo)
+        lucha2 = Inscri.objects.get(fk_person = personaje_2, fk_even = numeroEvento, n_grupo = numeroGrupo)
+        hoy = datetime.today()
+        win = mula()
+        fechaActual = "%Y-%m-%d"
+        
         bat = Combat(
             id = inscrid,
             fech = hoy.strftime(fechaActual),
@@ -176,7 +177,7 @@ def simularBatallas(personaje_1, personaje_2):
         )
         bat.save()
     except:
-        return "No se pudo realizar el combate"
+        return "Hubo un error, no se pudo realizar el combate"
     if win == 0:
         return "Hubo un empate"
     elif win == 1:

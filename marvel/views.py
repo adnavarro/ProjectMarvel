@@ -156,11 +156,11 @@ def deletInscri(request):
         return HttpResponse("person_not_found")
     
 def combate(request):#Recibe parametros de ajax para el evento 
-    personaje_1 = request.GET.get("primerPersonaje")#Id
-    personaje_2 = request.GET.get("segundoPersonaje")
-    numeroGrupo = request.GET.get("numGrupo")
-    numeroEvento = request.GET.get("numEvento")
-    return HttpResponse(simularBatallas(int(personaje_1),int(personaje_2)))
+    personaje_1 = int(request.GET.get("primerPersonaje"))#Id
+    personaje_2 = int(request.GET.get("segundoPersonaje"))
+    numeroGrupo = int(request.GET.get("numGrupo"))
+    numeroEvento = int(request.GET.get("numEvento"))
+    return HttpResponse(simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo))
 
 def deletGroup():
     return HttpResponse("success")
