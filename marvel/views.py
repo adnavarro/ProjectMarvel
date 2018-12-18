@@ -292,20 +292,44 @@ def ganador(request):#Recibe parametros de ajax para el evento
                                 else:
                                     contador = contador + 1 
     
-    empateTotal = False
-    print(marcadorCantidad)
-    for contador in range(0,len(marcadorCantidad)):
-        if marcadorCantidad[0] == marcadorCantidad[contador]:
-            empateTotal = True
-        else:
-            empateTotal = False
-            break
+    empateTotal = comprobarEmpate(marcadorCantidad)    
+        
     if not empateTotal:
-        personajeGanador = marcadorNombres[marcadorCantidad.index(max(marcadorCantidad))]
+        personajeGanador = getPrimerLugar(marcadorNombres,marcadorCantidad)
+        segundoLugar = getSegundoLugar(marcadorNombres,marcadorCantidad)
     else:
         personajeGanador = "empate"
-    
+        segundoLugar = "empate"
+
+    print("Primera:",marcadorCantidad)
+    print("1-:",personajeGanador)
+    print("2-:",segundoLugar)
 
     return HttpResponse(personajeGanador)
 
+def comprobarEmpate(marcadorCantidad):
+    diferentes = 0
+    for contador in range(0,len(marcadorCantidad)):
+        if contador != marcadorCantidad.index(max(marcadorCantidad)):
+            if marcadorCantidad[ marcadorCantidad.index(max(marcadorCantidad))] == marcadorCantidad[contador]:            
+                return True 
 
+        if contador != marcadorCantidad.index(min(marcadorCantidad)):
+            if marcadorCantidad[ marcadorCantidad.index(min(marcadorCantidad))] == marcadorCantidad[contador]:            
+                return True
+               
+    return False
+
+def getPrimerLugar(marcadorNombres,marcadorCantidad):
+    return marcadorNombres[marcadorCantidad.index(max(marcadorCantidad))]
+
+def getSegundoLugar(marcadorNombres,marcadorCantidad):
+    listaDelSegundo = []
+    for contador in range(0,len(marcadorCantidad)):
+        if marcadorCantidad[contador] != marcadorCantidad.index(max(marcadorCantidad)):
+            listaDelSegundo.append(marcadorCantidad[contador])
+        else:
+            listaDelSegundo.append(0)                      
+    
+    print("Nueva:",listaDelSegundo)
+    return getPrimerLugar(marcadorNombres,listaDelSegundo)
