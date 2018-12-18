@@ -293,19 +293,15 @@ def ganador(request):#Recibe parametros de ajax para el evento
                                     contador = contador + 1 
     
     empateTotal = comprobarEmpate(marcadorCantidad)    
-        
+    listaRespuesta = "" 
     if not empateTotal:
         personajeGanador = getPrimerLugar(marcadorNombres,marcadorCantidad)
         segundoLugar = getSegundoLugar(marcadorNombres,marcadorCantidad)
+        listaRespuesta = ("1:"+personajeGanador+","+"2:"+segundoLugar)
     else:
-        personajeGanador = "empate"
-        segundoLugar = "empate"
-
-    print("Primera:",marcadorCantidad)
-    print("1-:",personajeGanador)
-    print("2-:",segundoLugar)
-
-    return HttpResponse(personajeGanador)
+        listaRespuesta = "empate"   
+    
+    return HttpResponse(listaRespuesta)
 
 def comprobarEmpate(marcadorCantidad):
     diferentes = 0
@@ -326,7 +322,8 @@ def getPrimerLugar(marcadorNombres,marcadorCantidad):
 def getSegundoLugar(marcadorNombres,marcadorCantidad):
     listaDelSegundo = []
     for contador in range(0,len(marcadorCantidad)):
-        if marcadorCantidad[contador] != marcadorCantidad.index(max(marcadorCantidad)):
+        print(marcadorCantidad[contador])
+        if marcadorCantidad[contador] != marcadorCantidad[marcadorCantidad.index(max(marcadorCantidad))]:
             listaDelSegundo.append(marcadorCantidad[contador])
         else:
             listaDelSegundo.append(0)                      

@@ -160,19 +160,43 @@ function obtenerPrimerLugar(numeroEvento,numeroGrupo,numeroFase){
                 numeroEven:numeroEvento,
                 numeroGrup:numeroGrupo,
                 numeroFas:numeroFase
-            },success:function(respuesta){                
+            },success:function(respuesta){ 
+                               
                 if(respuesta === "empate"){
                     combinacionesBetadas = [];
                     emparejarCombates(numeroFase);
-                }else{
-                   if(sessionStorage.getItem("campeones")){
-                        lista = JSON.parse(sessionStorage.getItem("campeones"));
-                        lista.push(respuesta);
-                        sessionStorage.setItem("campeones",JSON.stringify(lista));
-                   }else{
-                        lista = [];
-                        lista.push(respuesta);
-                        sessionStorage.setItem("campeones",JSON.stringify(lista));
+                }else{                    
+                   if(sessionStorage.getItem("campeones_1")){
+                        lista_ganador = JSON.parse(sessionStorage.getItem("campeones_1"));
+                        lista_segundo = JSON.parse(sessionStorage.getItem("campeones_2"));
+                        listaProcesada = respuesta.split(",");
+                        ganador = listaProcesada[0];
+                        segundo = listaProcesada[1];
+                        ganador = ganador.split(":");
+                        segundo = segundo.split(":");
+                        ganador = ganador[1];
+                        segundo = segundo[1];
+
+                        lista_ganador.push(ganador);
+                        lista_segundo.push(segundo);
+
+                        sessionStorage.setItem("campeones_1",JSON.stringify(lista_ganador));
+                        sessionStorage.setItem("campeones_2",JSON.stringify(lista_segundo));
+                   }else{    
+                        lista_ganador = [];
+                        lista_segundo = [];                    
+                        listaProcesada = respuesta.split(",");
+                        ganador = listaProcesada[0];
+                        segundo = listaProcesada[1];
+                        ganador = ganador.split(":");
+                        segundo = segundo.split(":");
+                        ganador = ganador[1];
+                        segundo = segundo[1];
+
+                        lista_ganador.push(ganador);
+                        lista_segundo.push(segundo);
+                        sessionStorage.setItem("campeones_1",JSON.stringify(lista_ganador));
+                        sessionStorage.setItem("campeones_2",JSON.stringify(lista_segundo));
                    } 
                 }
             },error:function(repsuesta){
