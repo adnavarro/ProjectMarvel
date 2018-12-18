@@ -6,6 +6,7 @@ cantidadTope = 0;
 combinacionesBetadas = [];
 listaPersonajes = [];
 
+
 function prepararContendientes(numGrupo,numEvent,token){ 
     numeroGrupoActual = numGrupo;
     numEvento = numEvent;
@@ -103,8 +104,7 @@ function emparejarCombates(nroFase){
                //alert(combinacionesBetadas.length+" - " + cantidadTope);              
                 setTimeout(function() {emparejarCombates(nroFase);}, 100);
             }     
-        }else{
-            alert("Fin de peleas");  
+        }else{              
             obtenerPrimerLugar(""+numEvento,""+numeroGrupoActual,nroFase);          
             $("#siguiente_combate").attr("disabled",false); 
         }
@@ -160,8 +160,21 @@ function obtenerPrimerLugar(numeroEvento,numeroGrupo,numeroFase){
                 numeroEven:numeroEvento,
                 numeroGrup:numeroGrupo,
                 numeroFas:numeroFase
-            },success:function(respuesta){
-                alert(respuesta);
+            },success:function(respuesta){                
+                if(respuesta === "empate"){
+                    combinacionesBetadas = [];
+                    emparejarCombates(numeroFase);
+                }else{
+                   if(sessionStorage.getItem("campeones")){
+                        lista = JSON.parse(sessionStorage.getItem("campeones"));
+                        lista.push(respuesta);
+                        sessionStorage.setItem("campeones",JSON.stringify(lista));
+                   }else{
+                        lista = [];
+                        lista.push(respuesta);
+                        sessionStorage.setItem("campeones",JSON.stringify(lista));
+                   } 
+                }
             },error:function(repsuesta){
                 alert("Error");
             }

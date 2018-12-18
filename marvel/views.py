@@ -210,12 +210,102 @@ def ganador(request):#Recibe parametros de ajax para el evento
     numEven = int(request.GET.get("numeroEven"))
     numFas  = int(request.GET.get("numeroFas"))    
     
-    inscrito = Inscri.objects.filter(n_grupo = numFas, fk_even = numEven)
-    
-    for personaje in inscrito:
-        combate = Combat.objects.filter(etp = numFas, fk_inscri1 = personaje)
-        
+    inscrito = Inscri.objects.filter(n_grupo = numGrup, fk_even = numEven)
+    marcadorNombres = []
+    marcadorCantidad = []
 
-    return HttpResponse("listo")
+    for personaje in inscrito:
+        marcadorNombres.append(personaje.fk_person.nombre)
+        marcadorCantidad.append(0) 
+
+    for personaje in inscrito:
+        print("Caso de :",personaje.fk_person.nombre)
+        combate = Combat.objects.filter(etp = numFas, fk_inscri1 = personaje) 
+        if combate != None:       
+            if len(combate) > 0:
+                for enfrentamiento in combate:                   
+                    ganador1 = enfrentamiento.fk_inscri1.fk_person
+                    ganador2 = enfrentamiento.fk_inscri2.fk_person
+                    if enfrentamiento.ganador == 1: # SI gana el primero
+                        contador = 0
+                        for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                            if nombreMarcador == ganador1.nombre:
+                                marcadorCantidad[contador] = marcadorCantidad[contador] + 2 
+                            else:
+                                contador = contador + 1    
+                        print("Gano:",ganador1.nombre)
+                    if enfrentamiento.ganador == 2: # Si gana el segundo
+                        contador = 0
+                        for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                            if nombreMarcador == ganador2.nombre:
+                                marcadorCantidad[contador] = marcadorCantidad[contador] + 2
+                            else:
+                                contador = contador + 1                         
+                        print("Gano:",ganador2.nombre)
+                    if enfrentamiento.ganador == 0: #Empate-----------------------------
+                        contador = 0
+                        for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                            if nombreMarcador == ganador1.nombre:
+                                marcadorCantidad[contador] = marcadorCantidad[contador] + 1
+                            else:
+                                contador = contador + 1
+                        contador = 0
+                        for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                            if nombreMarcador == ganador2.nombre:
+                                marcadorCantidad[contador] = marcadorCantidad[contador] + 1
+                            else:
+                                contador = contador + 1                 
+        else:
+            combate = Combat.objects.filter(etp = numFas, fk_inscri2 = personaje) 
+            if combate != None:       
+                if len(combate) > 0:
+                    for enfrentamiento in combate:                        
+                        ganador1 = enfrentamiento.fk_inscri1.fk_person
+                        ganador2 = enfrentamiento.fk_inscri2.fk_person
+                        if enfrentamiento.ganador == 1:
+                            contador = 0
+                            for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                                if nombreMarcador == ganador1.nombre:
+                                    marcadorCantidad[contador] = marcadorCantidad[contador] + 2
+                                else:
+                                    contador = contador + 1 
+                            print("Gano:",ganador1.nombre)
+                        if enfrentamiento.ganador == 2:
+                            contador = 0
+                            for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                                if nombreMarcador == ganador2.nombre:
+                                    marcadorCantidad[contador] = marcadorCantidad[contador] + 2
+                                else:
+                                    contador = contador + 1 
+                            print("Gano:",ganador2.nombre)
+                        if enfrentamiento.ganador == 0:
+                            contador = 0
+                            for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                                if nombreMarcador == ganador1.nombre:
+                                    marcadorCantidad[contador] = marcadorCantidad[contador] + 1
+                                else:
+                                    contador = contador + 1
+                            contador = 0
+                            for nombreMarcador in marcadorNombres: #Aumenta el marcador de los personajes
+                                if nombreMarcador == ganador2.nombre:
+                                    marcadorCantidad[contador] = marcadorCantidad[contador] + 1
+                                else:
+                                    contador = contador + 1 
+    
+    empateTotal = False
+    print(marcadorCantidad)
+    for contador in range(0,len(marcadorCantidad)):
+        if marcadorCantidad[0] == marcadorCantidad[contador]:
+            empateTotal = True
+        else:
+            empateTotal = False
+            break
+    if not empateTotal:
+        personajeGanador = marcadorNombres[marcadorCantidad.index(max(marcadorCantidad))]
+    else:
+        personajeGanador = "empate"
+    
+
+    return HttpResponse(personajeGanador)
 
 
