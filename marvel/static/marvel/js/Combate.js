@@ -101,17 +101,16 @@ function emparejarCombates(nroFase){
                 combatir(listaIdCombatientesActuales[combatiente_1-1],listaIdCombatientesActuales[combatiente_2-1],listaIdCombatientesActuales.indexOf(listaIdCombatientesActuales[combatiente_1-1]),listaIdCombatientesActuales.indexOf(listaIdCombatientesActuales[combatiente_2-1]),nroFase);                                 
             }else{  
                //alert(combinacionesBetadas.length+" - " + cantidadTope);              
-                setTimeout(function() {emparejarCombates(nroFase);}, 50);
+                setTimeout(function() {emparejarCombates(nroFase);}, 100);
             }     
         }else{
-            alert("Fin de peleas");            
+            alert("Fin de peleas");  
+            obtenerPrimerLugar(""+numEvento,""+numeroGrupoActual,nroFase);          
             $("#siguiente_combate").attr("disabled",false); 
         }
               
 }
-function combatir(primerPersonaje,segundoPersonaje,indice_1,indice_2,nroFase){
-   console.log(listaPersonajes);
-   console.log("Numeros:" + indice_1 + " - " + indice_2 + " Combatientes actuales:" + listaPersonajes);
+function combatir(primerPersonaje,segundoPersonaje,indice_1,indice_2,nroFase){  
     $.ajax({
         url:"/combate/",
         type:"GET",
@@ -151,6 +150,26 @@ function mostrarResultados(nombrePersonaje1,nombrePersonaje2,resultado,tiempo){
         '<td>'+tiempo+'</td>'+
         '</tr>'
     );    
+}
+function obtenerPrimerLugar(numeroEvento,numeroGrupo,numeroFase){
+    try {
+        $.ajax({
+            url:"/ganador/",
+            type:"GET",
+            data:{ 
+                numeroEven:numeroEvento,
+                numeroGrup:numeroGrupo,
+                numeroFas:numeroFase
+            },success:function(respuesta){
+                alert(respuesta);
+            },error:function(repsuesta){
+                alert("Error");
+            }
+        }); 
+    } catch (error) {
+        alert("Fallo");
+    }
+    
 }
 function factorial(numero){
     if(numero === 1){
