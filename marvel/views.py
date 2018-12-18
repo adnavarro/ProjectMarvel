@@ -183,6 +183,8 @@ def getPerson(request):
     person = Person.objects.get( id = id_Person)
     nombre_person = person.nombre
     return HttpResponse(nombre_person)
+def deletGroup():
+    return HttpResponse("success")
 
 def deletInscri(request):
     idPerson  = int(request.POST.get('fk_person'))
@@ -203,5 +205,131 @@ def combate(request):#Recibe parametros de ajax para el evento
     
     return HttpResponse(simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFase))
 
-def deletGroup():
-    return HttpResponse("success")
+def ganador(request):#Recibe parametros de ajax para el evento 
+    numGrup = int(request.GET.get("numeroGrup"))#Id
+    numEven = int(request.GET.get("numeroEven"))
+    numFas  = int(request.GET.get("numeroFas"))    
+    
+    inscrito = Inscri.objects.filter(n_grupo = numGrup, fk_even = numEven)
+    marcadorNombres = []
+    marcadorCantidad = []
+
+    for personaje in inscrito:
+        marcadorNombres.append(personaje.fk_person.nombre)
+        marcadorCantidad.append(0) 
+
+    for personaje in inscrito:
+        print("Caso de :",personaje.fk_person.nombre)
+        combate = Combat.objects.filter(etp = numFas, fk_inscri1 = personaje) 
+        if combate != None:       
+            if len(combate) > 0:
+                for enfrentamiento in combate:                   
+                    ganador1 = enfrentamiento.fk_inscri1.fk_person
+                    ganador2 = enfrentamiento.fk_inscri2.fk_person
+                    if enfrentamiento.ganador == 1: # SI gana el primero
+                        contador = 0
+                        for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                            if nombreMarcador == ganador1.nombre:
+                                marcadorCantidad[contador] = marcadorCantidad[contador] + 2 
+                            else:
+                                contador = contador + 1    
+                        print("Gano:",ganador1.nombre)
+                    if enfrentamiento.ganador == 2: # Si gana el segundo
+                        contador = 0
+                        for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                            if nombreMarcador == ganador2.nombre:
+                                marcadorCantidad[contador] = marcadorCantidad[contador] + 2
+                            else:
+                                contador = contador + 1                         
+                        print("Gano:",ganador2.nombre)
+                    if enfrentamiento.ganador == 0: #Empate-----------------------------
+                        contador = 0
+                        for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                            if nombreMarcador == ganador1.nombre:
+                                marcadorCantidad[contador] = marcadorCantidad[contador] + 1
+                            else:
+                                contador = contador + 1
+                        contador = 0
+                        for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                            if nombreMarcador == ganador2.nombre:
+                                marcadorCantidad[contador] = marcadorCantidad[contador] + 1
+                            else:
+                                contador = contador + 1                 
+        else:
+            combate = Combat.objects.filter(etp = numFas, fk_inscri2 = personaje) 
+            if combate != None:       
+                if len(combate) > 0:
+                    for enfrentamiento in combate:                        
+                        ganador1 = enfrentamiento.fk_inscri1.fk_person
+                        ganador2 = enfrentamiento.fk_inscri2.fk_person
+                        if enfrentamiento.ganador == 1:
+                            contador = 0
+                            for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                                if nombreMarcador == ganador1.nombre:
+                                    marcadorCantidad[contador] = marcadorCantidad[contador] + 2
+                                else:
+                                    contador = contador + 1 
+                            print("Gano:",ganador1.nombre)
+                        if enfrentamiento.ganador == 2:
+                            contador = 0
+                            for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                                if nombreMarcador == ganador2.nombre:
+                                    marcadorCantidad[contador] = marcadorCantidad[contador] + 2
+                                else:
+                                    contador = contador + 1 
+                            print("Gano:",ganador2.nombre)
+                        if enfrentamiento.ganador == 0:
+                            contador = 0
+                            for nombreMarcador in marcadorNombres:#Aumenta el marcador de los personajes
+                                if nombreMarcador == ganador1.nombre:
+                                    marcadorCantidad[contador] = marcadorCantidad[contador] + 1
+                                else:
+                                    contador = contador + 1
+                            contador = 0
+                            for nombreMarcador in marcadorNombres: #Aumenta el marcador de los personajes
+                                if nombreMarcador == ganador2.nombre:
+                                    marcadorCantidad[contador] = marcadorCantidad[contador] + 1
+                                else:
+                                    contador = contador + 1 
+    
+    empateTotal = comprobarEmpate(marcadorCantidad)    
+        
+    if not empateTotal:
+        personajeGanador = getPrimerLugar(marcadorNombres,marcadorCantidad)
+        segundoLugar = getSegundoLugar(marcadorNombres,marcadorCantidad)
+    else:
+        personajeGanador = "empate"
+        segundoLugar = "empate"
+
+    print("Primera:",marcadorCantidad)
+    print("1-:",personajeGanador)
+    print("2-:",segundoLugar)
+
+    return HttpResponse(personajeGanador)
+
+def comprobarEmpate(marcadorCantidad):
+    diferentes = 0
+    for contador in range(0,len(marcadorCantidad)):
+        if contador != marcadorCantidad.index(max(marcadorCantidad)):
+            if marcadorCantidad[ marcadorCantidad.index(max(marcadorCantidad))] == marcadorCantidad[contador]:            
+                return True 
+
+        if contador != marcadorCantidad.index(min(marcadorCantidad)):
+            if marcadorCantidad[ marcadorCantidad.index(min(marcadorCantidad))] == marcadorCantidad[contador]:            
+                return True
+               
+    return False
+
+def getPrimerLugar(marcadorNombres,marcadorCantidad):
+    return marcadorNombres[marcadorCantidad.index(max(marcadorCantidad))]
+
+def getSegundoLugar(marcadorNombres,marcadorCantidad):
+    listaDelSegundo = []
+    for contador in range(0,len(marcadorCantidad)):
+        if marcadorCantidad[contador] != marcadorCantidad.index(max(marcadorCantidad)):
+            listaDelSegundo.append(marcadorCantidad[contador])
+        else:
+            listaDelSegundo.append(0)                      
+    
+    print("Nueva:",listaDelSegundo)
+    return getPrimerLugar(marcadorNombres,listaDelSegundo)

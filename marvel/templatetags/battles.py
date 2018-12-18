@@ -33,9 +33,13 @@ def guardarEvento(id_lugar,duracion):
 def inscribirPersonaje(ngrupo,fkperson,fkevento):#id,ngrupo,punto,campeon,descrip,fkPerson,fkGrupo
     try:
         inscri = Inscri.objects.latest('id')
-        inscrid= inscri.id + 1
+        if inscri != None:
+            inscrid= inscri.id + 1
+        else:
+            inscrid = 0
     except:
         inscrid=0
+
     Persona = Person.objects.get(id = fkperson)
     Event = Even.objects.get(id = fkevento)
     try:
@@ -155,12 +159,14 @@ def groupValidate(fecha):
 #Simulo la etapa1
 def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFase):
     try:
-        inscri = Inscri.objects.latest('id')
-        inscrid = inscri.id + 1
+        combate = Combat.objects.latest('id')
+        if combate != None:
+            combateId = combate.id + 1
+        else:
+            combateId = 0        
     except:
-        inscrid=0
-    print(inscrid)
-    try:
+        combateId =0
+    try:        
         lucha1 = Inscri.objects.get(fk_person = personaje_1, fk_even = numeroEvento, n_grupo = numeroGrupo)
         lucha2 = Inscri.objects.get(fk_person = personaje_2, fk_even = numeroEvento, n_grupo = numeroGrupo)
         hoy = datetime.today()
@@ -168,7 +174,7 @@ def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFa
         fechaActual = "%Y-%m-%d"
         etapa = numeroFase
         bat = Combat(
-            id = inscrid,
+            id = combateId,
             fech = hoy.strftime(fechaActual),
             etp = etapa,
             ganador = win,
@@ -176,6 +182,7 @@ def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFa
             fk_inscri2 = lucha2,
         )
         bat.save()
+        print("Guardado:",bat.fech,"id:",bat.id)
     except:
         return "Hubo un error, no se pudo realizar el combate"
 
