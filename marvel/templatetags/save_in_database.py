@@ -13,7 +13,7 @@ def isEventEmpy():
     if len(eventos) > 0:
         return False
     else:
-        return True
+        return True 
 
 def IngPerson(name, tip, tipoIden, gen, altur, eyes, lugar, universo, biografia):
     try:
