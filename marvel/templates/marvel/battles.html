@@ -61,7 +61,8 @@
                                                   ,"{% getHab data.id "Hab" %}"
                                                   ,"{{data.id}}"
                                                   ,"{% getPoder data.id %}"
-                                                  ,"{% getAfili data.id %}")' class='card'>
+                                                  ,"{% getAfili data.id %}"
+                                                  ,"{% getRela data.id %}")' class='card'>
                                                   
             <img id='miniatura_personaje'class='card-img-top rounded float-left ' src='../../static/marvel/img/iconHero.png' alt='Card image cap' style='width:100%; height : 70%'>
             <center> <h6 class='card-title'>{{data.nombre}}</h6> </center>
@@ -183,15 +184,16 @@
 
             <div class="container division_secciones" > <!-- Seccion 3 Parientes-->
               <header id='titulo_lista'>
-                <p ><b>Parientes</b></p>
+                <p ><b>Relaciones</b></p>
               </header>
-              <div class="container division_lista" >
+              <div class="container division_lista" id="lista_relaciones" >
                   
                   <ul class="list-goup">
                     <li class="list-group-item list-group-item-info">
                       <p> Tio Ben</p>
                     </li>
-                  </ul>                    
+                  </ul>  
+
               </div>
             </div>
 

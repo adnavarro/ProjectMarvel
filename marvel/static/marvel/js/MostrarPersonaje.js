@@ -76,8 +76,8 @@ function verDatos(nombre,
     peso,
     ojos,biografia,sexo,rol,
     fuer,inte,agil,resi,proy,hab,id,
-    listaPoderes,listaAfili){
-
+    listaPoderes,listaAfili,listaRelaciones){
+    llenarRelaciones(listaRelaciones);    
     llenarAtributo(fuer,inte,agil,resi,proy,hab);
     llenarPoderes(listaPoderes);
     llenarAfiliaciones(listaAfili);
@@ -197,8 +197,8 @@ function agegarPersonajeGrupo(token){//Se usa una lista que se vaciara si se cam
                 getPersonaje();                
             }else if(respuesta === "error_per_usado"){
                 alert("El personaje ya esta en un grupo");
-            }else{
-                alert("no se pudo guardar el personaje");
+            }else if("error_per_rel"){
+                alert("no pueden haber personajes con alguna relacion en un mismo grupo");
             }                        
         },error:function(data){
             alert("error");            
@@ -262,6 +262,16 @@ function llenarAfiliaciones(listaAfili){
         );       
      }   
 }
+function llenarRelaciones(listaRelaciones){
+    dato = tokenizarDato(listaRelaciones);
+    $("#lista_relaciones").html('<ul class="list-goup"><li class="list">  </li></ul>');   
+    
+    for(indice = 0;indice < dato.length; indice++) {
+        $("#lista_relaciones li").append(        
+            '<button type="button" class="list-group-item list-group-item-info"  style="width:100%; height: 20px; margin: 0; padding: 0; text-align: center;"> <b>'+dato[indice]+'</b> </button>'               
+        );       
+     }   
+}
 function tokenizarDato(cadena){
     inicio = cadena.indexOf("[") + 1;
     fin = cadena.indexOf("]");
@@ -275,9 +285,7 @@ function tokenizarDato(cadena){
     return resultado;
 }
 
-function llenarParientes(){
 
-}
 function llenarAlias(){
 
 }

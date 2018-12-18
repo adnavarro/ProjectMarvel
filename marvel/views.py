@@ -111,7 +111,7 @@ def search(request): #Aca se reciben los datos, por ahora solo los imprimo por c
             if relVali(numGrupo, idPerson, numEnvent) == 1:
                 return HttpResponse(inscribirPersonaje(numGrupo, idPerson, numEnvent))
             else:
-                return HttpResponse("Este personaje esta relacionado")
+                return HttpResponse("error_per_rel")
         else:
             return HttpResponse("error_per_usado")
     else:

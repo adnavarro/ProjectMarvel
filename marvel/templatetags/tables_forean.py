@@ -45,4 +45,13 @@ def getAfili(id_person):
         resultado.append(afiliId.fk_afili.nombre)            
     return resultado
 
-        
+@register.simple_tag()
+def getRela (id_person):
+    miRelaId = PerNoper.objects.filter(fk_person = id_person)    
+    resultado = []
+    for relaId in miRelaId:
+        if relaId.fk_person_rel != None:    
+            personaje = relaId.fk_person_rel                 
+            resultado.append(personaje.nombre)
+
+    return resultado
