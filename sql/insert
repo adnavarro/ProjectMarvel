@@ -1,4 +1,4 @@
-INSERT INTO public.lugar(id, nombre, tipo_uni, tipo_geo, fk_lugar)
+INSERT INTO public.gnu_lugar(id, nombre, tipo_uni, tipo_geo, fk_lugar)
          VALUES (0,'Tierra','T','P',null),           --shuma-gorat , Los ancianos(Afiliacion de shuma)
                 (1,'California','T','C',0),
                 (2,'Los Angeles','T','E',1),         --ChicaArdilla
@@ -29,11 +29,11 @@ INSERT INTO public.lugar(id, nombre, tipo_uni, tipo_geo, fk_lugar)
                 (27,'Thunderbolts Mountain','T','P',26), --Thunderbolts (Punisher)
                 (28, 'Torre de los Vengadores','T','P',16); --Avengers
 
-INSERT INTO public.univer(id, nombre, descrip)                       --universos
+INSERT INTO public.gnu_univer(id, nombre, descrip)                       --universos
     VALUES (0,'Tierra-616','universo principal de marvel'),
            (1,'Multiverse','Todos los universos');
 
-INSERT INTO public.afili(id,nombre,ind_poder_aum,fk_lugar)                       --Afiliacion
+INSERT INTO public.gnu_afili(id,nombre,ind_poder_aum,fk_lugar)                       --Afiliacion
     VALUES  (0,'Los Ancianos',null,0),
             (1,'Asgardianos',null,6),
             (2,'Black Order',null,10),
@@ -44,7 +44,7 @@ INSERT INTO public.afili(id,nombre,ind_poder_aum,fk_lugar)                      
             (7,'Zefiro Clan',null,25),
             (8,'Thunderbolts',null,27);
 
-INSERT INTO public.destr(id,nombre,descrip)                                     --Destreza
+INSERT INTO public.gnu_destr(id,nombre,descrip)                                     --Destreza
     VALUES  (0,'Vigilante','Cuida y patrulla la ciudad contra el crimen'),
             (1,'Mercenario','Es contratado para asesinar'),
             (2,'Aventurero','Emprende viajes hacia lo desconosido'),
@@ -63,7 +63,7 @@ INSERT INTO public.destr(id,nombre,descrip)                                     
             (15,'Piloto','Posee los conocimientos para conducir aeronaves'),
             (16,'Escritor','Escribe ideas en libros o articulos en revistas');
 
-INSERT INTO public.person --Personajes Heroes o villanos
+INSERT INTO public.gnu_person --Personajes Heroes o villanos
 (id, nombre, tipo, tipo_iden, genero, altura, color_ojo, biografia, nombre_real,apellido_real, edo_civil, color_pelo, fk_lugar, fk_univer)
 	VALUES  (0, 'Thor', 'H', 'C', 'M', 198, 'Azul', 'Historia de thor', 'Thor', 'Odinson', 'S', 'Amarillo', 6, 0),
 	        (1, 'Punisher', 'AH', 'C', 'M', 191, 'Azul', 'Historia de punisher', 'Frank', 'Castle', 'S', 'Negro', 5,0),
@@ -78,7 +78,7 @@ INSERT INTO public.person --Personajes Heroes o villanos
 	        (10,'Captain Marvel', 'H', 'D', 'F', 180, 'Azul','Historia simulada','Carol','Danver','S', 'Amarillo', 13,0),
 	        (11,'The Phoenix', 'H', 'C', 'F', 152, 'Verde','Historia completa simulada', 'Jean','Grey', 'S', 'Rojo',14,0);
 
-INSERT INTO public.p_a(id, status, fk_afili, fk_person, fk_personnocombat) --Relacion entre Personaje y Afiliacion
+INSERT INTO public.gnu_p_a(id, status, fk_afili, fk_person, fk_personnocombat) --Relacion entre Personaje y Afiliacion
 	VALUES  (0, 'Inactivo',0,7,null),
             (1, 'Activo',1,0,null),
             (2, 'Activo',2,6,null),
@@ -94,7 +94,7 @@ INSERT INTO public.p_a(id, status, fk_afili, fk_person, fk_personnocombat) --Rel
             (12,'Activo',7,4,null),
             (13,'Activo',8,1,null);
 
-INSERT INTO public.p_d(fk_person, fk_destr) --Relacion entre Personaje y Destreza
+INSERT INTO public.gnu_p_d(fk_person, fk_destr) --Relacion entre Personaje y Destreza
 	VALUES  (0,8),
 	        (1,0),
 	        (2,1),
@@ -121,7 +121,7 @@ INSERT INTO public.p_d(fk_person, fk_destr) --Relacion entre Personaje y Destrez
 	        (11,13),
 	        (11,14);
 
-INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas estan en 0 por ahora como default)
+INSERT INTO public.gnu_habili(id, nombre, valor, fk_person) --Habilidades (Todas estan en 0 por ahora como default)
 	VALUES  (0, 'Int',2,0), --Thor
                 (1, 'Fuer',7,0),
                 (2, 'Vel',7,0),
@@ -206,7 +206,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
                 (71, 'Proy',7,11),
                 (72, 'Hab',4,11);
 
-    INSERT INTO public.parafer(id, nombre, descrip, tipo) -- Parafernalias (Equipo y armas)
+    INSERT INTO public.gnu_parafer(id, nombre, descrip, tipo) -- Parafernalias (Equipo y armas)
 	VALUES (0,'Mjolnir','El Martillo de thor','Arma'),
 	       (1,'Simbionte','Extraterrestre que necesita un portador','Armadura'),
 	       (2,'Pistola','Portatil arma de fuego','Arma'),
@@ -221,7 +221,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
 	       (11,'Vara Karmica','Una vara irrompible y magica','Arma'),
 	       (12,'Guantelete del infinito','Un poderoso guante','Arma');
 
-	INSERT INTO public.a_a(fk_parafer1, fk_parafer2) --Relacion entre parafernalias
+	INSERT INTO public.gnu_a_a(fk_parafer1, fk_parafer2) --Relacion entre parafernalias
 	VALUES  (12, 5),
 	        (12, 6),
 	        (12, 7),
@@ -229,7 +229,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
 	        (12, 9),
 	        (12, 10);
 
-	INSERT INTO public.p_par(fk_person, fk_parafer, altur_armor, peso_armor) --Relacion entre personajes y parafernalias
+	INSERT INTO public.gnu_p_par(fk_person, fk_parafer, altur_armor, peso_armor) --Relacion entre personajes y parafernalias
 	VALUES (0,0,198,290),
 	       (5,1,194,160),
 	       (1,2,191,102),
@@ -240,7 +240,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
 	       (9,11,188,102),
 	       (6,12,201,447);
 
-	INSERT INTO public.poder(id, nombre, descrip) -- Poderes o ataques
+	INSERT INTO public.gnu_poder(id, nombre, descrip) -- Poderes o ataques
 	VALUES  (0, 'Golpe de Trueno', 'Golpe potente y aturdidor'),
 	        (1, 'Furia de venganza', 'Desata un Frenesi de balas'),
                 (2, 'Cortes despiadados', 'Ataque agil con katana'),
@@ -274,7 +274,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
                 (30, 'Incapacidad de perder','Mientras se crea que se puede ganar, la derrota es imposible');
 
 
-    INSERT INTO public.p_pod(fk_person, fk_poder) --Relacion entre personaje y poderes
+    INSERT INTO public.gnu_p_pod(fk_person, fk_poder) --Relacion entre personaje y poderes
 	VALUES  (0, 0),
                 (0, 12),
                 (1, 1),
@@ -292,7 +292,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
                 (10, 10),
                 (11, 11);
 
-    INSERT INTO public.catego(id, nombre, descrip) --Categorias
+    INSERT INTO public.gnu_catego(id, nombre, descrip) --Categorias
 	VALUES  (0, 'Dios', 'Deidades Divinas'),
 	        (1, 'Heroe', 'Solo heroes'),
 	        (2, 'Villano', 'Solo villanos'),
@@ -308,7 +308,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
                 (12, 'Armas de fuego', 'Quienes utilizan armas de fuego para el combate'),
                 (13, 'Magia','Solo aquellos que tienen la capacidad de usar magia');
 
-    INSERT INTO public.c_p(fk_person, fk_catego) --Relacion entre personajes y Categorias
+    INSERT INTO public.gnu_c_p(fk_person, fk_catego) --Relacion entre personajes y Categorias
 	VALUES (0, 0), --Thor
                (0, 1),
                (0, 8),
@@ -369,7 +369,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
                (11, 9),
                (11, 4);
 
-        INSERT INTO public.person_no_combat(id, nombre, genero, fallece, nombre_real, apellido_real) --Personajes no combatientes
+        INSERT INTO public.gnu_person_no_combat(id, nombre, genero, fallece, nombre_real, apellido_real) --Personajes no combatientes
 	VALUES  (0, 'Freyja', 'F', FALSE, 'Freyja', 'Freyrddotin'),
                 (1, 'Odin', 'M', FALSE, 'Odin', 'Borson'),
 
@@ -398,7 +398,7 @@ INSERT INTO public.habili(id, nombre, valor, fk_person) --Habilidades (Todas est
                 (16, 'Ciclope', 'M', TRUE, 'Scott', 'Summers'),
                 (17, 'Jhon', 'M', TRUE, 'Jhon', 'Grey');
 
-        INSERT INTO public.per_noper(id, tipo_rel, tipo_paren, fk_person, fk_person_rel, fk_noperson) --Relaciones de personajes
+        INSERT INTO public.gnu_per_noper(id, tipo_rel, tipo_paren, fk_person, fk_person_rel, fk_noperson) --Relaciones de personajes
 	VALUES  (0, 'Aliado', 'Familia', 0,null, 0), --Thor
                 (1, 'Aliado', 'Familia', 0,null, 1),
                 (2, 'Enemigo', null, 0, 6, null),
