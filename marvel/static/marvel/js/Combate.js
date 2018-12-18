@@ -86,7 +86,7 @@ function devolverLuchador(){
     return combatiente;
 }
 
-function emparejarCombates(){      
+function emparejarCombates(nroFase){      
         $("#simular_combate").attr("disabled",true);  
         $("#siguiente_combate").attr("disabled",true);             
         if(combinacionesBetadas.length < cantidadTope){
@@ -99,7 +99,7 @@ function emparejarCombates(){
             var permitirCombate = peleaValida(listaIdCombatientesActuales[combatiente_1-1],listaIdCombatientesActuales[combatiente_2-1]);
             if(permitirCombate){              
                 combinacionesBetadas.push("["+listaIdCombatientesActuales[combatiente_1-1]+"-"+listaIdCombatientesActuales[combatiente_2-1]+"]");          
-                combatir(listaIdCombatientesActuales[combatiente_1-1],listaIdCombatientesActuales[combatiente_2-1],listaIdCombatientesActuales.indexOf(listaIdCombatientesActuales[combatiente_1-1]),listaIdCombatientesActuales.indexOf(listaIdCombatientesActuales[combatiente_2-1]) );                                 
+                combatir(listaIdCombatientesActuales[combatiente_1-1],listaIdCombatientesActuales[combatiente_2-1],listaIdCombatientesActuales.indexOf(listaIdCombatientesActuales[combatiente_1-1]),listaIdCombatientesActuales.indexOf(listaIdCombatientesActuales[combatiente_2-1]),nroFase);                                 
             }else{  
                //alert(combinacionesBetadas.length+" - " + cantidadTope);              
                 setTimeout(emparejarCombates, 50);
@@ -110,7 +110,7 @@ function emparejarCombates(){
         }
               
 }
-function combatir(primerPersonaje,segundoPersonaje,indice_1,indice_2){
+function combatir(primerPersonaje,segundoPersonaje,indice_1,indice_2,nroFase){
    console.log(listaPersonajes);
    console.log("Numeros:" + indice_1 + " - " + indice_2 + " Combatientes actuales:" + listaPersonajes);
     $.ajax({
@@ -125,14 +125,14 @@ function combatir(primerPersonaje,segundoPersonaje,indice_1,indice_2){
         success: function(respuesta){ 
            if(respuesta === "Hubo un empate"){            
             mostrarResultados(listaPersonajes[indice_1],listaPersonajes[indice_2],respuesta,"1h");
-            combatir(primerPersonaje,segundoPersonaje,indice_1,indice_2);
+            combatir(primerPersonaje,segundoPersonaje,indice_1,indice_2,nroFase);
            }else if( respuesta === "Gano el personaje 1"){           
            
             mostrarResultados(listaPersonajes[indice_1],listaPersonajes[indice_2],listaPersonajes[indice_1],"1h");
-            emparejarCombates();
+            emparejarCombates(nroFase);
            }else if( respuesta === "Gano el personaje 2"){           
             mostrarResultados(listaPersonajes[indice_1],listaPersonajes[indice_2],listaPersonajes[indice_2],"1h");
-            emparejarCombates();
+            emparejarCombates(nroFase);
            }else if(respuesta === "Gano un zombie"){
                alert("Error zombie");
            }

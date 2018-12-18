@@ -153,7 +153,7 @@ def groupValidate(fecha):
         return(0)
     
 #Simulo la etapa1
-def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo):
+def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,faseBatalla):
     print("Entro")
     try:
         inscri = Inscri.objects.latest('id')

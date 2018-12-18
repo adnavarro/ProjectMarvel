@@ -46,7 +46,7 @@ $("document").ready(function(){
         <hr/>  
         <nav class="navbar navbar-light justify-content-between">
             <div class="navbar-brand">
-                <button id="simular_combate" class="btn btn-primary my-2 my-sm-0" onclick="emparejarCombates();">Empezar combate</button>
+                <button id="simular_combate" class="btn btn-primary my-2 my-sm-0" onclick="emparejarCombates('1');">Empezar combate</button>
             </div>            
             
             <button id="siguiente_combate" class="btn btn-danger my-2 my-sm-0" onclick="siguienteGrupo();">Siguiente grupo</button>
@@ -98,6 +98,7 @@ $("document").ready(function(){
                 <div id="primer_lugar">
 
                 </div>
+               
                 <div id="segundo_lugar">
 
                 </div>
@@ -106,9 +107,54 @@ $("document").ready(function(){
        </div>       
     </section>
     <section class="container" id="cuerpo_historial">
-        <div id="detalles">
-
-        </div>
+        <div class = "row">
+            <div class="container" id="lista_personajes">
+                <div id="titulo_lista_personajes">
+                    <h2>Grupo 0</h2>
+                </div>
+                <div class="list-group" id="nombre_personaje_2">          
+                               
+                </div>                
+            </div>
+    
+            <div class="container" id="tablon_resultados">
+                <div id="titulo_resultados">
+                    <h5>Resultados de combates</h5>
+                </div>
+                <table class="table table-dark" >
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Luchador 1</th>
+                        <th scope="col">Luchador 2</th>
+                        <th scope="col">Ganador</th>
+                        <th scope="col">Tiempo</th>
+                      </tr>
+                    </thead>
+                </table>
+                <div id="tablon_valores">
+                    <table class="table table-dark table-hover" >                
+                        <tbody id="cuerpo_tabla_2">
+                            
+                        </tbody>                
+                  </table>
+                </div>
+                
+            </div>
+            <div class="container" id="conclusion">
+                <div id="titulo_conclusion">
+                    <h5>Conclusion</h5>
+                </div>
+                <div id="cuerpo_conclusion">
+                    <div id="primer_lugar">
+                        <hr>
+                    </div>
+                    <div id="segundo_lugar">
+    
+                    </div>
+                </div>
+            </div>
+           </div> 
     </section>
 </body>
    

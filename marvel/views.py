@@ -199,7 +199,8 @@ def combate(request):#Recibe parametros de ajax para el evento
     personaje_2 = int(request.GET.get("segundoPersonaje"))
     numeroGrupo = int(request.GET.get("numGrupo"))
     numeroEvento = int(request.GET.get("numEvento"))
-    return HttpResponse(simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo))
+    numeroFase = int(request.GET.get("numFase"))
+    return HttpResponse(simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFase))
 
 def deletGroup():
     return HttpResponse("success")
