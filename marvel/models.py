@@ -15,7 +15,7 @@ class Lugar(models.Model):
     fk_lugar = models.ForeignKey('self', models.DO_NOTHING, db_column='fk_lugar', blank=True, null=True)
 
     class Meta:
-        db_table = 'gnu_lugar'
+        db_table = 'lugar'
 
 
 class PersonNoCombat(models.Model):
@@ -27,7 +27,7 @@ class PersonNoCombat(models.Model):
     apellido_real = models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:
-        db_table = 'gnu_person_no_combat'
+        db_table = 'person_no_combat'
 
 
 class Catego(models.Model):
@@ -36,7 +36,7 @@ class Catego(models.Model):
     descrip = models.CharField(max_length=300, blank=True, null=True)
 
     class Meta:
-        db_table = 'gnu_catego'
+        db_table = 'catego'
 
 
 class Univer(models.Model):
@@ -45,7 +45,7 @@ class Univer(models.Model):
     descrip = models.CharField(max_length=300)
 
     class Meta:
-        db_table = 'gnu_univer'
+        db_table = 'univer'
 
 
 class Poder(models.Model):
@@ -54,7 +54,7 @@ class Poder(models.Model):
     descrip = models.CharField(max_length=300)
 
     class Meta:
-        db_table = 'gnu_poder'
+        db_table = 'poder'
 
 
 class Destr(models.Model):
@@ -63,7 +63,7 @@ class Destr(models.Model):
     descrip = models.CharField(max_length=300)
 
     class Meta:
-        db_table = 'gnu_destr'
+        db_table = 'destr'
 
 
 class Parafer(models.Model):
@@ -73,7 +73,7 @@ class Parafer(models.Model):
     tipo = models.CharField(max_length=8)
 
     class Meta:
-        db_table = 'gnu_parafer'
+        db_table = 'parafer'
 
 
 class AA(models.Model):
@@ -81,7 +81,7 @@ class AA(models.Model):
     fk_parafer2 = models.ForeignKey('Parafer', models.DO_NOTHING, db_column='fk_parafer2', related_name='Rel2_Parafer')
 
     class Meta:
-        db_table = 'gnu_a_a'
+        db_table = 'a_a'
         unique_together = (('fk_parafer1', 'fk_parafer2'),)
 
 
@@ -102,7 +102,7 @@ class Person(models.Model):
     fk_univer = models.ForeignKey('Univer', models.DO_NOTHING, db_column='fk_univer')
 
     class Meta:
-        db_table = 'gnu_person'
+        db_table = 'person'
 
 
 class Habili(models.Model):
@@ -112,7 +112,7 @@ class Habili(models.Model):
     fk_person = models.ForeignKey('Person', models.DO_NOTHING, db_column='fk_person')
 
     class Meta:
-        db_table = 'gnu_habili'
+        db_table = 'habili'
         unique_together = (('id', 'fk_person'),)
 
 
@@ -125,7 +125,7 @@ class PerNoper(models.Model):
     fk_noperson = models.ForeignKey('PersonNoCombat', models.DO_NOTHING, db_column='fk_noperson', blank=True, null=True)
 
     class Meta:
-        db_table = 'gnu_per_noper'
+        db_table = 'per_noper'
         unique_together = (('id', 'fk_person'),)
 
 
@@ -134,7 +134,7 @@ class PD(models.Model):
     fk_destr = models.ForeignKey(Destr, models.DO_NOTHING, db_column='fk_destr')
 
     class Meta:
-        db_table = 'gnu_p_d'
+        db_table = 'p_d'
         unique_together = (('fk_person', 'fk_destr'),)
 
 
@@ -143,7 +143,7 @@ class PPod(models.Model):
     fk_poder = models.ForeignKey('Poder', models.DO_NOTHING, db_column='fk_poder')
 
     class Meta:
-        db_table = 'gnu_p_pod'
+        db_table = 'p_pod'
         unique_together = (('fk_person', 'fk_poder'),)
 
 
@@ -154,7 +154,7 @@ class PPar(models.Model):
     peso_armor = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
 
     class Meta:
-        db_table = 'gnu_p_par'
+        db_table = 'p_par'
         unique_together = (('fk_person', 'fk_parafer'),)
 
 
@@ -163,7 +163,7 @@ class CP(models.Model):
     fk_catego = models.ForeignKey('Catego', models.DO_NOTHING, db_column='fk_catego')
 
     class Meta:
-        db_table = 'gnu_c_p'
+        db_table = 'c_p'
         unique_together = (('fk_person', 'fk_catego'),)
 
 
@@ -174,7 +174,7 @@ class Afili(models.Model):
     fk_lugar = models.ForeignKey('Lugar', models.DO_NOTHING, db_column='fk_lugar')
 
     class Meta:
-        db_table = 'gnu_afili'
+        db_table = 'afili'
 
 
 class PA(models.Model):
@@ -185,7 +185,7 @@ class PA(models.Model):
     fk_personnocombat = models.ForeignKey('PersonNoCombat', models.DO_NOTHING, db_column='fk_personnocombat', blank=True, null=True)
 
     class Meta:
-        db_table = 'gnu_p_a'
+        db_table = 'p_a'
 
 
 class Even(models.Model):
@@ -196,7 +196,7 @@ class Even(models.Model):
     fk_lugar = models.ForeignKey('Lugar', models.DO_NOTHING, db_column='fk_lugar')
 
     class Meta:
-        db_table = 'gnu_even'
+        db_table = 'even'
 
 
 class Inscri(models.Model):
@@ -209,7 +209,7 @@ class Inscri(models.Model):
     fk_even = models.ForeignKey(Even, models.DO_NOTHING, db_column='fk_even')
 
     class Meta:
-        db_table = 'gnu_inscri'
+        db_table = 'inscri'
 
 
 class Combat(models.Model):
@@ -222,4 +222,4 @@ class Combat(models.Model):
     fk_inscri2 = models.ForeignKey('Inscri', models.DO_NOTHING, db_column='fk_inscri2', related_name='Rel2_Inscrito2', blank=True, null=True)
 
     class Meta:
-        db_table = 'gnu_combat'
+        db_table = 'combat'
