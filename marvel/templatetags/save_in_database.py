@@ -56,11 +56,8 @@ def ingHabili(inte, fuer, veloc, resis, proye, habi):
     return "Habilidades cargadas"
 
 def ingRel(name, tip, fam):
-    try:
-        Persona = Person.objects.latest('id')
-        related = Person.objects.get(nombre__iexact = name)
-    except:
-        return "Personaje relacionado incorrecto"
+    Persona = Person.objects.latest('id')
+    related = Person.objects.get(nombre__iexact = name)
     try:
         even = PerNoper.objects.latest('id')
         evenid= even.id + 1
@@ -70,18 +67,16 @@ def ingRel(name, tip, fam):
         Parien = "Familia"
     else:
         Parien = None
-    try:
-        re = PerNoper(
-            id = evenid,
-            tipo_rel = tip,
-            tipo_paren = Parien,
-            fk_person = Persona,
-            fk_person_rel = related
-        )
-        re.save()
-        return "Relacion establecida"
-    except:
-        return "No se pudo realizar la relacion"
+
+    re = PerNoper(
+        id = evenid,
+        tipo_rel = tip,
+        tipo_paren = Parien,
+        fk_person = Persona,
+        fk_person_rel = related
+    )
+    re.save()
+    return "Relacion establecida"
 
 def fillInt(inte):
     try:
