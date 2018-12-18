@@ -102,7 +102,7 @@ function emparejarCombates(nroFase){
                 combatir(listaIdCombatientesActuales[combatiente_1-1],listaIdCombatientesActuales[combatiente_2-1],listaIdCombatientesActuales.indexOf(listaIdCombatientesActuales[combatiente_1-1]),listaIdCombatientesActuales.indexOf(listaIdCombatientesActuales[combatiente_2-1]),nroFase);                                 
             }else{  
                //alert(combinacionesBetadas.length+" - " + cantidadTope);              
-                setTimeout(emparejarCombates, 50);
+                setTimeout(function() {emparejarCombates(nroFase);}, 50);
             }     
         }else{
             alert("Fin de peleas");            
@@ -120,7 +120,8 @@ function combatir(primerPersonaje,segundoPersonaje,indice_1,indice_2,nroFase){
             primerPersonaje:""+primerPersonaje,
             segundoPersonaje:""+segundoPersonaje,
             numGrupo:""+numeroGrupoActual,
-            numEvento:""+numEvento
+            numEvento:""+numEvento,
+            numFase:nroFase
         },
         success: function(respuesta){ 
            if(respuesta === "Hubo un empate"){            
