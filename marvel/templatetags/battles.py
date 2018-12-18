@@ -47,6 +47,7 @@ def inscribirPersonaje(ngrupo,fkperson,fkevento):#id,ngrupo,punto,campeon,descri
             id = inscrid,
             n_grupo = ngrupo,
             punto_etp1 = 0,
+            campeon = 0,
             descrip = "Personaje listo para la batalla",
             fk_person = Persona,
             fk_even = Event
@@ -217,7 +218,7 @@ def subeEtp2(Persona):
         sube = i.valor
         if sube < 7:
             pto = sube + 1
-            Habili.objects.get(id = idact).update(valor = pto)
+            Habili.objects.filter(id = idact).update(valor = pto)
 
 def subeEtp1All(persona1, persona2):
     sube = Inscri.objects.get(id = persona1)
