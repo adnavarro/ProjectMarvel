@@ -1,12 +1,12 @@
-create table GNU_Lugar(
+create table Lugar(
 	id numeric(2) not null primary key,
 	nombre varchar(30) not null,
 	tipo_uni varchar(1) not null check (tipo_uni='P' or tipo_uni='T' or tipo_uni='O'),
 	tipo_geo varchar(1) check (tipo_geo='M' or tipo_geo='E' or tipo_geo='P' or tipo_geo='C'),
-	fk_Lugar numeric references GNU_Lugar (id)
+	fk_Lugar numeric references Lugar (id)
 );
 
-create table GNU_Person_No_Combat(
+create table Person_No_Combat(
 	id numeric(2) not null primary key,
 	nombre varchar(30) not null,
 	genero varchar(1) not null check (genero='M' or genero='F' or genero='O'),
@@ -15,46 +15,46 @@ create table GNU_Person_No_Combat(
 	apellido_real varchar(30)
 );
 
-create table GNU_Catego(
+create table Catego(
 	id numeric(2) not null primary key,
 	nombre varchar(30) not null,
 	descrip varchar (300)
 );
 
-create table GNU_Univer(
+create table Univer(
 	id numeric(2) not null primary key,
 	nombre varchar(30) not null,
 	descrip varchar(300) not null
 );
 
-create table GNU_Poder(
+create table Poder(
 	id numeric(2) not null primary key,
 	nombre varchar(30) not null,
 	descrip varchar(300) not null
 );
 
-create table GNU_Destr(
+create table Destr(
 	id numeric(2) not null primary key,
 	nombre varchar(30) not null,
 	descrip varchar(300) not null
 );
 
-create table GNU_Parafer(
+create table Parafer(
 	id numeric(2) not null primary key,
 	nombre varchar(30) not null,
 	descrip varchar(300) not null,
 	tipo varchar(8) not null check (tipo='Arma' or tipo='Armadura')
 );
 
-create table GNU_A_A(
+create table A_A(
 	fk_Parafer1 numeric(2) not null,
 	fk_Parafer2 numeric(2) not null,
-	constraint fk1_AA foreign key (fk_Parafer1) references GNU_Parafer(id),
-	constraint fk2_AA foreign key (fk_Parafer2) references GNU_Parafer(id),
+	constraint fk1_AA foreign key (fk_Parafer1) references Parafer(id),
+	constraint fk2_AA foreign key (fk_Parafer2) references Parafer(id),
 	constraint pk_AA primary key (fk_Parafer1, fk_Parafer2)
 );
 
-create table GNU_Person(
+create table Person(
 	id numeric(2) not null primary key,
 	nombre varchar(30) not null,
 	tipo varchar(2) not null check (tipo='H' or tipo='V' or tipo='AH' or tipo='N'),
@@ -67,94 +67,94 @@ create table GNU_Person(
 	apellido_real varchar(30),
 	edo_civil varchar(1) check (edo_civil='S' or edo_civil='C' or edo_civil='D'),
 	color_pelo varchar(30),
-	fk_Lugar numeric not null references GNU_Lugar (id),
-	fk_Univer numeric not null references GNU_Univer (id)
+	fk_Lugar numeric not null references Lugar (id),
+	fk_Univer numeric not null references Univer (id)
 );
 
-create table GNU_Habili(
+create table Habili(
 	id numeric(2) not null,
 	nombre varchar(4) not null check (nombre='Int' or nombre='Fuer' or nombre='Vel' or nombre='Res' or 
 									   nombre='Proy' or nombre='Hab'),
 	valor numeric(1) not null,
-	fk_Person numeric not null references GNU_Person (id),
+	fk_Person numeric not null references Person (id),
 	constraint pk_Habili primary key (id, fk_Person)
 );
 
-create table GNU_Per_NoPer(
+create table Per_NoPer(
 	id numeric(2) not null,
 	tipo_rel varchar(30) not null,
 	tipo_paren varchar(30),
-	fk_Person numeric(2) not null references GNU_Person (id),
-	fk_Person_Rel numeric(2) references GNU_Person (id),
-	fk_NoPerson numeric(2) references GNU_Person_No_Combat (id),
+	fk_Person numeric(2) not null references Person (id),
+	fk_Person_Rel numeric(2) references Person (id),
+	fk_NoPerson numeric(2) references Person_No_Combat (id),
 	constraint pk_PerNoPer primary key (id, fk_Person)
 );
 
-create table GNU_P_D(
-	fk_Person numeric(2) not null references GNU_Person (id),
-	fk_Destr numeric(2) not null references GNU_Destr (id),
+create table P_D(
+	fk_Person numeric(2) not null references Person (id),
+	fk_Destr numeric(2) not null references Destr (id),
 	constraint pk_PD primary key (fk_Person, fk_Destr)
 );
 
-create table GNU_P_Pod(
-	fk_Person numeric(2) not null references GNU_Person (id),
-	fk_Poder numeric(2) not null references GNU_Poder (id),
+create table P_Pod(
+	fk_Person numeric(2) not null references Person (id),
+	fk_Poder numeric(2) not null references Poder (id),
 	constraint pk_PPod primary key (fk_Person, fk_Poder)
 );
 
-create table GNU_P_Par(
-	fk_Person numeric(2) not null references GNU_Person (id),
-	fk_Parafer numeric(2) not null references GNU_Parafer (id),
+create table P_Par(
+	fk_Person numeric(2) not null references Person (id),
+	fk_Parafer numeric(2) not null references Parafer (id),
 	altur_armor numeric(3),
 	peso_armor numeric(3),
 	constraint pk_PPar primary key (fk_Person, fk_Parafer)
 );
 
-create table GNU_C_P(
-	fk_Person numeric(2) not null references GNU_Person (id),
-	fk_Catego numeric(2) not null references GNU_Catego (id),
+create table C_P(
+	fk_Person numeric(2) not null references Person (id),
+	fk_Catego numeric(2) not null references Catego (id),
 	constraint pk_CP primary key (fk_Person, fk_Catego)
 );
 
-create table GNU_Afili(
+create table Afili(
 	id numeric(2) not null primary key,
 	nombre varchar(30) not null,
 	ind_Poder_Aum numeric(3),
-	fk_Lugar numeric not null references GNU_Lugar (id)
+	fk_Lugar numeric not null references Lugar (id)
 );
 
-create table GNU_P_A(
+create table P_A(
 	id numeric(2) not null primary key,
 	status varchar(8) not null check (status='Activo' or status='Inactivo'),
-	fk_Afili numeric(2) not null references GNU_Afili (id),
-	fk_Person numeric(2) references GNU_Person (id),
-	fk_PersonNoCombat numeric(2) references GNU_Person_No_Combat (id)
+	fk_Afili numeric(2) not null references Afili (id),
+	fk_Person numeric(2) references Person (id),
+	fk_PersonNoCombat numeric(2) references Person_No_Combat (id)
 );
 
-create table GNU_Even(
+create table Even(
 	id numeric(2) not null primary key,
 	fech_in date not null,
 	fech_fin date not null,
 	dura numeric(2) not null,
-	fk_Lugar numeric not null references GNU_Lugar (id)
+	fk_Lugar numeric not null references Lugar (id)
 );
 
-create table GNU_Inscri(
+create table Inscri(
 	id numeric(2) not null primary key,
 	n_grupo numeric(2),
 	punto_etp1 numeric(2),
 	campeon boolean,
 	descrip varchar(300),
-	fk_Person numeric(2) not null references GNU_Person (id),
-	fk_Even numeric(2) not null references GNU_Even (id)
+	fk_Person numeric(2) not null references Person (id),
+	fk_Even numeric(2) not null references Even (id)
 );
 
-create table GNU_Combat(
+create table Combat(
 	id numeric(2) not null primary key,
 	fech date not null,
 	etp numeric(1) not null,
 	ganador numeric(1),
 	dura_min numeric(3),
-	fk_Inscri1 numeric(2) references GNU_Inscri (id),
-	fk_Inscri2 numeric(2) references GNU_Inscri (id)
+	fk_Inscri1 numeric(2) references Inscri (id),
+	fk_Inscri2 numeric(2) references Inscri (id)
 );
