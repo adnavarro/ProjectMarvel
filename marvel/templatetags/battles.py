@@ -152,12 +152,12 @@ def groupValidate(fecha):
     else:
         return(0)
     
-#Simulo la etapa1
+#Simulo las Etapas
 def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo):
     print("Entro")
     try:
         inscri = Inscri.objects.latest('id')
-        inscrid= inscri.id + 1
+        inscrid = inscri.id + 1
     except:
         inscrid=0
     try:
@@ -166,11 +166,11 @@ def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo):
         hoy = datetime.today()
         win = mula()
         fechaActual = "%Y-%m-%d"
-        
+        etapa = 1
         bat = Combat(
             id = inscrid,
             fech = hoy.strftime(fechaActual),
-            etp = 1,
+            etp = etapa,
             ganador = win,
             fk_inscri1 = lucha1,
             fk_inscri2 = lucha2,
@@ -178,11 +178,23 @@ def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo):
         bat.save()
     except:
         return "Hubo un error, no se pudo realizar el combate"
+
     if win == 0:
+        if etapa == 1:
+            pto1 = lucha1.punto_etp1 + 1
+            pto2 = lucha2.punto_etp1 + 1
+            Inscri.objects.get(fk_person = personaje_1, fk_even = numeroEvento, n_grupo = numeroGrupo).update(punto_etp1 = pto1)
+            Inscri.objects.get(fk_person = personaje_2, fk_even = numeroEvento, n_grupo = numeroGrupo).update(punto_etp1 = pto2)
         return "Hubo un empate"
     elif win == 1:
+        if etapa == 1:
+            pto1 = lucha1.punto_etp1 + 2
+            Inscri.objects.get(fk_person = personaje_1, fk_even = numeroEvento, n_grupo = numeroGrupo).update(punto_etp1 = pto1)
         return "Gano el personaje 1"
     elif win == 2:
+        if etapa == 1:
+            pto2 = lucha2.punto_etp1 + 2
+            Inscri.objects.get(fk_person = personaje_2, fk_even = numeroEvento, n_grupo = numeroGrupo).update(punto_etp1 = pto2)
         return "Gano el personaje 2"
     else:
         return "Gano un zombie"
