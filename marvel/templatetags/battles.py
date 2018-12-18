@@ -187,20 +187,20 @@ def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFa
         return "Hubo un error, no se pudo realizar el combate"
 
     if win == 0:
-        #if etapa == 1:
-            #subeEtp1All(lucha1.id, lucha2.id)
+        if etapa == 1:
+            subeEtp1All(lucha1.id, lucha2.id)
         return "Hubo un empate"
     elif win == 1:
-        #if etapa == 1:
-            #subeEtp1(lucha1.id)
-        #elif etapa == 2:
-            #subeEtp2(lucha1.id)
+        if etapa == 1:
+            subeEtp1(lucha1.id)
+        elif etapa == 2:
+            subeEtp2(lucha1.id)
         return "Gano el personaje 1"
     elif win == 2:
-        #if etapa == 1:
-            #subeEtp1(lucha2.id)
-        #elif etapa == 2:
-            #subeEtp2(lucha2.id)
+        if etapa == 1:
+            subeEtp1(lucha2.id)
+        elif etapa == 2:
+            subeEtp2(lucha2.id)
         return "Gano el personaje 2"
     else:
         return "Gano un zombie"
@@ -208,7 +208,7 @@ def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFa
 def subeEtp1(Persona):
     sube = Inscri.objects.get(id = Persona)
     pto = sube.punto_etp1 + 2
-    Inscri.objects.get(id = Persona).update(punto_etp1 = pto)
+    Inscri.objects.filter(id = Persona).update(punto_etp1 = pto)
 
 def subeEtp2(Persona):
     per = Habili.objects.filter(fk_person = Persona)
@@ -222,11 +222,11 @@ def subeEtp2(Persona):
 def subeEtp1All(persona1, persona2):
     sube = Inscri.objects.get(id = persona1)
     pto = sube.punto_etp1 + 1
-    Inscri.objects.get(id = persona1).update(punto_etp1 = pto)
+    Inscri.objects.filter(id = persona1).update(punto_etp1 = pto)
 
     sube = Inscri.objects.get(id = persona2)
     pto = sube.punto_etp1 + 1
-    Inscri.objects.get(id = persona2).update(punto_etp1 = pto)
+    Inscri.objects.filter(id = persona2).update(punto_etp1 = pto)
 
 def mula():
     winner=randbelow(3) #0: Empate, 1: Gana el personaje 1, 2: Gana el personaje 2
