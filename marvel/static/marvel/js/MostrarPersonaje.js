@@ -257,19 +257,40 @@ function llenarAfiliaciones(listaAfili){
     $("#lista_afiliaciones").html('<ul class="list-goup"><li class="list">  </li></ul>');   
     
     for(indice = 0;indice < dato.length; indice++) {
-        $("#lista_afiliaciones li").append(        
-            '<button type="button" class="list-group-item list-group-item-info"  style="width:100%; height: 20px; margin: 0; padding: 0; text-align: center;"> <b>'+dato[indice]+'</b> </button>'               
-        );       
+        if(dato[indice].length > 0){
+            $("#lista_afiliaciones li").append(        
+                '<button type="button" class="list-group-item list-group-item-info"  style="width:100%; height: 20px; margin: 0; padding: 0; text-align: center;"> <b>'+dato[indice]+'</b> </button>'               
+            ); 
+        }              
      }   
+}
+function aliaOEnem(data){
+    if(data.indexOf("A:") > -1){
+        arreglo = data.split(":");
+        personaje = arreglo[1];
+        $("#lista_relaciones li").append(        
+            '<button type="button" class="list-group-item list-group-item-success"  style="width:100%; height: 20px; margin: 0; padding: 0; text-align: center;"> <b>'+personaje+'</b> </button>'               
+        ); 
+    }else if(data.indexOf("E:") > -1){
+        arreglo = data.split(":");
+        personaje = arreglo[1];
+        $("#lista_relaciones li").append(        
+            '<button type="button" class="list-group-item list-group-item-danger"  style="width:100%; height: 20px; margin: 0; padding: 0; text-align: center;"> <b>'+personaje+'</b> </button>'               
+        ); 
+    }else if(data.indexOf("F:") > -1){
+        arreglo = data.split(":");
+        personaje = arreglo[1];
+        $("#lista_relaciones li").append(        
+            '<button type="button" class="list-group-item list-group-item-info"  style="width:100%; height: 20px; margin: 0; padding: 0; text-align: center;"> <b>'+personaje+'</b> </button>'               
+        );   
+    }
 }
 function llenarRelaciones(listaRelaciones){
     dato = tokenizarDato(listaRelaciones);
     $("#lista_relaciones").html('<ul class="list-goup"><li class="list">  </li></ul>');   
     
     for(indice = 0;indice < dato.length; indice++) {
-        $("#lista_relaciones li").append(        
-            '<button type="button" class="list-group-item list-group-item-info"  style="width:100%; height: 20px; margin: 0; padding: 0; text-align: center;"> <b>'+dato[indice]+'</b> </button>'               
-        );       
+        aliaOEnem(dato[indice]);             
      }   
 }
 function tokenizarDato(cadena){

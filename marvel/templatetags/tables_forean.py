@@ -50,8 +50,22 @@ def getRela (id_person):
     miRelaId = PerNoper.objects.filter(fk_person = id_person)    
     resultado = []
     for relaId in miRelaId:
-        if relaId.fk_person_rel != None:    
-            personaje = relaId.fk_person_rel                 
-            resultado.append(personaje.nombre)
+        if relaId.fk_person_rel != None:                 
+            personaje = relaId.fk_person_rel
+            relacion = relaId.tipo_rel
+              
+            if relaId.tipo_paren != None:
+                resultado.append("F:"+personaje.nombre)
+            else:                                   
+                resultado.append(relacion[0]+":"+personaje.nombre)                                 
+            
+        
+        if relaId.fk_noperson !=  None:
+            personaje = relaId.fk_noperson
+            relacion = relaId.tipo_rel              
+            if relaId.tipo_paren != None:
+                resultado.append("F:"+personaje.nombre_real+" "+personaje.apellido_real)
+            else:                                   
+                resultado.append(relacion[0]+":"+personaje.nombre_real+" "+personaje.apellido_real)
 
     return resultado
