@@ -22,7 +22,7 @@ function prepararContendientes(numGrupo,numEvent,token){
             listaDeNombres(listaIdPersonajes,numGrupo,token);            
             listaIdCombatientesActuales = listaIdPersonajes; 
             cantidadTope = ( (factorial(listaIdCombatientesActuales.length)/(2*factorial(listaIdCombatientesActuales.length-2))) );
-            alert(cantidadTope);         
+                   
         },
         error: function(respuesta){}    
     });
@@ -37,8 +37,7 @@ function listaDeNombres(listaIdPersonajes,numGrupo,token){
         success: function(respuesta){ 
             listaTemporal = respuesta.split(",");             
             if(listaTemporal.length > listaIdPersonajes.length){
-                listaTemporal.pop();
-                alert("Pop");
+                listaTemporal.pop();                
             }           
             listaPersonajes = listaTemporal;
 
