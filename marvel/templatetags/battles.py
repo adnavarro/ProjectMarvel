@@ -154,23 +154,23 @@ def groupValidate(fecha):
     
 #Simulo la etapa1
 def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFase):
-    print("Entro")
     try:
         inscri = Inscri.objects.latest('id')
-        inscrid= inscri.id + 1
+        inscrid = inscri.id + 1
     except:
         inscrid=0
+    print(inscrid)
     try:
         lucha1 = Inscri.objects.get(fk_person = personaje_1, fk_even = numeroEvento, n_grupo = numeroGrupo)
         lucha2 = Inscri.objects.get(fk_person = personaje_2, fk_even = numeroEvento, n_grupo = numeroGrupo)
         hoy = datetime.today()
         win = mula()
         fechaActual = "%Y-%m-%d"
-        
+        etapa = numeroFase
         bat = Combat(
             id = inscrid,
             fech = hoy.strftime(fechaActual),
-            etp = 1,
+            etp = etapa,
             ganador = win,
             fk_inscri1 = lucha1,
             fk_inscri2 = lucha2,
@@ -178,14 +178,48 @@ def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFa
         bat.save()
     except:
         return "Hubo un error, no se pudo realizar el combate"
+
     if win == 0:
+        #if etapa == 1:
+            #subeEtp1All(lucha1.id, lucha2.id)
         return "Hubo un empate"
     elif win == 1:
+        #if etapa == 1:
+            #subeEtp1(lucha1.id)
+        #elif etapa == 2:
+            #subeEtp2(lucha1.id)
         return "Gano el personaje 1"
     elif win == 2:
+        #if etapa == 1:
+            #subeEtp1(lucha2.id)
+        #elif etapa == 2:
+            #subeEtp2(lucha2.id)
         return "Gano el personaje 2"
     else:
         return "Gano un zombie"
+
+def subeEtp1(Persona):
+    sube = Inscri.objects.get(id = Persona)
+    pto = sube.punto_etp1 + 2
+    Inscri.objects.get(id = Persona).update(punto_etp1 = pto)
+
+def subeEtp2(Persona):
+    per = Habili.objects.filter(fk_person = Persona)
+    for i in per:
+        idact = i.id
+        sube = i.valor
+        if sube < 7:
+            pto = sube + 1
+            Habili.objects.get(id = idact).update(valor = pto)
+
+def subeEtp1All(persona1, persona2):
+    sube = Inscri.objects.get(id = persona1)
+    pto = sube.punto_etp1 + 1
+    Inscri.objects.get(id = persona1).update(punto_etp1 = pto)
+
+    sube = Inscri.objects.get(id = persona2)
+    pto = sube.punto_etp1 + 1
+    Inscri.objects.get(id = persona2).update(punto_etp1 = pto)
 
 def mula():
     winner=randbelow(3) #0: Empate, 1: Gana el personaje 1, 2: Gana el personaje 2
