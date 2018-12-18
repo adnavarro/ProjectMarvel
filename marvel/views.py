@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, redirect
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
@@ -21,8 +21,30 @@ def regPerson(request):
         biografia = request.POST.get('biografia')
 
         HttpResponse(IngPerson(nombre, tipo, tipoIden, genero, altura, ojos, lugar, universo, biografia))
+        return redirect('http://127.0.0.1:8000/regHabili/')
 
     return render(request, 'registroPersonaje.html', {})
+
+def regHabili(request):
+    if request.method == "POST":
+        inteligencia = request.POST.get('inteligencia')
+        fuerza = request.POST.get('fuerza')
+        velocidad = request.POST.get('velocidad')
+        resistencia = request.POST.get('resistencia')
+        proyeccion = request.POST.get('proyeccion')
+        habilidad = request.POST.get('habilidad')
+
+        HttpResponse(ingHabili(inteligencia, fuerza, velocidad, resistencia, proyeccion, habilidad))
+        return redirect('http://127.0.0.1:8000/regRel/')
+
+    return render(request, 'registroHabili.html', {})
+
+def regRel(request):
+    if request.method == "POST":
+        name = request.POST.get('nombre')
+        tip = request.POST.get('tipo')
+        fam = request.POST.get('familia')
+    return render(request, 'registroRel.html', {})
 
 def eventos(request):
     return render_to_response('eventos.html')
@@ -37,7 +59,7 @@ def testing(request):
 def prueba2(request):
     return render_to_response('prueba2.html')
 
-def battleGroup(request):    
+def battleGroup(request):
     obj = Person.objects.all() 
     atributo_fue = 'Fuer'   
     for data in obj:

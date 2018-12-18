@@ -1,0 +1,30 @@
+{% load static %}
+<DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Marvel Register</title>
+  <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../static/marvel/css/registro.css">
+</head>
+
+<div class="container">
+  <div class="row">
+      <div class="form_bg">
+          <form method="POST"> {% csrf_token %}
+            <h2 class="text-center">Agregar Relaciones</h2>
+            <div class="left">
+              <div class="form-group">
+                  <input type="text" name="nombre" class="form-control" id="pwd" placeholder="Nombre">
+              </div>
+              <div class="form-group">
+                  <input type="text" name="tipo" class="form-control" id="pwd" placeholder="Amigo o enemigo">
+              </div>
+              <div class="form-group">
+                  <input type="number" name="familia" class="form-control" id="pwd" placeholder="Familiar: 1 si 0 no">
+              </div>
+            </div>
+          </form>
+      </div>
+  </div>
+</div>
