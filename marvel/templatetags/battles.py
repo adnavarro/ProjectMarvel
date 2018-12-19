@@ -158,7 +158,7 @@ def groupValidate(fecha):
         return(0)
     
 #Simulo la etapa1
-def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFase):
+def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo1,numeroGrupo2,numeroFase):
     try:
         combate = Combat.objects.latest('id')
         if combate != None:
@@ -168,8 +168,8 @@ def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFa
     except:
         combateId =0
     try:        
-        lucha1 = Inscri.objects.get(fk_person = personaje_1, fk_even = numeroEvento, n_grupo = numeroGrupo)
-        lucha2 = Inscri.objects.get(fk_person = personaje_2, fk_even = numeroEvento, n_grupo = numeroGrupo)
+        lucha1 = Inscri.objects.get(fk_person = personaje_1, fk_even = numeroEvento, n_grupo = numeroGrupo1)
+        lucha2 = Inscri.objects.get(fk_person = personaje_2, fk_even = numeroEvento, n_grupo = numeroGrupo2)
         hoy = datetime.today()
         win = mula()
         fechaActual = "%Y-%m-%d"
@@ -209,6 +209,8 @@ def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFa
         return "Gano el personaje 2"
     else:
         return "Gano un zombie"
+
+
 
 def subeEtp1(Persona):
     sube = Inscri.objects.get(id = Persona)

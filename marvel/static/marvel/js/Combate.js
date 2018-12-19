@@ -242,7 +242,7 @@ function factorial(numero){
 function evento2(){
     alert("preparado");
     $("#siguiente_combate").attr('onclick','siguienteGrupo_2()');
-    $("#simular_combate").attr('onclick','emparejarCombates("2");');
+    $("#simular_combate").attr('onclick','emparejarCombates_2("2");');
     nombreIdDeContenedor = "nombre_personaje_2";
     nombreIdTitulo = "titulo_lista_personajes_2";
     listaPersonajes = [];
@@ -299,17 +299,17 @@ function emparejarCombates_2(nroFase){
 }
 function combatir_2(combatiente_1,combatiente_2,nroGrupo1,nroGrupo2,nroFase){
     $.ajax({
-        url:"/combate/",
+        url:"/combate_2/",
         type:"GET",
         data:{ 
             primerPersonaje:""+combatiente_1,
             segundoPersonaje:""+combatiente_2,
-            numGrupo1:""+nroGrupo1,
+            numGrupo:""+nroGrupo,
             numGrupo2:""+nroGrupo2,
             numEvento:""+numEvento,
             numFase:nroFase
-        },success:function(){
-
+        },success:function(respuesta){
+            alert("Enviado")
         }
     });
 }

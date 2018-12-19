@@ -205,7 +205,17 @@ def combate(request):#Recibe parametros de ajax para el evento
     numeroEvento = int(request.GET.get("numEvento"))
     numeroFase =  int(request.GET.get("numFase")) #Numero de la fase actual
     
-    return HttpResponse(simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFase))
+    return HttpResponse(simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroGrupo,numeroFase))
+
+def combate_2(request):#Recibe parametros de ajax para el evento 
+    personaje_1 = int(request.GET.get("primerPersonaje"))#Id
+    personaje_2 = int(request.GET.get("segundoPersonaje"))
+    numeroGrupo = int(request.GET.get("numGrupo"))
+    numeroGrupo2 = int(request.GET.get("numGrupo2"))
+    numeroEvento = int(request.GET.get("numEvento"))
+    numeroFase =  int(request.GET.get("numFase")) #Numero de la fase actual
+    
+    return HttpResponse(simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroGrupo2,numeroFase))
 
 def ganador(request):#Recibe parametros de ajax para el evento 
     numGrup = int(request.GET.get("numeroGrup"))#Id
@@ -353,9 +363,7 @@ def getIdPerson(request):
             personaje = Person.objects.filter(nombre = lista2[indice])
             listaImpar.append( personaje[0].id )
         indice = indice + 1
-
-    print(listaPar)
-    print(listaImpar)
+   
     contador = 1
     respuesta = ""
     for id in listaPar:
@@ -367,7 +375,6 @@ def getIdPerson(request):
             respuesta = respuesta + str(id)            
         contador = contador + 1
 
-    
     contador = 1
     respuesta = respuesta + ","
     for id in listaImpar:
