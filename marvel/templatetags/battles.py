@@ -196,12 +196,16 @@ def simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroFa
             subeEtp1(lucha1.id)
         elif etapa == 2:
             subeEtp2(lucha1.id)
+        elif etapa == 3:
+            ganador(lucha1.id)
         return "Gano el personaje 1"
     elif win == 2:
         if etapa == 1:
             subeEtp1(lucha2.id)
         elif etapa == 2:
             subeEtp2(lucha2.id)
+        elif etapa == 3:
+            ganador(lucha2.id)
         return "Gano el personaje 2"
     else:
         return "Gano un zombie"
@@ -228,6 +232,9 @@ def subeEtp1All(persona1, persona2):
     sube = Inscri.objects.get(id = persona2)
     pto = sube.punto_etp1 + 1
     Inscri.objects.filter(id = persona2).update(punto_etp1 = pto)
+
+def ganador(person):
+    Inscri.objects.filter(id = person).update(campeon = 1)
 
 def mula():
     winner=randbelow(3) #0: Empate, 1: Gana el personaje 1, 2: Gana el personaje 2
