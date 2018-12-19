@@ -251,7 +251,6 @@ function evento2(){
     numeroGrupoActual = 1;   
     sessionStorage.setItem("actualGroup","1");
     numeroGrupos = JSON.parse(sessionStorage.getItem("lista_grupos")).length;
-    listaPersonajes = [];
     combinacionesBetadas = [];
     crearListasPorNombre(nombresGan,nombresSeg)
     listaPar = [];
@@ -265,9 +264,26 @@ function evento2(){
             listaImpar.push(nombresGan[indice]);
             listaImpar.push(nombresSeg[indice]); 
         }
-    }   
-    sessionStorage.setItem("ultimaPelea",JSON.stringify(listaImpar));         
-    mostrarLista(listaPar,1);    
+    }
+    listado_1 = []; 
+    listado_2 = [];  
+    for(var indice = 0;indice < nombresGan.length;indice++){
+        if(indice < nombresGan.length/2 ){
+            listado_1.push(listaPar[indice]);            
+        }else{
+            listado_1.push(listaImpar[indice]);           
+        }
+    } 
+    for(var indice = 0;indice < nombresGan.length;indice++){
+        if(indice < nombresGan.length/2 ){
+            listado_2.push(listaImpar[indice]);            
+        }else{
+            listado_2.push(listaPar[indice]);             
+        }
+    } 
+
+    sessionStorage.setItem("ultimaPelea",JSON.stringify(listado_2));   
+    mostrarLista(listado_1,1);    
 }
 ronda = 1;
 nroGrupoIn = 1;
@@ -280,6 +296,7 @@ function siguienteGrupo_2() {
     listaPersonajes = [];
     if(ronda == 1){
         listaPersonajes = JSON.parse(sessionStorage.getItem("idPersonajesPar"));
+        console.log(listaPersonajes);
         ronda++;
     }else{
         listaPersonajes = JSON.parse(sessionStorage.getItem("idPersonajesImpar"));
@@ -304,12 +321,12 @@ function combatir_2(combatiente_1,combatiente_2,nroGrupo1,nroGrupo2,nroFase){
         data:{ 
             primerPersonaje:""+combatiente_1,
             segundoPersonaje:""+combatiente_2,
-            numGrupo:""+nroGrupo,
+            numGrupo:""+nroGrupo1,
             numGrupo2:""+nroGrupo2,
             numEvento:""+numEvento,
-            numFase:nroFase
+            numFase:""+nroFase
         },success:function(respuesta){
-            alert("Enviado")
+            alert(respuesta);
         }
     });
 }
@@ -325,8 +342,24 @@ function crearListasPorNombre(listaNombresPrimero,listaNombresSegundo){
                listaDivision = respuesta.split(",");               
                listaPar = listaDivision[0].split("-");
                listaImpar = listaDivision[1].split("-"); 
-               sessionStorage.setItem("idPersonajesPar",JSON.stringify(listaPar));
-               sessionStorage.setItem("idPersonajesImpar",JSON.stringify(listaImpar));          
+               batalla1 = [];
+               batalla2 = [];               
+               for(indice = 0; indice < listaPar.length;indice++){
+                   if(indice < listaPar.length/2){
+                       batalla1.push(listaPar[indice]);
+                   }else{
+                        batalla1.push(listaImpar[indice]);
+                   }
+               } 
+                for(indice = 0; indice < listaPar.length;indice++){
+                    if(indice < listaPar.length/2){
+                        batalla2.push(listaImpar[indice]);
+                    }else{
+                        batalla2.push(listaPar[indice]);
+                    }
+                } 
+               sessionStorage.setItem("idPersonajesPar",JSON.stringify(batalla1));
+               sessionStorage.setItem("idPersonajesImpar",JSON.stringify(batalla2));          
         },
         error: function(respuesta){ alert("Error");}    
     });    

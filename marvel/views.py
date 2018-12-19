@@ -208,14 +208,19 @@ def combate(request):#Recibe parametros de ajax para el evento
     return HttpResponse(simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroGrupo,numeroFase))
 
 def combate_2(request):#Recibe parametros de ajax para el evento 
-    personaje_1 = int(request.GET.get("primerPersonaje"))#Id
-    personaje_2 = int(request.GET.get("segundoPersonaje"))
-    numeroGrupo = int(request.GET.get("numGrupo"))
-    numeroGrupo2 = int(request.GET.get("numGrupo2"))
-    numeroEvento = int(request.GET.get("numEvento"))
-    numeroFase =  int(request.GET.get("numFase")) #Numero de la fase actual
-    
-    return HttpResponse(simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroGrupo2,numeroFase))
+    personaje_1 = (request.GET.get("primerPersonaje"))#Id
+    personaje_2 = (request.GET.get("segundoPersonaje"))
+    numeroGrupo = (request.GET.get("numGrupo"))
+    numeroGrupo2 = (request.GET.get("numGrupo2"))
+    numeroEvento = (request.GET.get("numEvento"))
+    numeroFase =  (request.GET.get("numFase")) #Numero de la fase actual
+    print(personaje_1)
+    print(personaje_2)
+    print(numeroGrupo)
+    print(numeroGrupo2)
+    print(numeroEvento)
+    print(numeroFase)
+    return HttpResponse("Listo")#HttpResponse(simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroGrupo2,numeroFase))
 
 def ganador(request):#Recibe parametros de ajax para el evento 
     numGrup = int(request.GET.get("numeroGrup"))#Id
