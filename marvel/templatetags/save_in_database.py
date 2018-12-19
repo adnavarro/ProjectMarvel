@@ -63,20 +63,22 @@ def ingRel(name, tip, fam):
         evenid= even.id + 1
     except:
         evenid=0
-    if fam == 1:
-        Parien = "Familia"
-    else:
-        Parien = None
 
-    re = PerNoper(
-        id = evenid,
-        tipo_rel = tip,
-        tipo_paren = Parien,
-        fk_person = Persona,
-        fk_person_rel = related
-    )
-    re.save()
-    return "Relacion establecida"
+    try:
+        re = PerNoper(
+            id = evenid,
+            tipo_rel = tip,
+            fk_person = Persona,
+            fk_person_rel = related
+        )
+        re.save()
+
+        if fam == 1:
+            PerNoper.objects.filter(id = evenid).update(tipo_paren = 'Familia')
+
+        return "Relacion establecida"
+    except:
+        return "Error al guardar la relacion"
 
 def fillInt(inte):
     try:
