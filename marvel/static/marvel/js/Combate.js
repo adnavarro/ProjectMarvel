@@ -308,7 +308,10 @@ function combatir_2(combatiente_1,combatiente_2,nroGrupo1,nroGrupo2,nroFase){
             numGrupo2:""+nroGrupo2,
             numEvento:""+numEvento,
             numFase:nroFase
-        },
+        },success:function(){
+
+        }
+    });
 }
 function crearListasPorNombre(listaNombresPrimero,listaNombresSegundo){
     $.ajax({
