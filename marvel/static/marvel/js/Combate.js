@@ -5,7 +5,8 @@ cantidadDeRepeticiones = 0;
 cantidadTope = 0;
 combinacionesBetadas = [];
 listaPersonajes = [];
-
+nombreIdDeContenedor = "";
+nombreIdTitulo = "";
 
 function prepararContendientes(numGrupo,numEvent,token){ 
     numeroGrupoActual = numGrupo;
@@ -48,27 +49,29 @@ function listaDeNombres(listaIdPersonajes,numGrupo,token){
     });
 }
 function mostrarLista(listaPersonajes,numeroGrupo){
-    $("#nombre_personaje").html(""); //titulo_lista_personajes  
-    $("#titulo_lista_personajes").html("<h2>Grupo " + numeroGrupo+"</h2>");
+    $("#"+nombreIdDeContenedor).html(""); //titulo_lista_personajes  
+    $("#"+nombreIdTitulo).html("<h2>Grupo"+ numeroGrupo+"</h2>");
     listaPersonajes.forEach(function(id){
-        $("#nombre_personaje").append('<button type="button" class="list-group-item list-group-item-action">'+id+'</button>');
+        $("#"+nombreIdDeContenedor).append('<button type="button" class="list-group-item list-group-item-action">'+id+'</button>');
     });
     
 }
+
 function siguienteGrupo() {
     total = parseInt(sessionStorage.getItem("totalGrupos"));
     actual = parseInt(sessionStorage.getItem("actualGroup"));
+
     combinacionesBetadas = [];
     if(actual == (total-1) ){
-        $("#siguiente_combate").attr('class', 'btn btn-success my-2 my-sm-0');
+        $("#siguiente_combate").attr('class', 'btn btn-success my-2 my-sm-0');        
         $("#siguiente_combate").html("Siguiente Evento");
     }
     if(actual < total){
         actual++;
         sessionStorage.setItem("actualGroup",actual);
         prepararContendientes(""+actual,sessionStorage.getItem("eventoActual"),"");
-    }else{
-        alert("Reseteo, Evento2");       
+    }else{        
+        evento2();       
     }
     $("#siguiente_combate").attr("disabled",true);
     $("#simular_combate").attr("disabled",false); 
@@ -233,4 +236,95 @@ function factorial(numero){
         return 1;
     }else
         return  numero * factorial(numero-1);
+}
+
+//Segundo evento-------------------------------------------------------------------------
+function evento2(){
+    alert("preparado");
+    $("#siguiente_combate").attr('onclick','siguienteGrupo_2()');
+    $("#simular_combate").attr('onclick','emparejarCombates("2");');
+    nombreIdDeContenedor = "nombre_personaje_2";
+    nombreIdTitulo = "titulo_lista_personajes_2";
+    listaPersonajes = [];
+    nombresGan = JSON.parse(sessionStorage.getItem("campeones_1"));
+    nombresSeg = JSON.parse(sessionStorage.getItem("campeones_2")); 
+    numeroGrupoActual = 1;   
+    sessionStorage.setItem("actualGroup","1");
+    numeroGrupos = JSON.parse(sessionStorage.getItem("lista_grupos")).length;
+    listaPersonajes = [];
+    combinacionesBetadas = [];
+    crearListasPorNombre(nombresGan,nombresSeg)
+    listaPar = [];
+    listaImpar = [];
+
+    for(var indice = 0;indice < nombresGan.length;indice++){
+        if(indice%2 == 0){
+            listaPar.push(nombresGan[indice]);
+            listaPar.push(nombresSeg[indice]);
+        }else{
+            listaImpar.push(nombresGan[indice]);
+            listaImpar.push(nombresSeg[indice]); 
+        }
+    }   
+    sessionStorage.setItem("ultimaPelea",JSON.stringify(listaImpar));         
+    mostrarLista(listaPar,1);    
+}
+ronda = 1;
+nroGrupoIn = 1;
+nroGrupoFin = sessionStorage.getItem("totalGrupos");
+
+function siguienteGrupo_2() {
+    nroGrupoIn = 1;
+    nroGrupoFin = sessionStorage.getItem("totalGrupos");
+    combinacionesBetadas = [];
+    listaPersonajes = [];
+    if(ronda == 1){
+        listaPersonajes = JSON.parse(sessionStorage.getItem("idPersonajesPar"));
+        ronda++;
+    }else{
+        listaPersonajes = JSON.parse(sessionStorage.getItem("idPersonajesImpar"));
+        ronda++;
+    }    
+    $("#siguiente_combate").attr("disabled",true);
+    $("#simular_combate").attr("disabled",false); 
+}
+function emparejarCombates_2(nroFase){
+    combatiente_1 = listaPersonajes[0];
+    combatiente_2 = listaPersonajes[listaPersonajes.length];
+    listaPersonajes.pop();
+    listaPersonajes.shift();
+    combatir_2(combatiente_1,combatiente_2,nroGrupoIn,nroGrupoFin,nroFase);
+    nroGrupoIn++;
+    nroGrupoFin--;
+}
+function combatir_2(combatiente_1,combatiente_2,nroGrupo1,nroGrupo2,nroFase){
+    $.ajax({
+        url:"/combate/",
+        type:"GET",
+        data:{ 
+            primerPersonaje:""+combatiente_1,
+            segundoPersonaje:""+combatiente_2,
+            numGrupo1:""+nroGrupo1,
+            numGrupo2:""+nroGrupo2,
+            numEvento:""+numEvento,
+            numFase:nroFase
+        },
+}
+function crearListasPorNombre(listaNombresPrimero,listaNombresSegundo){
+    $.ajax({
+        url: "/getIdPerson/",
+        type: "GET",
+        data:{ 
+            nombrePerson1:JSON.stringify(listaNombresPrimero), 
+            nombrePerson2:JSON.stringify(listaNombresSegundo)                         
+        },
+        success: function(respuesta){ 
+               listaDivision = respuesta.split(",");               
+               listaPar = listaDivision[0].split("-");
+               listaImpar = listaDivision[1].split("-"); 
+               sessionStorage.setItem("idPersonajesPar",JSON.stringify(listaPar));
+               sessionStorage.setItem("idPersonajesImpar",JSON.stringify(listaImpar));          
+        },
+        error: function(respuesta){ alert("Error");}    
+    });    
 }

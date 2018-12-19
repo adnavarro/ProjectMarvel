@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^regRel/', views.regRel, name='regRel'), 
     url(r'^personInGroup/', views.personInGroup, name='personInGroup'),
     url(r'^getPerson/', views.getPerson, name='getPerson'),
+    url(r'^getIdPerson/', views.getIdPerson, name='getIdPerson'),
     url(r'^combate/', views.combate, name='combate'),
     url(r'^ganador/', views.ganador, name='ganador'),
     url(r'^search/', views.search, name='search'),

@@ -330,3 +330,51 @@ def getSegundoLugar(marcadorNombres,marcadorCantidad):
     
     print("Nueva:",listaDelSegundo)
     return getPrimerLugar(marcadorNombres,listaDelSegundo)
+
+def getIdPerson(request):
+    lista1 = eval(request.GET.get("nombrePerson1"))
+    lista2 = eval(request.GET.get("nombrePerson2"))
+    listaPar = []
+    listaImpar = []
+    
+    for indice in range(0,len(lista1)):
+        if indice%2 == 0:
+            print("Par",indice)
+            personaje = Person.objects.filter(nombre = lista1[indice])
+            listaPar.append( personaje[0].id ) #Busca el id por el nombre
+            personaje = Person.objects.filter(nombre = lista2[indice])
+            listaPar.append( personaje[0].id )
+        else:
+            print("imparpar",indice)
+            personaje = Person.objects.filter(nombre = lista1[indice])
+            listaImpar.append( personaje[0].id ) #Busca el id por el nombre
+            personaje = Person.objects.filter(nombre = lista2[indice])
+            listaImpar.append( personaje[0].id )
+        indice = indice + 1
+
+    print(listaPar)
+    print(listaImpar)
+    contador = 1
+    respuesta = ""
+    for id in listaPar:
+        print(contador)
+        if contador == 1:
+            respuesta = respuesta  + str(id)                
+        else:
+            respuesta = respuesta + "-"
+            respuesta = respuesta + str(id)            
+        contador = contador + 1
+
+    
+    contador = 1
+    respuesta = respuesta + ","
+    for id in listaImpar:
+        if contador == 1:
+            respuesta = respuesta + str(id)
+        else:
+            respuesta = respuesta + "-"
+            respuesta = respuesta + str(id)
+        contador = contador + 1
+
+    print(respuesta)
+    return HttpResponse(respuesta)

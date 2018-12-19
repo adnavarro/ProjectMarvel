@@ -46,6 +46,12 @@ header nav{
     color:white;
     text-align: center;
 }
+#titulo_lista_personajes_2{
+    width: 99%;    
+    background-color:  rgba(12, 12, 12, 0.507);
+    color:white;
+    text-align: center
+}
 #titulo_resultados{
     width: 100%;
     height: 15%;    
@@ -64,11 +70,20 @@ header nav{
     color: white;
     text-align: center;
 }
-#nombre_personaje{
+#nombre_personaje,
+#nombre_personaje_2{
     width: 90%;
     margin-left: 3%;
 }
 #lista_personajes{
+    padding: 0;
+    margin: 0;
+    margin-left:1%; 
+    width: 24%;
+    height: 250px;
+    background-color: rgba(0, 0, 0, 0.363);
+}
+#lista_personajes_2{
     padding: 0;
     margin: 0;
     margin-left:1%; 
