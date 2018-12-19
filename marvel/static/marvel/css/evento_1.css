@@ -97,6 +97,14 @@ header nav{
     height: 155px;  
     padding: 0;      
 }
+#tablon_valores_segundo_fase_1,
+#tablon_valores_primero_fase_1{
+    position: relative;
+    margin-top: -20px;  
+    overflow:auto;
+    height: 50px;  
+    padding: 0;      
+}
 #cuerpo_conclusion{    
     width: 99%;
     height: 210px;

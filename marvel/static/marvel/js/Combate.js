@@ -59,10 +59,16 @@ function siguienteGrupo() {
     total = parseInt(sessionStorage.getItem("totalGrupos"));
     actual = parseInt(sessionStorage.getItem("actualGroup"));
     combinacionesBetadas = [];
+    if(actual == (total-1) ){
+        $("#siguiente_combate").attr('class', 'btn btn-success my-2 my-sm-0');
+        $("#siguiente_combate").html("Siguiente Evento");
+    }
     if(actual < total){
         actual++;
         sessionStorage.setItem("actualGroup",actual);
         prepararContendientes(""+actual,sessionStorage.getItem("eventoActual"),"");
+    }else{
+        alert("Reseteo, Evento2");       
     }
     $("#siguiente_combate").attr("disabled",true);
     $("#simular_combate").attr("disabled",false); 
@@ -182,6 +188,8 @@ function obtenerPrimerLugar(numeroEvento,numeroGrupo,numeroFase){
 
                         sessionStorage.setItem("campeones_1",JSON.stringify(lista_ganador));
                         sessionStorage.setItem("campeones_2",JSON.stringify(lista_segundo));
+                        mostrarGanador("cuerpo_tabla_primero_1",ganador,numeroGrupoActual,"x");
+                        mostrarGanador("cuerpo_tabla_segundo_1",segundo,numeroGrupoActual,"x");
                    }else{    
                         lista_ganador = [];
                         lista_segundo = [];                    
@@ -197,6 +205,8 @@ function obtenerPrimerLugar(numeroEvento,numeroGrupo,numeroFase){
                         lista_segundo.push(segundo);
                         sessionStorage.setItem("campeones_1",JSON.stringify(lista_ganador));
                         sessionStorage.setItem("campeones_2",JSON.stringify(lista_segundo));
+                        mostrarGanador("cuerpo_tabla_primero_1",ganador,numeroGrupoActual,"x");
+                        mostrarGanador("cuerpo_tabla_segundo_1",segundo,numeroGrupoActual,"x");
                    } 
                 }
             },error:function(repsuesta){
@@ -207,6 +217,16 @@ function obtenerPrimerLugar(numeroEvento,numeroGrupo,numeroFase){
         alert("Fallo");
     }
     
+}
+function mostrarGanador(idTabla,personaje,grupo,puntos){
+    $("#"+idTabla).append(
+        '<tr>'+
+        '<th scope="row"></th>'+
+        '<td>'+personaje+'</td>'+
+        '<td>'+grupo+'</td>'+
+        '<td>'+puntos+'</td>'+        
+        '</tr>'
+    ); 
 }
 function factorial(numero){
     if(numero === 1){
