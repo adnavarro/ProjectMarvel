@@ -7,6 +7,7 @@ combinacionesBetadas = [];
 listaPersonajes = [];
 nombreIdDeContenedor = "";
 nombreIdTitulo = "";
+nombreIdTablaResultados = "";
 
 function prepararContendientes(numGrupo,numEvent,token){ 
     numeroGrupoActual = numGrupo;
@@ -131,6 +132,7 @@ function combatir(primerPersonaje,segundoPersonaje,indice_1,indice_2,nroFase){
             numFase:nroFase
         },
         success: function(respuesta){ 
+           nombreIdTablaResultados = "cuerpo_tabla";
            if(respuesta === "Hubo un empate"){            
             mostrarResultados(listaPersonajes[indice_1],listaPersonajes[indice_2],respuesta,"1h");
             combatir(primerPersonaje,segundoPersonaje,indice_1,indice_2,nroFase);
@@ -150,7 +152,7 @@ function combatir(primerPersonaje,segundoPersonaje,indice_1,indice_2,nroFase){
     });
 }
 function mostrarResultados(nombrePersonaje1,nombrePersonaje2,resultado,tiempo){
-    $("#cuerpo_tabla").append(
+    $("#"+nombreIdTablaResultados).append(
         '<tr>'+
         '<th scope="row"></th>'+
         '<td>'+nombrePersonaje1+'</td>'+
@@ -243,6 +245,8 @@ function evento2(){
     alert("preparado");
     $("#siguiente_combate").attr('onclick','siguienteGrupo_2()');
     $("#simular_combate").attr('onclick','emparejarCombates_2("2");');
+    $("#siguiente_combate").attr('class', 'btn btn-danger my-2 my-sm-0'); 
+    $("#siguiente_combate").html("Siguiente Batalla");
     nombreIdDeContenedor = "nombre_personaje_2";
     nombreIdTitulo = "titulo_lista_personajes_2";
     listaPersonajes = [];
@@ -281,38 +285,48 @@ function evento2(){
             listado_2.push(listaPar[indice]);             
         }
     } 
-
+    sessionStorage.setItem("primeraPelea",JSON.stringify(listado_1));
     sessionStorage.setItem("ultimaPelea",JSON.stringify(listado_2));   
     mostrarLista(listado_1,1);    
 }
 ronda = 1;
 nroGrupoIn = 1;
-nroGrupoFin = sessionStorage.getItem("totalGrupos");
+nroGrupoFin = parseInt(sessionStorage.getItem("totalGrupos"));
 
-function siguienteGrupo_2() {
+function siguienteGrupo_2() { //Cambia de grupo de peleas cruzadas
     nroGrupoIn = 1;
     nroGrupoFin = sessionStorage.getItem("totalGrupos");
     combinacionesBetadas = [];
     listaPersonajes = [];
     if(ronda == 1){
         listaPersonajes = JSON.parse(sessionStorage.getItem("idPersonajesPar"));
-        console.log(listaPersonajes);
-        ronda++;
-    }else{
+        ronda++;        
+    }else if(ronda == 2){
         listaPersonajes = JSON.parse(sessionStorage.getItem("idPersonajesImpar"));
         ronda++;
+        nroGrupoIn++;
+        nroGrupoFin--;
+        $("#siguiente_combate").attr('class', 'btn btn-success my-2 my-sm-0'); 
+        $("#siguiente_combate").html("Siguiente Fase");
+        $("#siguiente_combate").attr('onclick','alert("Fase en construccion")');
+        listado = JSON.parse(sessionStorage.getItem("ultimaPelea"));
+        mostrarLista(listado,2);  
     }    
     $("#siguiente_combate").attr("disabled",true);
     $("#simular_combate").attr("disabled",false); 
 }
 function emparejarCombates_2(nroFase){
-    combatiente_1 = listaPersonajes[0];
-    combatiente_2 = listaPersonajes[listaPersonajes.length];
-    listaPersonajes.pop();
-    listaPersonajes.shift();
-    combatir_2(combatiente_1,combatiente_2,nroGrupoIn,nroGrupoFin,nroFase);
-    nroGrupoIn++;
-    nroGrupoFin--;
+    if(listaPersonajes.length > 0){
+        combatiente_1 = listaPersonajes[0];
+        combatiente_2 = listaPersonajes[listaPersonajes.length-1];
+        listaPersonajes.pop();
+        listaPersonajes.shift();
+        combatir_2(combatiente_1,combatiente_2,nroGrupoIn,nroGrupoFin,nroFase);
+    }else{
+        ronda++;
+        $("#siguiente_combate").attr("disabled",false);
+        $("#simular_combate").attr("disabled",true);        
+    }    
 }
 function combatir_2(combatiente_1,combatiente_2,nroGrupo1,nroGrupo2,nroFase){
     $.ajax({
@@ -326,7 +340,55 @@ function combatir_2(combatiente_1,combatiente_2,nroGrupo1,nroGrupo2,nroFase){
             numEvento:""+numEvento,
             numFase:""+nroFase
         },success:function(respuesta){
-            alert(respuesta);
+            nombreIdTablaResultados = "cuerpo_tabla_2";
+            pelea = [];
+            if(ronda == 1){
+                pelea = JSON.parse(sessionStorage.getItem("primeraPelea"));
+                if(respuesta === "Hubo un empate"){            
+                    mostrarResultados(pelea[0],pelea[pelea.length-1],respuesta,"1h");
+                    combatir_2(combatiente_1,combatiente_2,nroGrupo1,nroGrupo2,nroFase);
+                }else if( respuesta === "Gano el personaje 1"){    
+                    mostrarResultados(pelea[0],pelea[pelea.length-1],pelea[0],"1h");
+                    mostrarGanador("cuerpo_tabla_primero_2",pelea[0],nroGrupo1,"x");
+                    pelea.pop();
+                    pelea.shift();
+                    sessionStorage.setItem("primeraPelea",JSON.stringify(pelea));
+                    emparejarCombates_2(nroFase);
+                }else if( respuesta === "Gano el personaje 2"){           
+                    mostrarResultados(pelea[0],pelea[pelea.length-1],pelea[pelea.length-1],"1h");
+                    mostrarGanador("cuerpo_tabla_primero_2",pelea[pelea.length-1],nroGrupo2,"x");
+                    pelea.pop();
+                    pelea.shift();
+                    sessionStorage.setItem("primeraPelea",JSON.stringify(pelea));
+                    emparejarCombates_2(nroFase);
+                }else if(respuesta === "Gano un zombie"){
+                    alert("Error zombie");
+                }
+            }else{
+                pelea = JSON.parse(sessionStorage.getItem("ultimaPelea"));
+                if(respuesta === "Hubo un empate"){            
+                    mostrarResultados(pelea[0],pelea[pelea.length-1],respuesta,"1h");
+                    combatir_2(combatiente_1,combatiente_2,nroGrupo1,nroGrupo2,nroFase);
+                }else if( respuesta === "Gano el personaje 1"){    
+                    mostrarResultados(pelea[0],pelea[pelea.length-1],pelea[0],"1h");
+                    mostrarGanador("cuerpo_tabla_primero_2",pelea[0],nroGrupo1,"x");
+                    pelea.pop();
+                    pelea.shift();
+                    sessionStorage.setItem("ultimaPelea",JSON.stringify(pelea));
+                    emparejarCombates_2(nroFase);
+                }else if( respuesta === "Gano el personaje 2"){           
+                    mostrarResultados(pelea[0],pelea[pelea.length-1],pelea[pelea.length-1],"1h");
+                    mostrarGanador("cuerpo_tabla_primero_2",pelea[pelea.length-1],nroGrupo2,"x");
+                    pelea.pop();
+                    pelea.shift();
+                    sessionStorage.setItem("ultimaPelea",JSON.stringify(pelea));
+                    emparejarCombates_2(nroFase);
+                }else if(respuesta === "Gano un zombie"){
+                    alert("Error zombie");
+                }
+            }
+            
+               
         }
     });
 }
@@ -359,8 +421,36 @@ function crearListasPorNombre(listaNombresPrimero,listaNombresSegundo){
                     }
                 } 
                sessionStorage.setItem("idPersonajesPar",JSON.stringify(batalla1));
-               sessionStorage.setItem("idPersonajesImpar",JSON.stringify(batalla2));          
+               sessionStorage.setItem("idPersonajesImpar",JSON.stringify(batalla2)); 
+               listaPersonajes = batalla1;         
         },
         error: function(respuesta){ alert("Error");}    
     });    
+}
+
+function crearListaGanador(id){
+    $.ajax({
+        url: "/getPerson/",
+        type: "GET",
+        data:{ 
+            id_person:id,              
+        },
+        success:function(respuesta){            
+            if(sessionStorage.getItem("ganador_etp2")){
+                lista = [];
+                lista = JSON.parse(sessionStorage.getItem("ganador_etp2"));
+                lista.push(respuesta);
+                sessionStorage.setItem("ganador_etp2",JSON.stringify(lista) );
+
+            }else{
+                lista = []
+                lista.push(respuesta);
+                sessionStorage.setItem("ganador_etp2",JSON.stringify(lista));
+            }
+        },
+        error:function(error){
+           alert("Error");
+        }    
+    });
+
 }

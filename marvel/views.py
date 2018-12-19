@@ -185,6 +185,7 @@ def getPerson(request):
     person = Person.objects.get( id = id_Person)
     nombre_person = person.nombre
     return HttpResponse(nombre_person)
+
 def deletGroup():
     return HttpResponse("success")
 
@@ -220,7 +221,7 @@ def combate_2(request):#Recibe parametros de ajax para el evento
     print(numeroGrupo2)
     print(numeroEvento)
     print(numeroFase)
-    return HttpResponse("Listo")#HttpResponse(simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroGrupo2,numeroFase))
+    return HttpResponse(simularBatallas(personaje_1, personaje_2, numeroEvento, numeroGrupo,numeroGrupo2,numeroFase))
 
 def ganador(request):#Recibe parametros de ajax para el evento 
     numGrup = int(request.GET.get("numeroGrup"))#Id
@@ -392,3 +393,4 @@ def getIdPerson(request):
 
     print(respuesta)
     return HttpResponse(respuesta)
+

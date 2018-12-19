@@ -20,6 +20,24 @@
 $("document").ready(function(){    
     if(sessionStorage.getItem("eventoActual")){
         if(JSON.parse(sessionStorage.getItem("lista_grupos")).length > 1){
+            if(sessionStorage.getItem("campeones_1")){
+                sessionStorage.removeItem("campeones_1");                
+            }
+            if(sessionStorage.getItem("campeones_2")){
+                sessionStorage.removeItem("campeones_2");
+            }
+            if(sessionStorage.getItem("idPersonajesPar")){
+                sessionStorage.removeItem("idPersonajesPar");
+            }
+            if(sessionStorage.getItem("idPersonajesImpar")){
+                sessionStorage.removeItem("idPersonajesImpar");
+            }
+            if(sessionStorage.getItem("primeraPelea")){
+                sessionStorage.removeItem("primeraPelea");
+            }
+            if(sessionStorage.getItem("ultimaPelea")){
+                sessionStorage.removeItem("ultimaPelea");
+            }
             numeroEvento = sessionStorage.getItem("eventoActual");
             listaGrupos = JSON.parse(sessionStorage.getItem("lista_grupos"));
             numerosDeGrupos = listaGrupos.length;            
@@ -176,12 +194,24 @@ $("document").ready(function(){
                     <h5>Conclusion</h5>
                 </div>
                 <div id="cuerpo_conclusion">
-                    <div id="primer_lugar">
-                        
-                    </div>
-                    <div id="segundo_lugar">
-    
-                    </div>
+                    <div id="primer_lugar_2"><!--Resultados Finales Primer-->
+                        <table class="table table-hover table-dark">
+                            <thead>
+                              <tr>                            
+                                <th scope="col">Ganador</th>
+                                <th scope="col">Grupo</th>
+                                <th scope="col">Puntos</th>
+                              </tr>
+                            </thead>
+                        </table>
+                        <div id="tablon_valores_primero_fase_2">
+                            <table class="table table-dark table-hover" >                
+                                <tbody id="cuerpo_tabla_primero_2"> 
+                                                                                                                           
+                                </tbody>                
+                          </table>
+                        </div>                    
+                    </div> <!--Resultados Finales Primer-->                                      
                 </div>
             </div>
            </div> 

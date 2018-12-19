@@ -110,7 +110,7 @@ header nav{
     margin-top: -20px;  
     overflow:auto;
     height: 155px;  
-    padding: 0;      
+    padding: 0;         
 }
 #tablon_valores_segundo_fase_1,
 #tablon_valores_primero_fase_1{
@@ -129,6 +129,20 @@ header nav{
     height: 50%;
     border-bottom:1px solid  rgb(44, 213, 255); 
     border-left:1px solid  rgb(44, 213, 255); 
+}
+#primer_lugar_2{
+    position: relative;      
+    overflow:auto;
+    height: 205px;  
+    padding: 0;        
+   
+}
+#tablon_valores_primero_fase_2{
+    position: relative;
+    margin-top: -20px;  
+    overflow:auto;
+    height: 155px;  
+    padding: 0;     
 }
 #segundo_lugar{
     width: 100%;
