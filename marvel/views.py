@@ -44,6 +44,8 @@ def regRel(request):
         name = request.POST.get('nombre')
         tip = request.POST.get('tipo')
         fam = request.POST.get('familia')
+
+        HttpResponse(ingRel(name, tip, fam))
     return render(request, 'registroRel.html', {})
 
 def eventos(request):

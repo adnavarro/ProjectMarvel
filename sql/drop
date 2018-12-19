@@ -37,4 +37,3 @@ drop table gnu_person_no_combat cascade;
 drop table gnu_poder cascade;
 
 drop table gnu_univer cascade;
-
