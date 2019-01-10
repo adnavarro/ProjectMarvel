@@ -48,6 +48,9 @@ def regRel(request):
         HttpResponse(ingRel(name, tip, fam))
     return render(request, 'registroRel.html', {})
 
+def consultas(request):
+    return render_to_response('consultas.html')
+    
 def eventos(request):
     return render_to_response('eventos.html')
 

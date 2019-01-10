@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^combate/', views.combate, name='combate'),
     url(r'^combate_2/', views.combate_2, name='combate_2'),
     url(r'^ganador/', views.ganador, name='ganador'),
+    url(r'^consultas/', views.consultas, name='consultas'),
     url(r'^search/', views.search, name='search'),
     url(r'^deletInscri/', views.deletInscri, name='deletInscri'),
     url(r'^insertEvento/', views.insertEvento, name='insertEvento'),
