@@ -3,14 +3,13 @@
 <html>
    
 <head>
+    <script src="../../static/marvel/js/jquery/jQuery-3.3.1.min.js"></script>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Base de datos Marvel</title>
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0, width=device-width">
     <script src="../../static/marvel/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../static/marvel/css/index.css">
-    
+    <link rel="stylesheet" href="../../static/marvel/css/bootstrap.min.css">   
 </head>
 
 <header class="container">
@@ -25,18 +24,107 @@
               <div class="navbar-nav">
                   <button class="col btn btn-sm btn-outline-secondary" type="button">Inicio</button>
                 <div class="col"></div>
-                  <button class="col btn btn-sm btn-outline-primary" type="button">Eventos</button>
+                  <button id="boton_evento" class="col btn btn-sm btn-outline-primary" type="button" data-parent="#accordion" data-toggle="collapse"  href="#busqueda_evento"    href="#busqueda_evento"    onclick=" $('#busqueda_personaje').collapse('shown.bs.collapse',function(){alert('hola')});">Eventos</button> <!-- .attr("disabled", "disabled"); -->
                 <div class="col"></div>
-                  <button class="col btn btn-sm btn-outline-success" type="button">Personajes</button>
+                  <button id="boton_personaje" class="col btn btn-sm btn-outline-success" type="button" data-parent="#accordion" data-toggle="collapse"  href="#busqueda_personaje" href="#busqueda_personaje" onclick=" $('#busqueda_evento').collapse('shown.bs.collapse',function(){alert('hola2')});">Personajes</button>
+                  
                 <div class="col"></div>
                   <button class="col btn btn-sm btn-outline-danger" type="button">Mayor taza de victorias</button>                      
-              </div>
+              </div> 
+
           </div>              
-        </nav>
+        </nav>  
+        <div class="panel-group" id="accordion"> <!-- Contenedor para que todos se cierrern -->
+
+            <!--Busqueda personajes-->
+          <div class="panel-collapse collapse" id="busqueda_personaje"  >            
+              <form>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Nombre:</label>
+                    <input type="text" class="form-control" id="recipient-name">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Grupo Afiliacion:</label>
+                    <input type="text" class="form-control" id="recipient-name">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">categoria:</label>
+                    <input type="text" class="form-control" id="recipient-name">
+                  </div>
+
+                  <div class="modal-footer">            
+                    <button type="button" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#busqueda_personaje" onclick="$('#tablon_resultados').css('display','block');" >Buscar</button>
+                  </div>              
+              </form>      
+          </div>  
+          <!--Busqueda personajes FIN-->
+
+          <!--Busqueda Evento-->
+          <div class="panel-collapse collapse" id="busqueda_evento"  >            
+              <form>
+                <div class="form-group">                
+                  <label for="example-date-input" class="col-2 col-form-label">Fecha:</label>
+                  <div class="col-10">
+                    <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                  </div>
+                </div>
+
+                <div class="ui-widget autocomplete">
+                  <label for="lugar_input" class="control-label">Lugar:</label>
+                  <input  type="text" id="lugar_input" class="form-control">
+                </div>
+
+                <div class="form-group">
+                  <label for="recipient-name" class="control-label">Duracion (Dias):</label>
+                  <input data-toggle="tooltip" data-placement="top" title="maximo 3 dias" type="number" min="1" max ="3" class="form-control" id="dias_select">
+                </div>
+                
+                <div class="modal-footer">            
+                    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#busqueda_evento">Buscar</button>
+                </div>  
+
+              </form>    
+          </div>  
+          <!--Busqueda Evento FIN-->
+        </div>
+        
+        
 </header>  
 
-<body>  
-    
+<body  class="container">  
+    <div class="container" id="tablon_resultados" style="display:none;">
+        <div id="titulo_resultados">
+            <h5>Resultados de Busqueda</h5>
+        </div>
+        <table class="table table-dark" >
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th> 
+                <th scope="col">Grupo</th> 
+                <th scope="col">Categoria</th>                              
+              </tr>
+            </thead>
+        </table>
+        <div id="tablon_valores">
+            <table class="table table-dark table-hover" >                
+                <tbody id="cuerpo_tabla">
+                    <tr onclick="$('#ficha_personaje').modal('show');">
+                        <th scope="row">1</th>
+                        <td>Mark</td> 
+                        <td>verdelandia</td> 
+                        <td>Feo</td>          
+                      </tr>
+                      <tr onclick="$('#ficha_personaje').modal('show');">
+                        <th scope="row">2</th>
+                        <td>Jacob</td> 
+                        <td>verdelandia</td> 
+                        <td>Feo</td>          
+                      </tr>    
+                </tbody>                
+          </table>
+        </div>        
+    </div>    
 </body>
 
 <!-- Footer -->
@@ -51,4 +139,198 @@
 </footer>
 <!-- Footer -->
 
+  <!-- Ficha Personaje -->
+  <div class="modal fade" id="ficha_personaje" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ficha de Personaje</h5>              
+          </div>
+          <div class="modal-body">
+            <form>
+                
+              <div class="row"> <!-- Nombre , nombre real y universo -->
+                <div class="col">
+                  <label >Nombre de Heroe - Nombre real (Universo)</label>
+                </div>                                
+              </div> <!-- Nombre -->
+
+              <div class="form-group"> <!-- Biografia -->
+                  <label for="message-text" class="col-form-label">Biografia:</label>
+                  <textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>
+              </div> <!-- Biografia -->
+              
+              <!--Datos -->
+              <div class="row"> 
+                <div class="col">
+                  <label >Nombre Original:</label>
+                </div>
+                <div class="col-6">
+                  <input class="form-control" value="Nombre" id="nombre-text" readonly>
+                </div>                
+              </div>   
+              
+              <div class="row"> 
+                <div class="col">
+                  <label >Nombre Real:</label>
+                </div>
+                <div class="col-6">
+                  <input class="form-control" value="Nombre" id="nombre-text" readonly>
+                </div>                
+              </div>
+
+              <div class="row"> 
+                <div class="col">
+                  <label >Identidad:</label>
+                </div>
+                <div class="col-6">
+                  <input class="form-control" value="Nombre" id="nombre-text" readonly>
+                </div>                
+              </div>
+
+              <div class="row"> 
+                <div class="col">
+                  <label >Profesion:</label>
+                </div>
+                <div class="col-6">
+                  <input class="form-control" value="Nombre" id="nombre-text" readonly>
+                </div>                
+              </div>
+
+              <div class="form-group"> <!-- Biografia -->
+                <label for="message-text" class="col-form-label">Lugar de nacimiento:</label>
+                <textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>
+              </div> <!-- Biografia -->
+
+              <div class="row"> 
+                <div class="col">
+                  <label >Estado civil:</label>
+                </div>
+                <div class="col-6">
+                  <input class="form-control" value="Nombre" id="nombre-text" readonly>
+                </div>                
+              </div>
+
+              <div class="form-group"> <!-- Biografia -->
+                <label for="message-text" class="col-form-label">Parientes conocidos:</label>
+                <textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>
+              </div> <!-- Biografia -->
+
+              <div class="form-group"> <!-- Biografia -->
+                <label for="message-text" class="col-form-label">Grupos de Afiliacion:</label>
+                <textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>
+              </div> <!-- Biografia -->
+
+              <div class="row"> <!--Fisico-->
+                <div class="col-2">
+                  <label >Altura:</label>
+                </div>
+                <div class="col-2">
+                  <input class="form-control" value="0" id="nombre-text" readonly>
+                </div> 
+                <div class="col-2">
+                  <input class="form-control" value="0" id="nombre-text" readonly>
+                </div> 
+
+                <div class="col-2">
+                  <label >Peso:</label>
+                </div>
+                <div class="col-2">
+                  <input class="form-control" value="0" id="nombre-text" readonly>
+                </div> 
+
+                <div class="col-2">
+                  <input class="form-control" value="0" id="nombre-text" readonly>
+                </div> 
+              </div> <!--Fisico-->
+
+              <div class="row"> <!--Fisico-->
+                <div class="col-2">
+                  <label >Ojos:</label>
+                </div>
+                <div class="col-4">
+                  <input class="form-control" value="azul" id="nombre-text" readonly>
+                </div>                 
+
+                <div class="col-2">
+                  <label >Pelo:</label>
+                </div>
+                <div class="col-4">
+                  <input class="form-control" value="negro" id="nombre-text" readonly>
+                </div>                 
+
+              </div> <!--Fisico-->
+
+              <div class="form-group"> <!-- Biografia -->
+                <label for="message-text" class="col-form-label">Poderes conocidos:</label>
+                <textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>
+              </div> <!-- Biografia -->
+
+              <div class="form-group"> <!-- Biografia -->
+                <label for="message-text" class="col-form-label">Parafernalias:</label>
+                <textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>
+              </div> <!-- Biografia -->
+
+              <div class="form-group"> <!-- Biografia -->
+                <label for="message-text" class="col-form-label">Aliados:</label>
+                <textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>
+              </div> <!-- Biografia -->
+
+              <div class="form-group"> <!-- Biografia -->
+                <label for="message-text" class="col-form-label">Enemigos:</label>
+                <textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>
+              </div> <!-- Biografia -->
+
+              <table class="table table-sm" id="estadisticas">
+                <thead class="thead-dark"> 
+                    <tr>
+                      <th scope="col">Atributo</th> 
+                      <th> <center>1</center></th> 
+                      <th> <center>2</center></th>
+                      <th> <center>3</center></th>
+                      <th> <center>4</center></th>
+                      <th> <center>5</center></th>
+                      <th> <center>6</center></th>
+                      <th> <center>7</center></th>                                          
+                    </tr>
+                </thead>   
+                <tbody> 
+                  <tr id = "fuer">
+                     <th scope="row">Fuerza</th>
+                     
+                  </tr>                   
+                  <tr id = "intel">
+                    <th scope="row">Inteligen</th>
+                    
+                  </tr>
+                  <tr id = "agil">
+                    <th scope="row">Agilidad</th>
+                    
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr id = "resi">
+                    <th scope="row">Resist</th>
+                    
+                  </tr>
+        
+                  <tr id = "proy_en">
+                    <th scope="row">Proyect Energy</th>
+                   
+                  </tr>
+        
+                  <tr id = "hab_comb">
+                    <th scope="row">Hab combat</th>
+                    
+                  </tr>
+                </tbody>                
+              </table>
+              <!--Datos -->
+
+            </form>
+          </div>         
+        </div>
+      </div>
+    </div>
+  <!-- Fin ficha personaje -->
 </html>
