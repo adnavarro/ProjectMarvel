@@ -19,14 +19,33 @@ function listaCategorias(){//getCategoria
     error: function(respuesta){ alert("Error Busqueda"); }    
   });
 }
-
+function personalisarFicha(nombre,nombreReal,universo,biografia,identidad,profesion,lugar,ed_civil,parientes,afiliaciones){
+  $("#titulo_ficha").html("");
+  $("#titulo_ficha").html("<label>"+nombre+"-"+nombreReal+"("+universo+")</label>");
+  $("#biografia_personaje").html(biografia);
+  $("#nombreOriginal_Ficha").html('<input class="form-control" value="'+nombre+'" id="nombre-text" readonly></input>');
+  $("#nombreReal_Ficha").html('<input class="form-control" value="'+nombreReal+'" id="nombre-text" readonly></input>');
+  if(identidad == 'C'){
+    $("#identidad_Ficha").html('<input class="form-control" value="Publica" id="nombre-text" readonly></input>')
+  }else{
+    $("#identidad_Ficha").html('<input class="form-control" value="Oculta" id="nombre-text" readonly></input>')
+  }
+  $("#profesion_Ficha").html('<input class="form-control" value="'+profesion+'" id="nombre-text" readonly></input>')
+  $("#lugar_nac").html(lugar);
+  if(ed_civil == 'S')
+    $("#edoCivil_Ficha").html('<input class="form-control" value="Soltero" id="nombre-text" readonly></input>');
+  else
+    $("#edoCivil_Ficha").html('<input class="form-control" value="Casado" id="nombre-text" readonly></input>');
+    $("#parientes").html(parientes);
+    $("#afiliacion_ficha").html(afiliaciones);
+}
 function crearModalFichaPerson(){
   $("#modal_personaje").html(
     '<div class="modal fade" id="ficha_personaje" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">'+
       '<div class="modal-dialog" role="document">'+
         '<div class="modal-content">'+
           '<div class="modal-header">'+
-            '<h5 class="modal-title" id="exampleModalLabel">Ficha de Personaje</h5>              '+
+            '<h5 class="modal-title" id="exampleModalLabel">Ficha de Personaje</h5>'+
           '</div>'+
           '<div class="modal-body">'+
             '<form>'+
@@ -39,7 +58,7 @@ function crearModalFichaPerson(){
 
               '<div class="form-group" id="biografria_ficha"> <!-- Biografia -->'+
                   '<label for="message-text" class="col-form-label">Biografia:</label>'+
-                  '<textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
+                  '<textarea class="form-control" id="biografia_personaje" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
               '</div> <!-- Biografia -->'+
               
               '<!--Datos -->'+
@@ -81,7 +100,7 @@ function crearModalFichaPerson(){
 
               '<div class="form-group" id="lugarNac_Ficha"> <!-- Lugar nac -->'+
                 '<label for="message-text" class="col-form-label">Lugar de nacimiento:</label>'+
-                '<textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
+                '<textarea class="form-control" id="lugar_nac" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
               '</div> <!-- lugar nac -->'+
 
               '<div class="row"> '+
@@ -95,12 +114,12 @@ function crearModalFichaPerson(){
 
               '<div class="form-group"> <!-- Parientes -->'+
                 '<label for="message-text" class="col-form-label">Parientes conocidos:</label>'+
-                '<textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
+                '<textarea class="form-control" id="parientes" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
               '</div> <!-- Parientes -->'+
 
               '<div class="form-group"> <!-- Biografia -->'+
                 '<label for="message-text" class="col-form-label">Grupos de Afiliacion:</label>'+
-                '<textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
+                '<textarea class="form-control" id="afiliacion_ficha" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
               '</div> <!-- Biografia -->'+
 
               '<div class="row"> <!--Fisico-->'+
@@ -249,10 +268,19 @@ function enviarPeticionBusqueda(){
       $("#cuerpo_tabla").html("");
       for (var index = 0; index < listaRespuestas.length; index++) {
         $("#cuerpo_tabla").append(
-          "<tr onclick="+'"'+"$('#ficha_personaje').modal('show');"+'"'+">"+
+          "<tr onclick="+'"'+" personalisarFicha('"+listaRespuestas[index].nombre+"','"
+                                                  +listaRespuestas[index].nombre_real +" "+listaRespuestas[index].apellido_real+"','"
+                                                  +listaRespuestas[index].universo+"','"
+                                                  +listaRespuestas[index].biografia+"','"
+                                                  +listaRespuestas[index].tipo_iden+"','"
+                                                  +listaRespuestas[index].profesion+"','"
+                                                  +listaRespuestas[index].lugar+"','"
+                                                  +listaRespuestas[index].edo_civil+"','"
+                                                  +listaRespuestas[index].parientes+"','"
+                                                  +listaRespuestas[index].afiliaciones+"'); $('#ficha_personaje').modal('show');"+'">'+
               '<th scope="row">'+index+'</th>'+
               '<td>'+listaRespuestas[index].nombre+'</td>'+
-              '<td>'+busquedaGrupo()+'</td> '+
+              '<td>'+listaRespuestas[index].afiliaciones+'</td> '+
               '<td>'+busquedaCategoria()+'</td>'+
           '</tr>'
         );        

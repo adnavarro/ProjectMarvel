@@ -450,11 +450,9 @@ def buscarPersonaje(request):
         elif len(v_categoria) > 0:
                resultadoPersonaje = Person.objects.filter(nombre__icontains = v_nombre)  #FIN DE INICIO EN NOMBRE
                resultadoCatego     = Catego.objects.filter(nombre__icontains = v_categoria)
-               for personaje in resultadoPersonaje:
-                    print("probando " , personaje.nombre)
+               for personaje in resultadoPersonaje:                    
                     if checarFullFiltros(personaje,None,resultadoCatego):
-                        resultadoBusqueda.append(personaje) 
-                        print("Aprobo " , personaje.nombre) 
+                        resultadoBusqueda.append(personaje)                        
                     else:
                         print("Ninguna coincidencia")
         else:
@@ -491,11 +489,67 @@ def checarFullFiltros(personaje,afiliacion,categoria): #SI SE TIENE EL NOMBRE
             return True
     
     return False
+#DESCOMPONIENDO INFORMACION--------------------
+def obtenerProfesion(personaje):
+    cadenaProfesion = "" 
+    profesion = PD.objects.filter(fk_person = personaje)
+    indice = 1
+    for destresa in profesion:
+        if len(profesion) > 1 and indice < len(profesion):
+            cadenaProfesion = cadenaProfesion + destresa.fk_destr.nombre + ','
+        else:
+            cadenaProfesion = cadenaProfesion + destresa.fk_destr.nombre
+        indice = indice + 1
+    return cadenaProfesion
+
+def obtenerLugares(personaje):
+    cadenaLugar = ""        
+    lugar = personaje.fk_lugar
+    while lugar != None:
+        cadenaLugar = cadenaLugar + lugar.nombre
+        lugar = lugar.fk_lugar
+        if lugar == None:
+            break
+        cadenaLugar = cadenaLugar + ","             
+    return cadenaLugar
+
+def obtenerParientes(personaje):
+    relaciones = PerNoper.objects.filter(fk_person = personaje , tipo_paren = 'Familia')
+    cadenaParientes = ""
+
+    indice = 1
+    for pariente in relaciones:
+        if pariente.fk_person_rel == None:
+            if indice < len(relaciones):
+                cadenaParientes = cadenaParientes + pariente.fk_noperson.nombre + ","
+            else:
+                cadenaParientes = cadenaParientes + pariente.fk_noperson.nombre
+        else:
+            if indice < len(relaciones):
+                cadenaParientes = cadenaParientes + pariente.fk_person_rel.nombre + ","
+            else:
+                cadenaParientes = cadenaParientes + pariente.fk_person_rel.nombre
+        indice = indice + 1
+    return cadenaParientes
+
+def obtenerAfiliaciones(personaje):
+    listaAfili = PA.objects.filter(fk_person = personaje)
+    cadenaAfiliaciones = ""
+    indice = 1
+    for afiliacion in listaAfili:
+        if indice < len(listaAfili):
+            cadenaAfiliaciones = cadenaAfiliaciones + afiliacion.fk_afili.nombre + " (" + afiliacion.status + "), " 
+        else:
+            cadenaAfiliaciones = cadenaAfiliaciones + afiliacion.fk_afili.nombre + " (" + afiliacion.status + ")"
+
+        indice = indice + 1
+
+    return cadenaAfiliaciones
 
 def convertirEnJson(listaPersonajes):
     listaRespuesta = []
     for personaje in listaPersonajes:
-        print(personaje.id)
+        universo = "" + personaje.fk_univer.nombre        
         jsonRespuesta = {
             'id' : int(personaje.id),
             'nombre' : personaje.nombre,
@@ -509,8 +563,11 @@ def convertirEnJson(listaPersonajes):
             'apellido_real' : personaje.apellido_real,
             'edo_civil' : personaje.edo_civil,
             'color_pelo' : personaje.color_pelo,
-            'fk_lugar' : int(personaje.fk_lugar.id),
-            'fk_univer' : int(personaje.fk_univer.id)            
+            'lugar' : obtenerLugares(personaje),
+            'universo' : universo,
+            'profesion': obtenerProfesion(personaje),
+            'parientes': obtenerParientes(personaje),
+            'afiliaciones':obtenerAfiliaciones(personaje)          
         }  
         listaRespuesta.append(jsonRespuesta)
     return json.dumps(listaRespuesta)
