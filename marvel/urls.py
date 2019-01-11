@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^search/', views.search, name='search'),
     url(r'^deletInscri/', views.deletInscri, name='deletInscri'),
     url(r'^insertEvento/', views.insertEvento, name='insertEvento'),
-    url(r'^autoCompleteLugar/', views.autoCompleteLugar, name='autoCompleteLugar')  
+    url(r'^autoCompleteLugar/', views.autoCompleteLugar, name='autoCompleteLugar'),
+    url(r'^getCategoria/', views.getCategoria, name='getCategoria')  
 ]

@@ -397,3 +397,23 @@ def getIdPerson(request):
     print(respuesta)
     return HttpResponse(respuesta)
 
+def getCategoria(request): 
+    listaCategoria = Catego.objects.all()
+    listaRespuesta = []
+
+    for categ in listaCategoria:       
+        listaRespuesta.append(categ.nombre)
+    
+    respuesta = ""
+    contador = 1
+
+    for resp in listaRespuesta:
+        if contador == 1:
+            respuesta = respuesta + resp
+        else:
+            respuesta = respuesta + "_"
+            respuesta = respuesta + resp
+        contador = contador + 1  
+
+    return HttpResponse(respuesta)
+
