@@ -308,12 +308,12 @@ INSERT INTO public.gnu_habili(id, nombre, valor, fk_person) --Habilidades (Todas
                 (12, 'Armas de fuego', 'Quienes utilizan armas de fuego para el combate'),
                 (13, 'Magia','Solo aquellos que tienen la capacidad de usar magia');
 
-    INSERT INTO public.gnu_c_p(fk_person, fk_catego) --Relacion entre personajes y Categorias
-	VALUES (0, 0), --Thor
-               (0, 1),
-               (0, 8),
-               (0, 9),
-               (0, 13),
+    INSERT INTO public.gnu_c_p(fk_person,fk_catego) --Relacion entre personajes y Categorias
+	VALUES (0,0), --Thor
+               (0,1),
+               (0,8),
+               (0,9),
+               (0,13),
 
                (1, 9), --punisher
                (1, 11),

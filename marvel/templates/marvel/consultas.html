@@ -57,7 +57,7 @@
                   </div>
 
                   <div class="modal-footer">            
-                    <button type="button" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#busqueda_personaje" onclick=" probarBusqueda(); $('#tablon_resultados').css('display','block');" >Buscar</button>
+                    <button type="button" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#busqueda_personaje" onclick=" enviarPeticionBusqueda(); $('#tablon_resultados').css('display','block');" >Buscar</button>
                   </div>              
               </form>      
           </div>  
@@ -110,7 +110,7 @@
               </tr>
             </thead>
         </table>
-        <div id="tablon_valores">
+        <div id="tablon_valores_personaje">
             <table class="table table-dark table-hover" >                
                 <tbody id="cuerpo_tabla">
                     <tr onclick="$('#ficha_personaje').modal('show');">
@@ -118,7 +118,7 @@
                         <td>Mark</td> 
                         <td>verdelandia</td> 
                         <td>Feo</td>          
-                      </tr>
+                    </tr>
                       <tr onclick="$('#ficha_personaje').modal('show');">
                         <th scope="row">2</th>
                         <td>Jacob</td> 

@@ -164,7 +164,7 @@ class CP(models.Model):
 
     class Meta:
         db_table = 'gnu_c_p'
-        unique_together = (('fk_person', 'fk_catego'),)
+        unique_together = (('fk_person','fk_catego'),)
 
 
 class Afili(models.Model):

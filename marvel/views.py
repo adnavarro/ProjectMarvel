@@ -396,6 +396,7 @@ def getIdPerson(request):
 
     print(respuesta)
     return HttpResponse(respuesta)
+#Busquedas --------------------------------------------------------------------------------------------------------------
 
 def getCategoria(request): 
     listaCategoria = Catego.objects.all()
@@ -417,3 +418,101 @@ def getCategoria(request):
 
     return HttpResponse(respuesta)
 
+def buscarPersonaje(request):
+    v_nombre = request.GET.get("nombre")
+    v_afiliacion = request.GET.get("afiliacion")
+    v_categoria = request.GET.get("categoria")
+    resultadoBusqueda = []
+
+    #VERIFICANDO QUE LOS DATOS ESTEN LLENOS
+    if len(v_nombre) > 0: #INICIANDO EN NOMBRE
+        if len(v_afiliacion) > 0:
+            if len(v_categoria) > 0:
+                resultadoPersonaje   = Person.objects.filter(nombre__icontains = v_nombre) 
+                resultadoAfiliacion = Afili.objects.filter(nombre__icontains = v_afiliacion)
+                resultadoCatego     = Catego.objects.filter(nombre__icontains = v_categoria)
+                #RECORRER LISTA DE RESULTADOS PARA LA BUSQUEDA con todas las clausulas
+                for personaje in resultadoPersonaje:
+                    for afiliacion in resultadoAfiliacion:
+                        if checarFullFiltros(personaje,afiliacion,resultadoCatego):
+                            resultadoBusqueda.append(personaje)  
+                        else:
+                            print("Ninguna coincidencia")                               
+            else:
+                resultadoPersonaje   = Person.objects.filter(nombre__icontains = v_nombre) 
+                resultadoAfiliacion  = Afili.objects.filter(nombre__icontains = v_afiliacion)
+                for personaje in resultadoPersonaje:
+                    for afiliacion in resultadoAfiliacion:
+                        if checarFullFiltros(personaje,afiliacion,None):
+                            resultadoBusqueda.append(personaje)  
+                        else:
+                            print("Ninguna coincidencia")                            
+        elif len(v_categoria) > 0:
+               resultadoPersonaje = Person.objects.filter(nombre__icontains = v_nombre)  #FIN DE INICIO EN NOMBRE
+               resultadoCatego     = Catego.objects.filter(nombre__icontains = v_categoria)
+               for personaje in resultadoPersonaje:
+                    print("probando " , personaje.nombre)
+                    if checarFullFiltros(personaje,None,resultadoCatego):
+                        resultadoBusqueda.append(personaje) 
+                        print("Aprobo " , personaje.nombre) 
+                    else:
+                        print("Ninguna coincidencia")
+        else:
+            resultadoPersonaje = Person.objects.filter(nombre__icontains = v_nombre)
+            for personaje in resultadoPersonaje:
+                resultadoBusqueda.append(personaje)
+
+
+    elif len(v_afiliacion) > 0: #INICIANDO EN AFILIACION
+            if len(v_categoria) > 0:
+                print("solo Afiliacion y Categoria")
+            else:
+                print("Solo afiliacion")
+    else:
+        print("Solo categoria")
+
+    
+    return HttpResponse(convertirEnJson(resultadoBusqueda)) 
+
+def checarFullFiltros(personaje,afiliacion,categoria): #SI SE TIENE EL NOMBRE
+    if afiliacion != None:     
+        resultadosAfili = PA.objects.filter(fk_person = personaje , fk_afili = afiliacion)
+        if categoria != None:
+            resultadosCateg = CP.objects.filter(fk_person = personaje , fk_catego__in = categoria)  
+            if len(resultadosCateg) > 0 and len(resultadosAfili) > 0:                
+                return True
+        else:
+            if len(resultadosAfili) > 0:
+                return True
+    
+    elif categoria != None:
+        resultadosCateg = CP.objects.filter(fk_person = personaje , fk_catego__in = categoria)  
+        if len(resultadosCateg) > 0:                
+            return True
+    
+    return False
+
+def convertirEnJson(listaPersonajes):
+    listaRespuesta = []
+    for personaje in listaPersonajes:
+        print(personaje.id)
+        jsonRespuesta = {
+            'id' : int(personaje.id),
+            'nombre' : personaje.nombre,
+            'tipo' : personaje.tipo,
+            'tipo_iden' : personaje.tipo_iden,
+            'genero' : personaje.genero,
+            'altura' : int(personaje.altura),
+            'color_ojo' : personaje.color_ojo,
+            'biografia' : personaje.biografia,
+            'nombre_real' : personaje.nombre_real,
+            'apellido_real' : personaje.apellido_real,
+            'edo_civil' : personaje.edo_civil,
+            'color_pelo' : personaje.color_pelo,
+            'fk_lugar' : int(personaje.fk_lugar.id),
+            'fk_univer' : int(personaje.fk_univer.id)            
+        }  
+        listaRespuesta.append(jsonRespuesta)
+    return json.dumps(listaRespuesta)
+
+    

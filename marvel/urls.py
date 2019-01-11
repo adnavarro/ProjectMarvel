@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^deletInscri/', views.deletInscri, name='deletInscri'),
     url(r'^insertEvento/', views.insertEvento, name='insertEvento'),
     url(r'^autoCompleteLugar/', views.autoCompleteLugar, name='autoCompleteLugar'),
+    url(r'^buscarPersonaje/', views.buscarPersonaje, name='buscarPersonaje'),
     url(r'^getCategoria/', views.getCategoria, name='getCategoria')  
 ]

@@ -234,15 +234,29 @@ function probarBusqueda(){
     console.log(busquedaGrupo());
   
 }
-function enviarPeticionBusqueda(nombre,categoria,){
+function enviarPeticionBusqueda(){
+  
   $.ajax({
-    url:"/combate/",
+    url:"/buscarPersonaje/",
     type:"GET",
     data:{ 
-       
+       nombre:busquedaNombre(),
+       afiliacion:busquedaGrupo(),
+       categoria:busquedaCategoria()
     },
     success: function(respuesta){ 
-       
+      listaRespuestas = JSON.parse(respuesta);
+      $("#cuerpo_tabla").html("");
+      for (var index = 0; index < listaRespuestas.length; index++) {
+        $("#cuerpo_tabla").append(
+          "<tr onclick="+'"'+"$('#ficha_personaje').modal('show');"+'"'+">"+
+              '<th scope="row">'+index+'</th>'+
+              '<td>'+listaRespuestas[index].nombre+'</td>'+
+              '<td>'+busquedaGrupo()+'</td> '+
+              '<td>'+busquedaCategoria()+'</td>'+
+          '</tr>'
+        );        
+      }    
     },
     error: function(respuesta){ alert("Error Busqueda"); }    
   });
