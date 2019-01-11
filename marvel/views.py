@@ -521,9 +521,9 @@ def obtenerParientes(personaje):
     for pariente in relaciones:
         if pariente.fk_person_rel == None:
             if indice < len(relaciones):
-                cadenaParientes = cadenaParientes + pariente.fk_noperson.nombre + ","
+                cadenaParientes = cadenaParientes + pariente.fk_noperson.nombre_real + " " +  pariente.fk_noperson.apellido_real + ","
             else:
-                cadenaParientes = cadenaParientes + pariente.fk_noperson.nombre
+                cadenaParientes = cadenaParientes + pariente.fk_noperson.nombre_real + " " +  pariente.fk_noperson.apellido_real 
         else:
             if indice < len(relaciones):
                 cadenaParientes = cadenaParientes + pariente.fk_person_rel.nombre + ","
