@@ -356,3 +356,4 @@ function buscarEvento(){//perdir eventos
 function busquedaFecha(){
   return $("#busqueda_fecha input").val();
 }
+//-------------------------------------------------------------------AFILIACION----------------------------------

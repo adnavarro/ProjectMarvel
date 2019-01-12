@@ -482,9 +482,9 @@ def buscarPersonaje(request):
 def buscarEvento(request):
     v_fecha = request.GET.get("fecha")
     hoy = datetime.today()
-    hoy = hoy.strftime(v_fecha)
+    v_fecha = hoy.strftime(v_fecha)
     resultadoBusqueda = []
-
+    print(v_fecha)
     resultadoEvento = Even.objects.filter(fech_in = v_fecha)
     for evento in resultadoEvento:
         resultadoBusqueda.append(evento)
