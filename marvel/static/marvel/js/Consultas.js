@@ -267,19 +267,7 @@ function busquedaCategoria(){
 function busquedaGrupo(){
   return $("#busqueda_afiliacion input").val();
 }
-function probarBusqueda(){
-  if(busquedaNombre().length > 0 )
-    console.log(busquedaNombre());
-  
-  if(busquedaCategoria().length > 0 )
-    console.log(busquedaCategoria());
-
-  if(busquedaGrupo().length > 0 )
-    console.log(busquedaGrupo());
-  
-}
-function enviarPeticionBusqueda(){
-  
+function enviarPeticionBusqueda(){  
   $.ajax({
     url:"/buscarPersonaje/",
     type:"GET",
@@ -348,4 +336,22 @@ function llenarHabilida(cantidad,id,nombre){
   $("#"+id).html(
       '<th scope="row">'+nombre+'</th>'+ atributo               
   );    
+}
+//--------------------------------------------------------------------EVENTOS------------------------------------
+function buscarEvento(){//perdir eventos
+  alert("Enviando peticion a la funcion buscarEvento(request): la fecha: " + busquedaFecha());
+  $.ajax({
+    url:"/buscarEvento/",
+    type:"GET",
+    data:{ 
+      fecha: busquedaFecha()
+    },
+    success: function(respuesta){ 
+       alert("No hay problema con la peticion")
+    },
+    error: function(respuesta){ alert("Error Busqueda"); }    
+  });
+}
+function busquedaFecha(){
+  return $("#busqueda_fecha input").val();
 }
