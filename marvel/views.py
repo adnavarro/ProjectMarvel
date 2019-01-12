@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from .templatetags.battles import *
 from .templatetags.consultas_Personaje import *
+from .templatetags.consultas_Evento import *
 from .templatetags.save_in_database import *
 from django.http import JsonResponse
 from datetime import datetime, date, time, timedelta
@@ -486,4 +487,4 @@ def buscarEvento(request):
     for evento in resultadoEvento:
         resultadoBusqueda.append(evento)
 
-    return HttpResponse(convertirEnJson(resultadoBusqueda)) #SE ENVIA EL JSON
+    return HttpResponse(convertirEnJson_even(resultadoBusqueda)) #SE ENVIA EL JSON
