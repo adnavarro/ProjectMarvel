@@ -1,7 +1,7 @@
 INSERT INTO public.gnu_even(id, fech_in, fech_fin, dura, fk_lugar) 
 	VALUES  (0, '12/11/2018', '19/11/2018', 8, 0),
                 (1, '04/11/2018', '11/11/2018', 8, 1),
-                (2, '20/11/2018', '17/11/2018', 4, 1);
+                (2, '20/11/2018', '29/11/2018', 8, 1);
 
 INSERT INTO public.gnu_inscri(id, n_grupo, punto_etp1, campeon, descrip, fk_person, fk_even) 
 	VALUES  (0, 1, 4, null, 'miembro1' , 0, 1),
