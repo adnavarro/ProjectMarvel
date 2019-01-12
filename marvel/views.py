@@ -481,6 +481,8 @@ def buscarPersonaje(request):
 
 def buscarEvento(request):
     v_fecha = request.GET.get("fecha")
+    hoy = datetime.today()
+    hoy = hoy.strftime(v_fecha)
     resultadoBusqueda = []
 
     resultadoEvento = Even.objects.filter(fech_in = v_fecha)

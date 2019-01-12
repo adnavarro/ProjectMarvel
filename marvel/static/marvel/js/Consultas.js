@@ -347,7 +347,8 @@ function buscarEvento(){//perdir eventos
       fecha: busquedaFecha()
     },
     success: function(respuesta){ 
-       alert("No hay problema con la peticion")
+       alert("No hay problema con la peticion");
+       console.log(respuesta);
     },
     error: function(respuesta){ alert("Error Busqueda"); }    
   });
