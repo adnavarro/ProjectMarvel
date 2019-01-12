@@ -51,8 +51,7 @@ function llenarHabilida(cantidad,id,nombre){
             atributo += '<td class="table-warning"></td>';
         }else if (contador < 8){
             atributo += '<td class="table-danger"></td>';
-        }
-                
+        }                
     }
     $("#"+id).html(
         '<th scope="row">'+nombre+'</th>'+ atributo               

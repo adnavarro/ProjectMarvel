@@ -19,7 +19,7 @@ function listaCategorias(){//getCategoria
     error: function(respuesta){ alert("Error Busqueda"); }    
   });
 }
-function personalisarFicha(nombre,nombreReal,universo,biografia,identidad,profesion,lugar,ed_civil,parientes,afiliaciones){
+function personalisarFicha(nombre,nombreReal,universo,biografia,identidad,profesion,lugar,ed_civil,parientes,afiliaciones,altura,altura2,peso,ojo,pelo,poderes,parafernalia,aliados,enemigos,fuer,inte,agil,resis,proyec,habi){
   $("#titulo_ficha").html("");
   $("#titulo_ficha").html("<label>"+nombre+"-"+nombreReal+"("+universo+")</label>");
   $("#biografia_personaje").html(biografia);
@@ -38,6 +38,31 @@ function personalisarFicha(nombre,nombreReal,universo,biografia,identidad,profes
     $("#edoCivil_Ficha").html('<input class="form-control" value="Casado" id="nombre-text" readonly></input>');
     $("#parientes").html(parientes);
     $("#afiliacion_ficha").html(afiliaciones);
+    $("#altura1").html('<input class="form-control" value='+altura+' id="nombre-text" readonly>');
+    if(altura2 == null)
+      $("#altura2").html('<input class="form-control" value="no aplica" id="nombre-text" readonly>');
+    else
+      $("#altura2").html('<input class="form-control" value='+altura2+' id="nombre-text" readonly>');
+    $("#peso1").html('<input class="form-control" value='+peso+' id="nombre-text" readonly>');
+    $("#peso2").html('<input class="form-control" value='+peso+' id="nombre-text" readonly>');
+    $("#c_ojo").html('<input class="form-control" value='+ojo+' id="nombre-text" readonly>');
+    $("#c_pelo").html('<input class="form-control" value='+pelo+' id="nombre-text" readonly>');
+    $("#poderes").html(poderes);
+    listaParafer = parafernalia.split("_");
+    $("#parafernalia").html("");
+    listaParafer.forEach(function(dato){
+      $("#parafernalia").append(dato + "\n");
+    });
+    $("#aliados").html(aliados);
+    $("#enemigos").html(enemigos);
+
+    llenarHabilida(fuer,"fuer","Fuerza");
+    llenarHabilida(inte,"intel","Inteligencia");
+    llenarHabilida(agil,"agil","Agilidad");
+    llenarHabilida(resis,"resi","Resistencia");
+    llenarHabilida(proyec,"proy_en","Proyect Energy");
+    llenarHabilida(habi,"hab_comb","Hab Combat");
+
 }
 function crearModalFichaPerson(){
   $("#modal_personaje").html(
@@ -126,21 +151,21 @@ function crearModalFichaPerson(){
                 '<div class="col-2">'+
                   '<label >Altura:</label>'+
                 '</div>'+
-                '<div class="col-2">'+
+                '<div class="col-2" id="altura1">'+
                   '<input class="form-control" value="0" id="nombre-text" readonly>'+
                 '</div> '+
-                '<div class="col-2">'+
+                '<div class="col-2" id="altura2">'+
                   '<input class="form-control" value="0" id="nombre-text" readonly>'+
                 '</div> '+
 
                 '<div class="col-2">'+
                   '<label >Peso:</label>'+
                 '</div>'+
-                '<div class="col-2">'+
+                '<div class="col-2" id="peso1">'+
                   '<input class="form-control" value="0" id="nombre-text" readonly>'+
                 '</div> '+
 
-                '<div class="col-2">'+
+                '<div class="col-2" id="peso2">'+
                   '<input class="form-control" value="0" id="nombre-text" readonly>'+
                 '</div> '+
               '</div> <!--Fisico-->'+
@@ -149,14 +174,14 @@ function crearModalFichaPerson(){
                 '<div class="col-2">'+
                   '<label >Ojos:</label>'+
                 '</div>'+
-                '<div class="col-4">'+
+                '<div class="col-4" id="c_ojo">'+
                   '<input class="form-control" value="azul" id="nombre-text" readonly>'+
                 '</div>                 '+
 
                 '<div class="col-2">'+
                   '<label >Pelo:</label>'+
                 '</div>'+
-                '<div class="col-4">'+
+                '<div class="col-4" id="c_pelo">'+
                   '<input class="form-control" value="negro" id="nombre-text" readonly>'+
                 '</div>                 '+
 
@@ -164,22 +189,22 @@ function crearModalFichaPerson(){
 
               '<div class="form-group"> <!-- Biografia -->'+
                 '<label for="message-text" class="col-form-label">Poderes conocidos:</label>'+
-                '<textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
+                '<textarea class="form-control" id="poderes" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
               '</div> <!-- Biografia -->'+
 
               '<div class="form-group"> <!-- Biografia -->'+
                 '<label for="message-text" class="col-form-label">Parafernalias:</label>'+
-                '<textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
+                '<textarea class="form-control" id="parafernalia" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
               '</div> <!-- Biografia -->'+
 
               '<div class="form-group"> <!-- Biografia -->'+
                 '<label for="message-text" class="col-form-label">Aliados:</label>'+
-                '<textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
+                '<textarea class="form-control" id="aliados" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
               '</div> <!-- Biografia -->'+
 
               '<div class="form-group"> <!-- Biografia -->'+
                 '<label for="message-text" class="col-form-label">Enemigos:</label>'+
-                '<textarea class="form-control" id="message-text" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
+                '<textarea class="form-control" id="enemigos" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
               '</div> <!-- Biografia -->'+
 
               '<table class="table table-sm" id="estadisticas">'+
@@ -277,7 +302,22 @@ function enviarPeticionBusqueda(){
                                                   +listaRespuestas[index].lugar+"','"
                                                   +listaRespuestas[index].edo_civil+"','"
                                                   +listaRespuestas[index].parientes+"','"
-                                                  +listaRespuestas[index].afiliaciones+"'); $('#ficha_personaje').modal('show');"+'">'+
+                                                  +listaRespuestas[index].afiliaciones+"','"
+                                                  +listaRespuestas[index].altura+"','"
+                                                  +listaRespuestas[index].altura_arm+"','"
+                                                  +listaRespuestas[index].peso+"','"
+                                                  +listaRespuestas[index].color_ojo+"','"
+                                                  +listaRespuestas[index].color_pelo+"','"
+                                                  +listaRespuestas[index].poderes+"','"
+                                                  +listaRespuestas[index].parafernalia+"','"
+                                                  +listaRespuestas[index].aliados+"','"
+                                                  +listaRespuestas[index].enemigos+"','"
+                                                  +listaRespuestas[index].fuer+"','"
+                                                  +listaRespuestas[index].inteligencia+"','"
+                                                  +listaRespuestas[index].agilidad+"','"
+                                                  +listaRespuestas[index].resistencia+"','"
+                                                  +listaRespuestas[index].proyeccion+"','"
+                                                  +listaRespuestas[index].habilidad+"'); $('#ficha_personaje').modal('show');"+'">'+
               '<th scope="row">'+index+'</th>'+
               '<td>'+listaRespuestas[index].nombre+'</td>'+
               '<td>'+listaRespuestas[index].afiliaciones+'</td> '+
@@ -288,4 +328,24 @@ function enviarPeticionBusqueda(){
     },
     error: function(respuesta){ alert("Error Busqueda"); }    
   });
+}
+
+function llenarHabilida(cantidad,id,nombre){
+  atributo = ''
+  for (contador = 0; contador < cantidad; contador++) {
+      if(contador < 1){
+          atributo += '<td class="table-info"></td>';
+      }else if(contador < 2){
+          atributo += '<td class="table-primary"></td>';
+      }else if(contador < 3){
+          atributo += '<td class="table-success"></td>';
+      }else if(contador < 5){
+          atributo += '<td class="table-warning"></td>';
+      }else if (contador < 8){
+          atributo += '<td class="table-danger"></td>';
+      }                
+  }
+  $("#"+id).html(
+      '<th scope="row">'+nombre+'</th>'+ atributo               
+  );    
 }

@@ -460,17 +460,20 @@ def buscarPersonaje(request):
             for personaje in resultadoPersonaje:
                 resultadoBusqueda.append(personaje)
 
+    elif len(v_afiliacion) > 0: #INICIANDO EN AFILIACION  
+        if len(v_categoria) > 0:
+            resultadoAfiliacion  = Afili.objects.filter(nombre__icontains = v_afiliacion) 
+            resultadoCatego      = Catego.objects.filter(nombre__icontains = v_categoria)
+            resultadoBusqueda = checarAfiliCateg(resultadoAfiliacion,resultadoCatego) 
 
-    elif len(v_afiliacion) > 0: #INICIANDO EN AFILIACION
-            if len(v_categoria) > 0:
-                print("solo Afiliacion y Categoria")
-            else:
-                print("Solo afiliacion")
+        else:      
+            resultadoAfiliacion  = Afili.objects.filter(nombre__icontains = v_afiliacion) 
+            resultadoBusqueda = checarAfili(resultadoAfiliacion) 
     else:
-        print("Solo categoria")
+        resultadoCatego = Catego.objects.filter(nombre__icontains = v_categoria) 
+        resultadoBusqueda = checarCateg(resultadoCatego)
 
-    
-    return HttpResponse(convertirEnJson(resultadoBusqueda)) 
+    return HttpResponse(convertirEnJson(resultadoBusqueda)) #SE ENVIA EL JSON
 
 def checarFullFiltros(personaje,afiliacion,categoria): #SI SE TIENE EL NOMBRE
     if afiliacion != None:     
@@ -486,9 +489,33 @@ def checarFullFiltros(personaje,afiliacion,categoria): #SI SE TIENE EL NOMBRE
     elif categoria != None:
         resultadosCateg = CP.objects.filter(fk_person = personaje , fk_catego__in = categoria)  
         if len(resultadosCateg) > 0:                
-            return True
-    
+            return True    
     return False
+
+def checarAfiliCateg(afiliacion,categoria): #SI SE TIENE SOLO AFILI 
+    resultadosAfili = PA.objects.filter(fk_afili__in = afiliacion)
+    listaPersonajes = []
+    for personaje in resultadosAfili:
+        resultadosCateg = CP.objects.filter(fk_person = personaje.fk_person , fk_catego__in = categoria)
+        if len(resultadosCateg) > 0:  
+            listaPersonajes.append(personaje.fk_person)
+    return listaPersonajes
+
+def checarAfili(afiliacion): #SI SE TIENE SOLO AFILI 
+    resultadosAfili = PA.objects.filter(fk_afili__in = afiliacion)
+    listaPersonajes = []
+    for personaje in resultadosAfili:
+        listaPersonajes.append(personaje.fk_person)
+    return listaPersonajes
+
+def checarCateg(categoria): #SI SE TIENE SOLO Categoria 
+    resultadosCateg = CP.objects.filter(fk_catego__in = categoria)
+    listaPersonajes = []
+    for personaje in resultadosCateg:
+        listaPersonajes.append(personaje.fk_person)
+    return listaPersonajes
+    
+
 #DESCOMPONIENDO INFORMACION--------------------
 def obtenerProfesion(personaje):
     cadenaProfesion = "" 
@@ -545,10 +572,100 @@ def obtenerAfiliaciones(personaje):
         indice = indice + 1
 
     return cadenaAfiliaciones
+def obtenerAltura(personaje):    
+    listaParafer = PPar.objects.filter(fk_person = personaje)    
+    if len(listaParafer) > 0:
+        for altura in listaParafer:
+            return int(altura.altur_armor)
+    else:
+        return int(personaje.altura)
+
+def obtenerPeso(personaje):    
+    listaParafer = PPar.objects.filter(fk_person = personaje)    
+    if len(listaParafer) > 0:
+        for peso in listaParafer:
+            return int(peso.peso_armor)
+    else:
+        return "???"
+def obtenerPoderes(personaje):
+    cadenaPoder = ""
+    listaPoderes = PPod.objects.filter(fk_person = personaje)
+    indice = 1
+    for poder in listaPoderes:
+        if indice < len(listaPoderes):
+            cadenaPoder = cadenaPoder + poder.fk_poder.nombre + " ("+poder.fk_poder.descrip+") , "
+        else:
+            cadenaPoder = cadenaPoder + poder.fk_poder.nombre + " ("+poder.fk_poder.descrip+")"
+        indice = indice+1
+
+    return cadenaPoder
+
+def obtenerParafer(personaje):
+    listaParafer = PPar.objects.filter(fk_person = personaje)    
+    indice = 1
+    cadenaParafer = ""
+    if len(listaParafer) > 0:
+        for parafer in listaParafer:
+            if indice < len(listaParafer):
+                cadenaParafer = cadenaParafer + parafer.fk_parafer.nombre + ":" + parafer.fk_parafer.descrip + "("+parafer.fk_parafer.tipo+")_"
+            else:
+                cadenaParafer = cadenaParafer + parafer.fk_parafer.nombre + ":" + parafer.fk_parafer.descrip + "("+parafer.fk_parafer.tipo+")"
+    else:
+        return ""
+    return cadenaParafer
+
+def obtenerAliados(personaje):
+    relaciones = PerNoper.objects.filter(fk_person = personaje , tipo_rel = 'Aliado')
+    cadenaAliado = ""
+    indice = 1
+    for aliado in relaciones:
+        if aliado.fk_person_rel == None:
+            print(aliado.fk_noperson.nombre_real)            
+            if indice < len(relaciones):
+                cadenaAliado = cadenaAliado + aliado.fk_noperson.nombre_real + " " +  aliado.fk_noperson.apellido_real + ","
+            else:
+                cadenaAliado = cadenaAliado + aliado.fk_noperson.nombre_real + " " +  aliado.fk_noperson.apellido_real 
+        else:
+            print(aliado.fk_person_rel.nombre_real)
+            if indice < len(relaciones):
+                cadenaAliado = cadenaAliado + aliado.fk_person_rel.nombre + ","
+            else:
+                cadenaAliado = cadenaAliado + aliado.fk_person_rel.nombre
+        indice = indice + 1
+    return cadenaAliado
+
+def obtenerEnemigos(personaje):
+    relaciones = PerNoper.objects.filter(fk_person = personaje , tipo_rel = 'Enemigo')
+    cadenaEnemigo = ""
+    indice = 1
+    for enemigo in relaciones:
+        if enemigo.fk_person_rel == None:                       
+            if indice < len(relaciones):
+                cadenaEnemigo = cadenaEnemigo + enemigo.fk_noperson.nombre_real + " " +  enemigo.fk_noperson.apellido_real + ","
+            else:
+                cadenaEnemigo = cadenaEnemigo + enemigo.fk_noperson.nombre_real + " " +  enemigo.fk_noperson.apellido_real 
+        else:
+            
+            if indice < len(relaciones):
+                cadenaEnemigo = cadenaEnemigo + enemigo.fk_person_rel.nombre + ","
+            else:
+                cadenaEnemigo = cadenaEnemigo + enemigo.fk_person_rel.nombre
+        indice = indice + 1
+    return cadenaEnemigo
+
+def obtenerPodere(personaje):
+    listaAtrib = Habili.objects.filter(fk_person = personaje)    
+    atributos = []
+    for atributo in listaAtrib:
+        atributos.append(int(atributo.valor))
+    
+    return atributos
+
 
 def convertirEnJson(listaPersonajes):
     listaRespuesta = []
     for personaje in listaPersonajes:
+        listaHabilidades = obtenerPodere(personaje)
         universo = "" + personaje.fk_univer.nombre        
         jsonRespuesta = {
             'id' : int(personaje.id),
@@ -557,6 +674,8 @@ def convertirEnJson(listaPersonajes):
             'tipo_iden' : personaje.tipo_iden,
             'genero' : personaje.genero,
             'altura' : int(personaje.altura),
+            'altura_arm': obtenerAltura(personaje),
+            'peso': obtenerPeso(personaje),
             'color_ojo' : personaje.color_ojo,
             'biografia' : personaje.biografia,
             'nombre_real' : personaje.nombre_real,
@@ -567,7 +686,17 @@ def convertirEnJson(listaPersonajes):
             'universo' : universo,
             'profesion': obtenerProfesion(personaje),
             'parientes': obtenerParientes(personaje),
-            'afiliaciones':obtenerAfiliaciones(personaje)          
+            'afiliaciones':obtenerAfiliaciones(personaje),
+            'poderes':obtenerPoderes(personaje),
+            'parafernalia':obtenerParafer(personaje),
+            'aliados':obtenerAliados(personaje),
+            'enemigos':obtenerEnemigos(personaje),
+            'fuer':listaHabilidades[0],
+            'inteligencia':listaHabilidades[1],
+            'agilidad':listaHabilidades[2],
+            'resistencia':listaHabilidades[3],
+            'proyeccion':listaHabilidades[4],
+            'habilidad':listaHabilidades[5]      
         }  
         listaRespuesta.append(jsonRespuesta)
     return json.dumps(listaRespuesta)
