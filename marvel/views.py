@@ -476,5 +476,14 @@ def buscarPersonaje(request):
 
     return HttpResponse(convertirEnJson(resultadoBusqueda)) #SE ENVIA EL JSON
 
+# evento ----------------------------------------------------------------------------------------------
 
-    
+def buscarEvento(request):
+    v_fecha = request.GET.get("fecha")
+    resultadoBusqueda = []
+
+    resultadoEvento = Even.objects.filter(fech_in = v_fecha)
+    for evento in resultadoEvento:
+        resultadoBusqueda.append(evento)
+
+    return HttpResponse(convertirEnJson(resultadoBusqueda)) #SE ENVIA EL JSON
