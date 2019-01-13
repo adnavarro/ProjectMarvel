@@ -26,12 +26,11 @@
               <div class="navbar-nav">
                   <button class="col btn btn-sm btn-outline-secondary" type="button">Inicio</button>
                 <div class="col"></div>
-                  <button id="boton_evento" class="col btn btn-sm btn-outline-primary" type="button" data-parent="#accordion" data-toggle="collapse"      href="#busqueda_evento"    onclick=" $('#busqueda_personaje').collapse('hide');">Eventos</button> <!-- .attr("disabled", "disabled"); -->
+                  <button id="boton_evento" class="col btn btn-sm btn-outline-primary" type="button"      data-parent="#accordion" data-toggle="collapse"   href="#busqueda_evento"    onclick=" $('#busqueda_personaje').collapse('hide'); $('#busqueda_afiliacion').collapse('hide');">Eventos</button> <!-- .attr("disabled", "disabled"); -->
                 <div class="col"></div>
-                  <button id="boton_personaje" class="col btn btn-sm btn-outline-success" type="button" data-parent="#accordion" data-toggle="collapse"   href="#busqueda_personaje" onclick=" $('#busqueda_evento').collapse('hide');">Personajes</button>
-                
+                  <button id="boton_personaje" class="col btn btn-sm btn-outline-success" type="button"  data-parent="#accordion"  data-toggle="collapse"   href="#busqueda_personaje" onclick=" $('#busqueda_evento').collapse('hide');    $('#busqueda_afiliacion').collapse('hide');">Personajes</button>
                 <div class="col"></div>
-                  <button id="boton_grupoAfili" class="col btn btn-sm btn-outline-warning" type="button" data-parent="#accordion" data-toggle="collapse"  href="#" onclick="">Afiliaciones</button>
+                  <button id="boton_grupoAfili" class="col btn btn-sm btn-outline-warning" type="button" data-parent="#accordion"  data-toggle="collapse"  href="#busqueda_afiliacion" onclick=" $('#busqueda_personaje').collapse('hide'); $('#busqueda_evento').collapse('hide');">Afiliaciones</button>
                     
                 <div class="col"></div>
                   <button class="col btn btn-sm btn-outline-danger" type="button">Mayor taza de victorias</button>                      
@@ -40,6 +39,33 @@
           </div>              
         </nav>  
         <div class="panel-group" id="accordion"> <!-- Contenedor para que todos se cierrern -->
+          <!--Busqueda Afiliacion-->
+          <div class="panel-collapse collapse" id="busqueda_afiliacion"  >            
+              <form>
+                  <div class="form-group" id="busqueda_nombre_afiliacion">
+                    <label for="recipient-name" class="col-form-label">Afiliacion:</label>
+                    <div class = "row">
+                      <select class="form-control" id="sel_Afil">
+                         <option></option> 
+                      </select>                  
+                    </div>
+                  </div>
+  
+                  <div class="form-group" id="busqueda_afiliacion">
+                    <label for="recipient-name" class="col-form-label">Integrante:</label>                  
+                    <div class = "row">
+                      <select class="form-control" id="sel_Person">
+                          <option></option>
+                      </select>                  
+                    </div>
+                  </div>                
+  
+                  <div class="modal-footer">            
+                    <button type="button" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#busqueda_afiliacion" onclick=" buscarAfiliacion(); $('#tablon_resultados_afiliaciones').css('display','block');" >Buscar</button>
+                  </div>              
+              </form>      
+             </div>  
+            <!-- Busqueda afiliacion fin-->
 
             <!--Busqueda personajes-->
           <div class="panel-collapse collapse" id="busqueda_personaje"  >            
@@ -63,7 +89,7 @@
                     <button type="button" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#busqueda_personaje" onclick=" enviarPeticionBusqueda(); $('#tablon_resultados').css('display','block');" >Buscar</button>
                   </div>              
               </form>      
-          </div>  
+           </div>  
           <!--Busqueda personajes FIN-->
 
           <!--Busqueda Evento-->
@@ -81,9 +107,11 @@
                 </div>  
 
               </form>    
-          </div>  
+           </div>  
           <!--Busqueda Evento FIN-->
-        </div>
+          
+          
+      </div>
         
         
 </header>  
@@ -106,22 +134,36 @@
         <div id="tablon_valores_personaje">
             <table class="table table-dark table-hover" >                
                 <tbody id="cuerpo_tabla">
-                    <tr onclick="$('#ficha_personaje').modal('show');">
-                        <th scope="row">1</th>
-                        <td>Mark</td> 
-                        <td>verdelandia</td> 
-                        <td>Feo</td>          
-                    </tr>
-                      <tr onclick="$('#ficha_personaje').modal('show');">
-                        <th scope="row">2</th>
-                        <td>Jacob</td> 
-                        <td>verdelandia</td> 
-                        <td>Feo</td>          
-                      </tr>    
+                    
                 </tbody>                
           </table>
         </div>        
     </div>    
+
+    <div class="container" id="tablon_resultados_afiliaciones" style="display:none;">
+        <div id="titulo_resultados">
+            <h5>Resultados de Busqueda</h5>
+        </div>
+        <table class="table table-dark" >
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th> 
+                <th scope="col">Aumento de poder</th>                                              
+              </tr>
+            </thead>
+        </table>
+        <div id="tablon_valores_afiliacion">
+            <table class="table table-dark table-hover" >                
+                <tbody id="cuerpo_tabla_afiliacion">
+                      
+                </tbody>                
+          </table>
+        </div>        
+    </div>    
+
+
+
 </body>
 
 <!-- Footer -->
@@ -139,10 +181,14 @@
 $(document).ready(function(){
   crearModalFichaPerson();
   listaCategorias();
+  listaPersonajes();
+  listaAfiliacion();
 });
 </script>
 <div id='modal_personaje'>
 
 </div>
+<div id='modal_afiliacion'>
   
+</div>
 </html>

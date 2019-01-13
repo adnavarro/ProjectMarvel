@@ -19,6 +19,48 @@ function listaCategorias(){//getCategoria
     error: function(respuesta){ alert("Error Busqueda"); }    
   });
 }
+function listaPersonajes(){//getpersonajes
+  $.ajax({
+    url:"/getPersonajes/",
+    type:"GET",
+    data:{ 
+      dato:'obtener'
+    },
+    success: function(respuesta){ 
+       listado = [];
+       listado = respuesta.split('_');
+       
+       for(var indice = 0; indice < listado.length; indice ++){
+         $('#sel_Person').append(
+           "<option>"+listado[indice]+"</option>"
+         );
+       }      
+       
+    },
+    error: function(respuesta){ alert("Error Busqueda"); }    
+  });
+}
+function listaAfiliacion(){//getAfiliaciones
+  $.ajax({
+    url:"/getAfiliacion/",
+    type:"GET",
+    data:{ 
+      dato:'obtener'
+    },
+    success: function(respuesta){ 
+       listado = [];
+       listado = respuesta.split('_');
+       
+       for(var indice = 0; indice < listado.length; indice ++){
+         $('#sel_Afil').append(
+           "<option>"+listado[indice]+"</option>"
+         );
+       }      
+       
+    },
+    error: function(respuesta){ alert("Error Busqueda"); }    
+  });
+}
 function personalisarFicha(nombre,nombreReal,universo,biografia,identidad,profesion,lugar,ed_civil,parientes,afiliaciones,altura,altura2,peso,ojo,pelo,poderes,parafernalia,aliados,enemigos,fuer,inte,agil,resis,proyec,habi){
   $("#titulo_ficha").html("");
   $("#titulo_ficha").html("<label>"+nombre+"-"+nombreReal+"("+universo+")</label>");
@@ -257,6 +299,41 @@ function crearModalFichaPerson(){
       '</div>'+
     '</div>'
   );
+  $("#modal_afiliacion").html(   
+  '<div class="modal fade" id="ficha_afiliacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">'+
+      '<div class="modal-dialog" role="document">'+
+        '<div class="modal-content">'+
+          '<div class="modal-header">'+
+            '<h5 class="modal-title" id="exampleModalLabel">Ficha de Afiliacion</h5>'+
+          '</div>'+
+          '<div class="modal-body">'+
+              '<div class="row"> '+
+                '<div class="col" id="titulo_ficha_afiliacion">'+
+                  '<label >Nombre de Afiliacion</label><!-- Nombre -->'+
+                '</div>'+
+              '</div> '+
+            '<form>'+
+
+              '<div class="form-group"> <!-- Base operaciones -->'+
+                '<label for="message-text" class="col-form-label">Base de Operaciones:</label>'+
+                '<textarea class="form-control" id="base_op" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
+              '</div> <!-- Base operaciones -->'+
+
+              '<div class="form-group"> <!-- Integrantes actuales -->'+
+                '<label for="message-text" class="col-form-label">Integrantes Actuales:</label>'+
+                '<textarea class="form-control" id="int_act" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
+              '</div> <!-- Biografia -->'+
+
+              '<div class="form-group"> <!-- Viejos Integrantes -->'+
+                '<label for="message-text" class="col-form-label">Integrantes Anteriores:</label>'+
+                '<textarea class="form-control" id="int_inac" readonly> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil, illum dolorum animi impedit quae distinctio consequatur consequuntur odio quidem sapiente porro explicabo voluptatibus neque aliquam debitis ad ut laboriosam minus.</textarea>'+
+              '</div>'+              
+            '</form>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>  '
+  );
 }
 function busquedaNombre(){
   return $("#busqueda_nombre input").val();
@@ -357,3 +434,39 @@ function busquedaFecha(){
   return $("#busqueda_fecha input").val();
 }
 //-------------------------------------------------------------------AFILIACION----------------------------------
+function busquedaAFiliacionNombre(){
+  return $("#sel_Afil").val();
+}
+function busquedaMiembro(){
+  return $("#sel_Person").val();
+}
+function buscarAfiliacion(){  
+  $.ajax({
+    url:"/buscarAfiliacion/",
+    type:"GET",
+    data:{ 
+      nombre:busquedaAFiliacionNombre(),
+      miembro:busquedaMiembro()
+    },
+    success: function(respuesta){ 
+      listaRespuestas = JSON.parse(respuesta);      
+      $("#cuerpo_tabla_afiliacion").html("");
+      for (var index = 0; index < listaRespuestas.length; index++) {
+        $("#cuerpo_tabla_afiliacion").append(
+          "<tr onclick="+'"'+"generarFichaAfil('"+listaRespuestas[index].nombre+"','"+listaRespuestas[index].lugar+"','"+listaRespuestas[index].miembros_actuales+"','"+listaRespuestas[index].antiguos_miembros+"');$('#ficha_afiliacion').modal('show');"+'">'+
+              '<th scope="row">'+index+'</th>'+
+              '<td>'+listaRespuestas[index].nombre+'</td>'+
+              '<td>'+listaRespuestas[index].indice_pod+'</td>'+              
+          '</tr>'
+        );
+      }
+    },
+    error: function(respuesta){ alert("Error Busqueda"); }    
+  });
+}
+function generarFichaAfil(nombre,baseOp,intActiv,intInact){
+  $("#titulo_ficha_afiliacion").html("<label >"+nombre+"</label>");
+  $("#base_op").html(baseOp);
+  $("#int_act").html(intActiv);
+  $("#int_inac").html(intInact);
+}

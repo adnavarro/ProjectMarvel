@@ -5,6 +5,7 @@ from .models import *
 from .templatetags.battles import *
 from .templatetags.consultas_Personaje import *
 from .templatetags.consultas_Evento import *
+from .templatetags.consultas_Afiliacion import *
 from .templatetags.save_in_database import *
 from django.http import JsonResponse
 from datetime import datetime, date, time, timedelta
@@ -419,6 +420,47 @@ def getCategoria(request):
         contador = contador + 1  
 
     return HttpResponse(respuesta)
+
+def getAfiliacion(request): 
+    listaAfiliacion = Afili.objects.all()
+    listaRespuesta = []
+
+    for categ in listaAfiliacion:       
+        listaRespuesta.append(categ.nombre)
+    
+    respuesta = ""
+    contador = 1
+
+    for resp in listaRespuesta:
+        if contador == 1:
+            respuesta = respuesta + resp
+        else:
+            respuesta = respuesta + "_"
+            respuesta = respuesta + resp
+        contador = contador + 1  
+
+    return HttpResponse(respuesta)
+
+
+def getPersonajes(request): 
+    listaPersonajes = Person.objects.all()
+    listaRespuesta = []
+
+    for categ in listaPersonajes:       
+        listaRespuesta.append(categ.nombre)
+    
+    respuesta = ""
+    contador = 1
+
+    for resp in listaRespuesta:
+        if contador == 1:
+            respuesta = respuesta + resp
+        else:
+            respuesta = respuesta + "_"
+            respuesta = respuesta + resp
+        contador = contador + 1  
+
+    return HttpResponse(respuesta)
 #Busqueda del personaje------------------------------------------------------------------------------------
 def buscarPersonaje(request):
     v_nombre = request.GET.get("nombre")
@@ -490,3 +532,48 @@ def buscarEvento(request):
         resultadoBusqueda.append(evento)
 
     return HttpResponse(convertirEnJson_even(resultadoBusqueda)) #SE ENVIA EL JSON
+
+# evento ----------------------------------------------------------------------------------------------
+
+def buscarAfiliacion(request):
+    v_nombre = request.GET.get("nombre")
+    v_miembro = request.GET.get("miembro")
+    resultadoBusqueda = []
+    if len(v_nombre) > 0:        
+        if len(v_miembro) > 0:
+            afiliacionEstandar = Afili.objects.filter(nombre = v_nombre)            
+            personaje = Person.objects.filter(nombre__icontains = v_miembro)
+            listaAFiliacion = PA.objects.filter(fk_person__in = personaje ,fk_afili__in = afiliacionEstandar)
+            for afiliacion in listaAFiliacion:      
+                resultadoBusqueda.append(afiliacion)            
+        else:
+            afiliacionEstandar = Afili.objects.filter(nombre = v_nombre)
+            listaAFiliacion = PA.objects.filter(fk_afili__in = afiliacionEstandar)
+            for afiliacion in listaAFiliacion:      
+                resultadoBusqueda.append(afiliacion)
+                break            
+            
+    elif len(v_miembro) > 0:
+        personaje = Person.objects.filter(nombre__icontains = v_miembro)        
+        listaMiembro = PA.objects.filter(fk_person__in = personaje) 
+        for afiliacion in listaMiembro:      
+            resultadoBusqueda.append(afiliacion)
+
+    datoJson = {}
+    repsuestaJson = []
+
+    for respuesta in resultadoBusqueda:
+        indicePoder = 0
+        if respuesta.fk_afili.ind_poder_aum != None:
+            indicePoder = int(respuesta.fk_afili.ind_poder_aum)
+        
+        datoJson = {
+            'nombre':respuesta.fk_afili.nombre,
+            'indice_pod':indicePoder,
+            'lugar': obtenerLugar_afiliacion(respuesta.fk_afili.fk_lugar),
+            'miembros_actuales':obtenerMiembroActivo_afiliacion(respuesta.fk_afili),
+            "antiguos_miembros":obtenerMiembroInactivo_afiliacion(respuesta.fk_afili)
+        }
+        repsuestaJson.append(datoJson)
+
+    return HttpResponse(json.dumps(repsuestaJson)) #SE ENVIA EL JSON
