@@ -523,19 +523,54 @@ def buscarPersonaje(request):
 
 def buscarEvento(request):
     v_fecha = request.GET.get("fecha")
+    print("Recibido: ",v_fecha)
     hoy = datetime.today()
     v_fecha = hoy.strftime(v_fecha)
+
     resultadoBusqueda = []
-    print(v_fecha)
+    
     resultadoEvento = Even.objects.filter(fech_in = v_fecha)
+    
     for evento in resultadoEvento:
         resultadoBusqueda.append(evento)
 
     return HttpResponse(convertirEnJson_even(resultadoBusqueda)) #SE ENVIA EL JSON
 
-<<<<<<< HEAD
 # evento ----------------------------------------------------------------------------------------------
+#Taza de victorias ---------------------------------------------------------------------------------------
 
+def ganadorSupremo(request):
+    iden = int("id")
+    evento = Even.objects.get(id = iden)
+    inscrito = Inscri.objects.filter(fk_even = evento)
+    combate = Combat.objects.all()
+    arregloGanadores = []
+    arregloPuntajes = []
+    persona = 0
+    for ins in inscrito:
+        win = 0
+        for com in combate:
+            if (com.fech >= evento.fech_in) and (com.fech <= evento.fech_fin):
+                if (com.ganador == 1):
+                    if(com.fk_inscri1 == ins.id):
+                        win+=win
+                        persona.arregloPuntajes=win
+                        persona.arregloGanadores=ins.id
+                elif (com.ganador == 2):
+                    if(com.fk_inscri2 == ins.id):
+                        win+=win
+                        persona.arregloPuntajes=win
+                        persona.arregloGanadores=ins.id
+        persona+=persona
+    win = 0
+    for i in arregloPuntajes:
+        if (win < i.arregloPuntajes):
+            win = i.arregloPuntajes
+    dios = win.arregloGanadores
+    print(dios)
+    return HttpResponse("Creo que asi seria")
+
+#AFILIACIONES -----------------------------------------------------------------------------------------
 def buscarAfiliacion(request):
     v_nombre = request.GET.get("nombre")
     v_miembro = request.GET.get("miembro")
@@ -578,37 +613,4 @@ def buscarAfiliacion(request):
         repsuestaJson.append(datoJson)
 
     return HttpResponse(json.dumps(repsuestaJson)) #SE ENVIA EL JSON
-=======
-#Taza de victorias ---------------------------------------------------------------------------------------
-
-def ganadorSupremo(request):
-    iden = int("id")
-    evento = Even.objects.get(id = iden)
-    inscrito = Inscri.objects.filter(fk_even = evento)
-    combate = Combat.objects.all()
-    arregloGanadores = []
-    arregloPuntajes = []
-    persona = 0
-    for ins in inscrito:
-        win = 0
-        for com in combate:
-            if (com.fech >= evento.fech_in) and (com.fech <= evento.fech_fin):
-                if (com.ganador == 1):
-                    if(com.fk_inscri1 == ins.id):
-                        win+=win
-                        persona.arregloPuntajes=win
-                        persona.arregloGanadores=ins.id
-                elif (com.ganador == 2):
-                    if(com.fk_inscri2 == ins.id):
-                        win+=win
-                        persona.arregloPuntajes=win
-                        persona.arregloGanadores=ins.id
-        persona+=persona
-    win = 0
-    for i in arregloPuntajes:
-        if (win < i.arregloPuntajes):
-            win = i.arregloPuntajes
-    dios = win.arregloGanadores
-    print(dios)
-    return HttpResponse("Creo que asi seria")
->>>>>>> dec9fc63b33b52046be6dc9ad87cef8e8da3f80f
+#AFILIACIONES -----------------------------------------------------------------------------------------

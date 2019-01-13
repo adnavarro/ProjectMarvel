@@ -334,6 +334,33 @@ function crearModalFichaPerson(){
       '</div>'+
     '</div>  '
   );
+  $('#modal_pelea').html(
+    '<div class="modal modal-fade bd-example-modal-lg" id="modal_batallas" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
+        '<div class="modal-dialog modal-lg">'+          
+          '<div class="modal-content">'+
+          '<div class="modal-header">'+
+          '<h5 class="modal-title" id="exampleModalLabel">Batallas</h5>'+
+          '</div>'+
+            '<table class="table table-hover table-dark">'+
+              '<thead>'+
+                '<tr>'+
+                  '<th scope="col">#</th>'+
+                  '<th scope="col">Etapa</th>   '+
+                  '<th scope="col">Personaje 1</th> '+
+                  '<th scope="col">Personaje 2</th>  '+
+                  '<th scope="col">Resultado</th> '+
+                  '<th scope="col">Duracion</th>  '+
+                  '<th scope="col">Fecha de Inicio</th>         '+
+                '</tr>'+
+              '</thead>'+
+              '<tbody id="datosBatallas">'+
+                 
+              '</tbody>'+
+            '</table>'+
+          '</div>'+
+        '</div>'+
+      '</div>'
+  );
 }
 function busquedaNombre(){
   return $("#busqueda_nombre input").val();
@@ -424,8 +451,25 @@ function buscarEvento(){//perdir eventos
       fecha: busquedaFecha()
     },
     success: function(respuesta){ 
-       alert("No hay problema con la peticion");
-       console.log(respuesta);
+       superLista = JSON.parse(respuesta);  
+       indiceRes = 0;     
+       superLista.forEach(function(elemento){                   
+      
+         $("#cuerpo_tabla_eventos").html("");
+         $("#cuerpo_tabla_eventos").append(
+          "<tr onclick='"+
+                          'var jsonDatos = '+elemento.Batallas+';'+
+                          'cicloDeInfo(jsonDatos);'+
+                          "$("+'"'+'#modal_batallas'+'"'+").modal("+'"'+'show'+'"'+");'>"+
+              '<th scope="row">'+0+'</th>'+
+              '<td>'+elemento.fech_in+'</td>'+
+              '<td>'+elemento.fech_fin+'</td>'+                
+              '<td>'+elemento.Ganador+'</td>'+   
+              '<td>'+elemento.Lugar+'</td>'+             
+          '</tr>'
+          );
+       });
+
     },
     error: function(respuesta){ alert("Error Busqueda"); }    
   });
@@ -469,4 +513,33 @@ function generarFichaAfil(nombre,baseOp,intActiv,intInact){
   $("#base_op").html(baseOp);
   $("#int_act").html(intActiv);
   $("#int_inac").html(intInact);
+}
+function cicloDeInfo(jsonDatos){
+  $("#datosBatallas").html('');
+  indice = 1;
+  jsonDatos.forEach(function(element){
+    llenarBatalla(indice,element.etapa,element.person1,element.person2,element.ganador,element.duracion,element.fecha);
+    indice++;
+  });
+  
+}
+
+function llenarBatalla(num,etapa,per1,per2,ganador,dura,fech){
+  v_ganador = "";
+  if (ganador != "Empate"){
+    v_ganador = "Ganador: " + ganador;
+  }else{
+    v_ganador = ganador;
+  }
+  $("#datosBatallas").append( 
+  '<tr>'+
+  '<td>'+num+'</td>'+
+  '<td>'+etapa+'</td>'+
+  '<td>'+per1+'</td>'+
+  '<td>'+per2+'</td>'+
+  '<td>'+ganador+'</td>'+
+  '<td>'+dura+' Min </td>'+
+  '<td>'+fech+'</td>'+
+  '</tr>'
+  );
 }

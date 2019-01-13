@@ -210,40 +210,66 @@
     </table>
 
   <!-- Busqueda de Afiliacion-->
+  
+<!-- TODAS LAS BATALLAS-->
+<div class="bd-example-modal-lg" id="modal_batallas" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Batallas</h5>              
+    </div>
+    <div class="modal-content">
+      <table class="table table-hover table-dark">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Etapa</th>   
+            <th scope="col">Personaje 1</th> 
+            <th scope="col">Personaje 2</th>  
+            <th scope="col">Resultado</th> 
+            <th scope="col">Duracion</th>  
+            <th scope="col">Fecha de Inicio</th>         
+          </tr>
+        </thead>
+        <tbody id="datosBatallas">
+          <tr>
+              <td>0</td>
+              <td>1</td>
+              <td>Jack</td>
+              <td>Ben</td>
+              <td>Gana Ben</td>
+              <td>5 min</td>
+              <td>12/12/2018</td>
+          </tr>
+            
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- TODAS LAS BATALLAS-->
   <div class="" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Afiliacion</h5>              
+          <h5 class="modal-title" id="exampleModalLabel">Batallas</h5>              
         </div>
         <div class="modal-body">
-          <form>
-            
-            <div class="form-group">      
-              <label for="recipient-name" class="col-form-label">Integrante:</label>
-              <div class = "row">
-                <select class="form-control" id="select_Integrante">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>                  
-              </div>                
-            </div> 
-          
-            <div class="form-group">
-              <label for="recipient-name" class="col-form-label">Afiliacion:</label>
-              <div class = "row">
-                <select class="form-control" id="select_Afiliacion">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>                  
-              </div>           
-            </div> 
-
-          </form>
+          <table class="table table-hover table-dark">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Etapa</th>   
+                <th scope="col">Personaje 1</th> 
+                <th scope="col">Personaje 2</th>  
+                <th scope="col">Resultado</th> 
+                <th scope="col">Duracion</th>  
+                <th scope="col">Fecha de Inicio</th>         
+              </tr>
+            </thead>
+            <tbody>
+               
+            </tbody>
+          </table>
         </div>
         <div class="modal-footer">            
           <button type="button" class="btn btn-primary">Buscar</button>
