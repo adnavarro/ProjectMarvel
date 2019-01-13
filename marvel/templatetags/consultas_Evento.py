@@ -6,6 +6,37 @@ from django.http import JsonResponse
 from datetime import datetime, date, time, timedelta
 import json
 
+def buscaLugar(evento):
+    nameLugar = ""
+    lug = Lugar.objects.get(id = evento.fk_lugar)
+    nameLugar = lug.nombre
+    return nameLugar
+
+def buscaInscri(evento):
+    cadenaIns = ""
+    ins = Inscri.objects.filter(fk_evento = evento)
+    for inscrito in ins:
+        per = Person.objects.get(id = inscrito.fk_person)
+        cadenaIns = cadenaIns + per.nombre + " "
+    return cadenaIns
+
+def buscaGnador(evento):
+    nameGanador = ""
+    ins = Inscri.objects.get(fk_evento = evento, campeon = 1)
+    per = Person.objects.get(id = ins.fk_person)
+    nameGanador = per.nombre
+    print(nameGanador)
+    return nameGanador
+
+def countBattles(evento):
+    dat = Combat.objects.all()
+    count = 0
+    for i in dat:
+        if (i.fech >= evento.fech_in) and (i.fech <= evento.fech_fin):
+            count+=count
+    print(count)
+    return(count)
+
 def convertirEnJson_even(listaEventos):
     listaRespuesta = []
     for evento in listaEventos:     
@@ -13,29 +44,11 @@ def convertirEnJson_even(listaEventos):
             'id' : int(evento.id),
             'fech_in': evento.fech_in,
             'fech_fin': evento.fech_fin,
-            'Duracion': int(evento.dura)  
-        }  
+            'Duracion': int(evento.dura),
+            'Lugar': buscaLugar(evento),
+            'Inscritos': buscaInscri(evento),
+            'Batallas': countBattles(evento),
+            'Ganador': buscaGnador(evento)
+        }
         listaRespuesta.append(jsonRespuesta)
     return json.dumps(listaRespuesta)
-
-//Busca todas las batallas de un evento
-def searchBattles(fechaIni):
-    try:
-        datEven = Even.objects.get(fech_in=fecha)
-    except:
-        print('El evento no existe')
-        return(-1)
-    try:
-        dat = Combat.objects.all()
-    except:
-        print('No hay batallas en el evento')
-        return(-1)
-    for i in dat:
-        if (i.fech >= fechaIni) and (i.fech <= datEven.fech_fin):
-            try:
-                data.append = i
-            except:
-                 print('Hubo un error al agregar')
-    for e in data:
-        print(e)
-    return(data)
