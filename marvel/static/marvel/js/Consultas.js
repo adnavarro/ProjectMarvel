@@ -463,7 +463,8 @@ function buscarEvento(){//perdir eventos
                           "$("+'"'+'#modal_batallas'+'"'+").modal("+'"'+'show'+'"'+");'>"+
               '<th scope="row">'+0+'</th>'+
               '<td>'+elemento.fech_in+'</td>'+
-              '<td>'+elemento.fech_fin+'</td>'+                
+              '<td>'+elemento.fech_fin+'</td>'+   
+              '<td>'+elemento.Duracion+' Dias</td>'+              
               '<td>'+elemento.Ganador+'</td>'+   
               '<td>'+elemento.Lugar+'</td>'+             
           '</tr>'
