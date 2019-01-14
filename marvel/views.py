@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from .templatetags.battles import *
+from django.db.models import Q
 from .templatetags.consultas_Personaje import *
 from .templatetags.consultas_Evento import *
 from .templatetags.consultas_Afiliacion import *
@@ -614,3 +615,41 @@ def buscarAfiliacion(request):
 
     return HttpResponse(json.dumps(repsuestaJson)) #SE ENVIA EL JSON
 #AFILIACIONES -----------------------------------------------------------------------------------------
+
+def buscarGrupoMasGanador(request):    
+    listaInscritos = Inscri.objects.filter(campeon = True)
+    mayorGanador = None
+    indice = 0
+    cantidad = 0
+    cantidadVieja = 0
+    for ganador in listaInscritos:
+        print(ganador.fk_person.nombre)                 
+        personaje_ingrupo1 = Combat.objects.filter( Q(fk_inscri1 = ganador) | Q(fk_inscri2 = ganador))
+        cantidad = len(personaje_ingrupo1)
+        print(len(personaje_ingrupo1))
+        if indice == 0:
+            afiliacion = PA.objects.filter(fk_person = ganador.fk_person)
+            for afil in afiliacion:
+                mayorGanador = {
+                    'ganador':ganador.fk_person.nombre,
+                    'victorias':int(len(personaje_ingrupo1)),
+                    'afiliacion':afil.fk_afili.nombre,
+                    "evento":str(ganador.fk_even.fech_in)
+                }
+                cantidadVieja = cantidad
+                break
+        elif cantidad > cantidadVieja:
+            cantidadVieja = cantidad
+            afiliacion = PA.objects.filter(fk_person = ganador.fk_person)            
+            for afil in afiliacion:
+                mayorGanador = {
+                    'ganador':ganador.fk_person.nombre,
+                    'victorias':int(len(personaje_ingrupo1)),
+                    'afiliacion':afil.fk_afili.nombre,
+                    "evento":str(ganador.fk_even.fech_in)
+                }
+                cantidadVieja = cantidad
+                break        
+        indice = indice + 1
+    print(mayorGanador) 
+    return HttpResponse(json.dumps(mayorGanador))

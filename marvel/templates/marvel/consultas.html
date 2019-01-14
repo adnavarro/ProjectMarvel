@@ -26,14 +26,14 @@
               <div class="navbar-nav">
                   <button class="col btn btn-sm btn-outline-secondary" type="button">Inicio</button>
                 <div class="col"></div>
-                  <button id="boton_evento" class="col btn btn-sm btn-outline-primary" type="button"      data-parent="#accordion" data-toggle="collapse"   href="#busqueda_evento"    onclick=" $('#busqueda_personaje').collapse('hide'); $('#busqueda_afiliacion').collapse('hide');">Eventos</button> <!-- .attr("disabled", "disabled"); -->
+                  <button id="boton_evento" class="col btn btn-sm btn-outline-primary" type="button"   data-parent="#accordion" data-toggle="collapse"   href="#busqueda_evento"    onclick=" $('#busqueda_personaje').collapse('hide'); $('#busqueda_afiliacion').collapse('hide');">Eventos</button> <!-- .attr("disabled", "disabled"); -->
                 <div class="col"></div>
                   <button id="boton_personaje" class="col btn btn-sm btn-outline-success" type="button"  data-parent="#accordion"  data-toggle="collapse"   href="#busqueda_personaje" onclick=" $('#busqueda_evento').collapse('hide');    $('#busqueda_afiliacion').collapse('hide');">Personajes</button>
                 <div class="col"></div>
                   <button id="boton_grupoAfili" class="col btn btn-sm btn-outline-warning" type="button" data-parent="#accordion"  data-toggle="collapse"  href="#busqueda_afiliacion" onclick=" $('#busqueda_personaje').collapse('hide'); $('#busqueda_evento').collapse('hide');">Afiliaciones</button>
                     
                 <div class="col"></div>
-                  <button class="col btn btn-sm btn-outline-danger" type="button">Mayor taza de victorias</button>                      
+                  <button onclick="buscarGrupoConMasGanadores();" class="col btn btn-sm btn-outline-danger" type="button">Afiliacion con mas victorias</button>                      
               </div> 
 
           </div>              
@@ -185,8 +185,31 @@
               </tbody>                
         </table>
       </div>        
-  </div>    
+  </div>  
 
+  <div class="container" id="tablon_resultados_ganador_grupo" style="display:none;" >
+      <div id="titulo_resultados">
+          <h5>Resultados de Busqueda</h5>
+      </div>
+      <table class="table table-dark" >
+          <thead>
+            <tr>
+              <th scope="col">#</th>              
+              <th scope="col">Personaje</th> 
+              <th scope="col">fecha evento</th> 
+              <th scope="col">Afiliacion</th>
+              <th scope="col">Numero de victorias</th>                                                    
+            </tr>
+          </thead>
+      </table>
+      <div id="tablon_valores_eventos">
+          <table class="table table-dark table-hover" >                
+              <tbody id="cuerpo_tabla_ganador_grupo">
+                    
+              </tbody>                
+        </table>
+      </div>        
+  </div>
 
 </body>
 

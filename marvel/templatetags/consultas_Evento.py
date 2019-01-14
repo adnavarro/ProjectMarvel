@@ -62,8 +62,7 @@ def countBattles(evento):
     return json.dumps(listaBatallas)
 
 def convertirEnJson_even(listaEventos):
-    listaRespuesta = []
-    
+    listaRespuesta = []   
 
     for evento in listaEventos: 
         print("inicio:",evento.fech_in)

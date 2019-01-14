@@ -544,3 +544,30 @@ function llenarBatalla(num,etapa,per1,per2,ganador,dura,fech){
   '</tr>'
   );
 }
+
+
+//----------------------------GRUPO CON MAS GANADORES ---------------------------------------
+function buscarGrupoConMasGanadores(){  
+  $.ajax({
+    url:"/buscarGrupoMasGanador/",
+    type:"GET",
+    data:{ 
+      data:"buscar"
+    },
+    success: function(respuesta){ 
+      //listado = JSON.parse(respuesta);
+      console.log(JSON.parse(respuesta))
+      $('#tablon_resultados_ganador_grupo').css('display','block');
+      $("#cuerpo_tabla_ganador_grupo").append( 
+          '<tr>'+
+          '<td>'+JSON.parse(respuesta).ganador+'</td>'+
+          '<td>'+JSON.parse(respuesta).evento+'</td>'+
+          '<td>'+JSON.parse(respuesta).afiliacion+'</td>'+
+          '<td>'+JSON.parse(respuesta).victorias+'</td>'+        
+          '</tr>'
+      );
+                 
+    },
+    error: function(respuesta){ alert("Error Busqueda"); }    
+  });
+}
