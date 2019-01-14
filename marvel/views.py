@@ -653,3 +653,39 @@ def buscarGrupoMasGanador(request):
         indice = indice + 1
     print(mayorGanador) 
     return HttpResponse(json.dumps(mayorGanador))
+
+
+#TOPGANADORES--------------------------------------------------------------
+def topGanadores():
+    lista = []
+    try:
+        dat = Inscri.objects.filter(campeon=True)
+    except:
+        return(-1)
+    try:
+        eventos = Even.objects.all()
+    except:
+        return(-1)    
+    try:
+        for i in dat:
+            for j in eventos:   
+                if (i.fk_even == j.id):
+                    contador = 0
+                    combates = Combat.objects.filter(fech__range = [j.fech_in,j.fech_fin])
+                    for combate in combates:
+                         if (combate.ganador==1 and i.id==combate.fk_inscri1) or (combate.ganador==2 and  i.id==combate.fk_inscri2):
+                                contador = contador+1  
+                    afiliacion = PA.objects.get(fk_person=i.fk_person)
+                    ganador = Person.objects.get(id=i.fk_person)   
+                    afili_personaje = Afili.objects.get(id=afiliacion.fk_afili)                                               
+                    jsonRespuesta = {
+                        'id' : i.fk_person,
+                        'nombre' : ganador.nombre,
+                        'id_evento' : j.id,
+                        'batallas_ganadas' : contador,
+                        'afilicación' : afili_personaje.nombre;
+                    }
+                    lista.append(jsonRespuesta)
+    except:
+        return(-1)
+    return json.dumps(lista)
