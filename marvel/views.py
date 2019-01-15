@@ -656,36 +656,51 @@ def buscarGrupoMasGanador(request):
 
 
 #TOPGANADORES--------------------------------------------------------------
-def topGanadores():
-    lista = []
-    try:
-        dat = Inscri.objects.filter(campeon=True)
-    except:
-        return(-1)
-    try:
-        eventos = Even.objects.all()
-    except:
-        return(-1)    
-    try:
-        for i in dat:
-            for j in eventos:   
-                if (i.fk_even == j.id):
-                    contador = 0
-                    combates = Combat.objects.filter(fech__range = [j.fech_in,j.fech_fin])
-                    for combate in combates:
-                         if (combate.ganador==1 and i.id==combate.fk_inscri1) or (combate.ganador==2 and  i.id==combate.fk_inscri2):
-                                contador = contador+1  
-                    afiliacion = PA.objects.get(fk_person=i.fk_person)
-                    ganador = Person.objects.get(id=i.fk_person)   
-                    afili_personaje = Afili.objects.get(id=afiliacion.fk_afili)                                               
-                    jsonRespuesta = {
-                        'id' : i.fk_person,
-                        'nombre' : ganador.nombre,
-                        'id_evento' : j.id,
-                        'batallas_ganadas' : contador,
-                        'afilicación' : afili_personaje.nombre;
-                    }
-                    lista.append(jsonRespuesta)
-    except:
-        return(-1)
-    return json.dumps(lista)
+def topGanadores(request):
+    listaInscritos = Inscri.objects.filter(campeon = True)
+    listaNombre = []
+    listaSinRepetir = set(listaInscritos)
+    listaParaJson = []
+    victorias = []
+    victoriasEven = []
+    listaJson = []
+
+    for nombre in listaInscritos:        
+        listaNombre.append(nombre.fk_person.nombre)
+
+    for inscrito in listaSinRepetir:
+        print(inscrito.fk_person.nombre)
+        combatesGanados = Combat.objects.filter(Q(ganador = 1 , fk_inscri1 = inscrito) | Q(ganador = 2 , fk_inscri2 = inscrito))
+        victorias.append(len(combatesGanados))
+        victoriasEven.append(listaNombre.count(inscrito.fk_person.nombre))
+    for personaje in listaSinRepetir:
+        listaParaJson.append(personaje)
+    conteo = 3
+    while len(victorias) > 0:
+        indiceMayor = victorias.index(max(victorias))
+        personaje =  listaParaJson.pop(indiceMayor)
+        puntosComb = victorias.pop(indiceMayor)
+        puntosEven = victoriasEven.pop(indiceMayor)
+
+        afiliacion = PA.objects.filter(fk_person = personaje.fk_person)
+        if len(afiliacion) > 0:           
+            jsonEnviar = {
+                'personaje':personaje.fk_person.nombre,
+                'afiliacion':afiliacion[0].fk_afili.nombre,
+                'victoriasEventos':str(puntosEven),
+                'victoriasPeleas':str(puntosComb)
+            }
+            listaJson.append(jsonEnviar)
+        else:            
+            jsonEnviar = {
+                'personaje':personaje.fk_person.nombre,
+                'afiliacion':'Ninguna',
+                'victoriasEventos':str(puntosEven),
+                'victoriasPeleas':str(puntosComb)
+            }
+            listaJson.append(jsonEnviar)
+            conteo = conteo - 1
+            if conteo == 0:
+                break
+
+    return HttpResponse(json.dumps(listaJson))

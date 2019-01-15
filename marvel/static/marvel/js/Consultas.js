@@ -1,3 +1,4 @@
+
 function listaCategorias(){//getCategoria
   $.ajax({
     url:"/getCategoria/",
@@ -558,6 +559,7 @@ function buscarGrupoConMasGanadores(){
       //listado = JSON.parse(respuesta);
       console.log(JSON.parse(respuesta))
       $('#tablon_resultados_ganador_grupo').css('display','block');
+      $("#cuerpo_tabla_ganador_grupo").html('');
       $("#cuerpo_tabla_ganador_grupo").append( 
           '<tr>'+
           '<td>'+JSON.parse(respuesta).ganador+'</td>'+
@@ -565,9 +567,45 @@ function buscarGrupoConMasGanadores(){
           '<td>'+JSON.parse(respuesta).afiliacion+'</td>'+
           '<td>'+JSON.parse(respuesta).victorias+'</td>'+        
           '</tr>'
-      );
-                 
+      );                 
     },
     error: function(respuesta){ alert("Error Busqueda"); }    
   });
 }
+
+function reiniciarBusquedas(){ 
+  $('#tablon_resultados_ganador_grupo').css('display','none');
+  $('#tablon_resultados_eventos').css('display','none');
+  $('#tablon_resultados_afiliaciones').css('display','none');
+  $('#tablon_resultados').css('display','none'); 
+  $('#tablon_resultados_top').css('display','none');
+ }
+
+ function buscarTop3(){
+  $.ajax({
+    url:"/topGanadores/",
+    type:"GET",
+    data:{ 
+      data:"buscar"
+    },
+    success: function(respuesta){ 
+     lista = JSON.parse(respuesta);
+     $('#tablon_resultados_top').css('display','block');
+     indice = 1;
+     $("#cuerpo_tabla_top").html('');
+     lista.forEach(function(element){      
+      $("#cuerpo_tabla_top").append( 
+          '<tr>'+
+          '<td>'+indice+'</td>'+
+          '<td>'+element.personaje+'</td>'+
+          '<td>'+element.afiliacion+'</td>'+
+          '<td>'+element.victoriasEventos+'</td>'+
+          '<td>'+element.victoriasPeleas+'</td>'+                 
+          '</tr>'
+      );  
+      indice++;
+     });               
+    },
+    error: function(respuesta){ alert("Error Busqueda"); }    
+  });
+ }

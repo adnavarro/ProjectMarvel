@@ -24,13 +24,14 @@ urlpatterns = [
     url(r'^deletInscri/', views.deletInscri, name='deletInscri'),
     url(r'^insertEvento/', views.insertEvento, name='insertEvento'),
     url(r'^autoCompleteLugar/', views.autoCompleteLugar, name='autoCompleteLugar'),
-    url(r'^buscarPersonaje/', views.buscarPersonaje, name='buscarPersonaje'),#buscarEvento buscarGrupoMasGanador
+    url(r'^buscarPersonaje/', views.buscarPersonaje, name='buscarPersonaje'),#topGanadores
     url(r'^buscarEvento/', views.buscarEvento, name='buscarEvento'),
     url(r'^getCategoria/', views.getCategoria, name='getCategoria'),
     url(r'^getPersonajes/', views.getPersonajes, name='getPersonajes'),
     url(r'^getAfiliacion/', views.getAfiliacion, name='getAfiliacion'),
     url(r'^buscarAfiliacion/', views.buscarAfiliacion, name='buscarAfiliacion'),
-    url(r'^buscarGrupoMasGanador/', views.buscarGrupoMasGanador, name='buscarGrupoMasGanador')
+    url(r'^buscarGrupoMasGanador/', views.buscarGrupoMasGanador, name='buscarGrupoMasGanador'),
+    url(r'^topGanadores/', views.topGanadores, name='topGanadores')
 
 
 ]
