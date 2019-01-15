@@ -462,6 +462,22 @@ def getPersonajes(request):
         contador = contador + 1  
 
     return HttpResponse(respuesta)
+
+def ordenarAlfabetica(lista):
+    listaNombres = []
+
+    for nombre in lista:
+        listaNombres.append(nombre.nombre)
+    listaNombres.sort()
+
+    respuestaNueva = []
+    for nombre in listaNombres:
+        for nombre2 in lista:
+            if nombre2.nombre == nombre:
+                respuestaNueva.append(nombre2)
+    
+    return respuestaNueva
+
 #Busqueda del personaje------------------------------------------------------------------------------------
 def buscarPersonaje(request):
     v_nombre = request.GET.get("nombre")
@@ -517,7 +533,9 @@ def buscarPersonaje(request):
     else:
         resultadoCatego = Catego.objects.filter(nombre__icontains = v_categoria) 
         resultadoBusqueda = checarCateg(resultadoCatego)
-
+    for person in resultadoBusqueda:
+        print(person.nombre)
+    resultadoBusqueda = ordenarAlfabetica(resultadoBusqueda)
     return HttpResponse(convertirEnJson(resultadoBusqueda)) #SE ENVIA EL JSON
 
 # evento ----------------------------------------------------------------------------------------------
